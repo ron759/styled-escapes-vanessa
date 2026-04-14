@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>All-Inclusive Resort Guide: Sandals vs. Secrets vs. Beaches vs. Club Med · Styled Escapes by Vanessa</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --gold:       #C8852A;
+  --gold-lt:    #F5DFA8;
+  --coral:      #C4503A;
+  --coral-lt:   #FAE8E4;
+  --ocean:      #1A3A5C;
+  --teal:       #1A5C50;
+  --teal-lt:    #E0EFEC;
+  --ink:        #1C1A18;
+  --ink-muted:  #6B5E54;
+  --cream:      #FBF7F0;
+  --cream-2:    #F2EDE3;
+  --white:      #FFFFFF;
+
+  /* Brand colors per resort */
+  --sandals-c:  #C8852A;
+  --secrets-c:  #6A3A7A;
+  --beaches-c:  #1A5C78;
+  --clubmed-c:  #C4503A;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+  overflow-x: hidden;
+}
+
+/* ── NAV ── */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  padding: 18px 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 100;
+  transition: background 0.4s, backdrop-filter 0.4s, box-shadow 0.4s;
+}
+.nav.scrolled {
+  background: rgba(28,26,24,0.88);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.06);
+}
+.nav-brand {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+  font-weight: 400;
+  color: #FBF7F0;
+  text-decoration: none;
+  letter-spacing: 0.04em;
+}
+.nav-cta {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  background: var(--coral);
+  color: var(--cream);
+  text-decoration: none;
+  padding: 8px 20px;
+  border-radius: 20px;
+  letter-spacing: 0.04em;
+  transition: background 0.15s;
+}
+.nav-cta:hover { background: #D4604A; }
+
+/* ── HERO ── */
+.hero {
+  position: relative;
+  padding: 120px 40px 60px;
+  text-align: center;
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background: linear-gradient(
+    155deg,
+    #0D1825 0%, #1A2E44 15%,
+    #2C3A60 30%, #4A3060 45%,
+    #8A3858 58%, #C86040 72%,
+    #D49030 85%, #A06020 100%
+  );
+}
+.hero-glow {
+  position: absolute;
+  bottom: -20px; left: 50%;
+  transform: translateX(-50%);
+  width: 700px; height: 180px;
+  background: radial-gradient(ellipse, rgba(220,148,52,0.45) 0%, transparent 70%);
+  filter: blur(24px);
+}
+.hero-content { position: relative; z-index: 2; }
+.hero-eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold-lt);
+  opacity: 0.85;
+  margin-bottom: 14px;
+}
+.hero-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(32px, 5.5vw, 62px);
+  font-weight: 300;
+  color: var(--cream);
+  line-height: 1.08;
+  margin-bottom: 18px;
+}
+.hero-title em { font-style: italic; color: var(--gold-lt); }
+.hero-sub {
+  font-size: 15px;
+  color: rgba(251,247,240,0.7);
+  line-height: 1.7;
+  max-width: 580px;
+  margin: 0 auto 32px;
+}
+.hero-brands {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.hero-brand-pill {
+  font-size: 12px;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.18);
+  color: rgba(251,247,240,0.8);
+  padding: 6px 18px;
+  border-radius: 20px;
+  letter-spacing: 0.06em;
+}
+
+/* ── STICKY JUMP NAV ── */
+.jump-nav {
+  background: var(--white);
+  border-bottom: 1px solid var(--cream-2);
+  padding: 0 40px;
+  display: flex;
+  gap: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.jump-nav::-webkit-scrollbar { display: none; }
+.jump-link {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  text-decoration: none;
+  padding: 14px 20px;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  transition: color 0.15s, border-color 0.15s;
+  flex-shrink: 0;
+}
+.jump-link:hover { color: var(--ink); }
+.jump-link.sandals { border-color: transparent; }
+.jump-link.sandals:hover, .jump-link.sandals.active { color: var(--sandals-c); border-color: var(--sandals-c); }
+.jump-link.secrets:hover, .jump-link.secrets.active { color: var(--secrets-c); border-color: var(--secrets-c); }
+.jump-link.beaches:hover, .jump-link.beaches.active { color: var(--beaches-c); border-color: var(--beaches-c); }
+.jump-link.clubmed:hover, .jump-link.clubmed.active { color: var(--clubmed-c); border-color: var(--clubmed-c); }
+.jump-link.compare:hover, .jump-link.compare.active { color: var(--teal); border-color: var(--teal); }
+
+/* ── QUICK COMPARE TABLE ── */
+.compare-section {
+  background: var(--cream);
+  padding: 72px 40px;
+}
+.section-inner { max-width: 1100px; margin: 0 auto; }
+.section-eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--coral);
+  margin-bottom: 10px;
+}
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(28px, 4vw, 46px);
+  font-weight: 300;
+  line-height: 1.15;
+  color: var(--ink);
+  margin-bottom: 12px;
+}
+.section-title em { font-style: italic; color: var(--teal); }
+.section-sub {
+  font-size: 14px;
+  color: var(--ink-muted);
+  line-height: 1.7;
+  margin-bottom: 40px;
+  max-width: 600px;
+}
+
+.compare-table-wrap {
+  overflow-x: auto;
+  border-radius: 16px;
+  box-shadow: 0 2px 32px rgba(28,26,24,0.08), 0 0 0 1px rgba(28,26,24,0.05);
+}
+.compare-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--white);
+  min-width: 680px;
+}
+.compare-table th {
+  padding: 18px 20px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-bottom: 2px solid var(--cream-2);
+}
+.compare-table th:first-child { text-align: left; color: var(--ink-muted); font-size: 11px; }
+.th-sandals { color: var(--sandals-c); border-top: 3px solid var(--sandals-c); }
+.th-secrets { color: var(--secrets-c); border-top: 3px solid var(--secrets-c); }
+.th-beaches { color: var(--beaches-c); border-top: 3px solid var(--beaches-c); }
+.th-clubmed  { color: var(--clubmed-c); border-top: 3px solid var(--clubmed-c); }
+
+.compare-table td {
+  padding: 14px 20px;
+  font-size: 13px;
+  color: var(--ink);
+  border-bottom: 1px solid var(--cream-2);
+  text-align: center;
+  vertical-align: top;
+  line-height: 1.5;
+}
+.compare-table td:first-child {
+  text-align: left;
+  font-weight: 500;
+  color: var(--ink-muted);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  width: 140px;
+}
+.compare-table tr:last-child td { border-bottom: none; }
+.compare-table tr:hover td { background: var(--cream); }
+
+.check  { color: var(--teal);   font-size: 15px; }
+.cross  { color: #CCC;          font-size: 13px; }
+.dollar { font-size: 12px; color: var(--gold); font-weight: 500; }
+.star   { color: var(--gold); }
+
+/* ── RESORT DEEP-DIVES ── */
+.resorts-section {
+  background: var(--cream-2);
+  padding: 72px 40px;
+}
+
+.resort-card {
+  background: var(--white);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 2px 32px rgba(28,26,24,0.07);
+  margin-bottom: 40px;
+}
+.resort-card:last-child { margin-bottom: 0; }
+
+.resort-header {
+  padding: 36px 40px 28px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: start;
+  gap: 24px;
+}
+.resort-name-block {}
+.resort-eyebrow {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.resort-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(28px, 4vw, 40px);
+  font-weight: 400;
+  line-height: 1.1;
+  margin-bottom: 8px;
+}
+.resort-name em { font-style: italic; }
+.resort-tagline {
+  font-size: 14px;
+  color: var(--ink-muted);
+  line-height: 1.6;
+  max-width: 480px;
+}
+.resort-badge {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 8px 18px;
+  border-radius: 20px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.resort-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border-top: 1px solid var(--cream-2);
+}
+.resort-col { padding: 28px 40px; }
+.resort-col:first-child { border-right: 1px solid var(--cream-2); }
+
+.col-title {
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  margin-bottom: 14px;
+}
+.resort-list { list-style: none; }
+.resort-list li {
+  font-size: 13.5px;
+  color: var(--ink);
+  padding: 7px 0;
+  border-bottom: 1px solid var(--cream-2);
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  line-height: 1.5;
+}
+.resort-list li:last-child { border-bottom: none; }
+.li-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 6px;
+}
+
+.resort-footer {
+  padding: 20px 40px;
+  background: var(--cream);
+  border-top: 1px solid var(--cream-2);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.resort-footer-tip {
+  font-size: 13px;
+  color: var(--ink-muted);
+  line-height: 1.6;
+  flex: 1;
+}
+.resort-footer-tip strong { color: var(--ink); font-weight: 500; }
+
+/* Color theming per resort */
+.card-sandals .resort-eyebrow { color: var(--sandals-c); }
+.card-sandals .resort-name    { color: var(--sandals-c); }
+.card-sandals .resort-badge   { background: #FDF3E3; color: var(--sandals-c); border: 1px solid rgba(200,133,42,0.2); }
+.card-sandals .li-dot         { background: var(--sandals-c); }
+
+.card-secrets .resort-eyebrow { color: var(--secrets-c); }
+.card-secrets .resort-name    { color: var(--secrets-c); }
+.card-secrets .resort-badge   { background: #F5EEF8; color: var(--secrets-c); border: 1px solid rgba(106,58,122,0.2); }
+.card-secrets .li-dot         { background: var(--secrets-c); }
+
+.card-beaches .resort-eyebrow { color: var(--beaches-c); }
+.card-beaches .resort-name    { color: var(--beaches-c); }
+.card-beaches .resort-badge   { background: #E8F4F8; color: var(--beaches-c); border: 1px solid rgba(26,92,120,0.2); }
+.card-beaches .li-dot         { background: var(--beaches-c); }
+
+.card-clubmed .resort-eyebrow { color: var(--clubmed-c); }
+.card-clubmed .resort-name    { color: var(--clubmed-c); }
+.card-clubmed .resort-badge   { background: var(--coral-lt); color: var(--clubmed-c); border: 1px solid rgba(196,80,58,0.2); }
+.card-clubmed .li-dot         { background: var(--clubmed-c); }
+
+/* ── WHICH IS RIGHT FOR YOU ── */
+.picker-section {
+  background: var(--cream);
+  padding: 72px 40px;
+}
+.picker-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-top: 40px;
+}
+.picker-card {
+  background: var(--white);
+  border-radius: 16px;
+  padding: 28px;
+  box-shadow: 0 2px 24px rgba(28,26,24,0.06);
+  border-left: 4px solid transparent;
+}
+.picker-card.sandals { border-color: var(--sandals-c); }
+.picker-card.secrets { border-color: var(--secrets-c); }
+.picker-card.beaches { border-color: var(--beaches-c); }
+.picker-card.clubmed { border-color: var(--clubmed-c); }
+.picker-if {
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  margin-bottom: 6px;
+}
+.picker-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 400;
+  margin-bottom: 10px;
+}
+.picker-card.sandals .picker-title { color: var(--sandals-c); }
+.picker-card.secrets .picker-title { color: var(--secrets-c); }
+.picker-card.beaches .picker-title { color: var(--beaches-c); }
+.picker-card.clubmed .picker-title { color: var(--clubmed-c); }
+.picker-list {
+  list-style: none;
+  font-size: 13px;
+  color: var(--ink-muted);
+  line-height: 1.65;
+}
+.picker-list li { margin-bottom: 5px; padding-left: 14px; position: relative; }
+.picker-list li::before { content:'✦'; position:absolute; left:0; font-size:8px; top:4px; color:var(--ink-muted); }
+
+/* ── VANESSA CTA ── */
+.cta-section {
+  background: linear-gradient(
+    140deg,
+    #0D1825 0%, #1A2E44 20%,
+    #3A2860 40%, #8A3858 60%,
+    #C86040 78%, #D49030 100%
+  );
+  padding: 96px 40px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.cta-glow {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px; height: 250px;
+  background: radial-gradient(ellipse, rgba(220,148,52,0.2) 0%, transparent 70%);
+  filter: blur(40px);
+  pointer-events: none;
+}
+.cta-eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold-lt);
+  margin-bottom: 14px;
+  opacity: 0.85;
+  position: relative;
+}
+.cta-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(32px, 5vw, 56px);
+  font-weight: 300;
+  color: var(--cream);
+  line-height: 1.1;
+  margin-bottom: 14px;
+  position: relative;
+}
+.cta-title em { font-style: italic; color: var(--gold-lt); }
+.cta-sub {
+  font-size: 15px;
+  color: rgba(251,247,240,0.65);
+  line-height: 1.7;
+  max-width: 520px;
+  margin: 0 auto 36px;
+  position: relative;
+}
+.cta-btn {
+  display: inline-block;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  background: var(--coral);
+  color: var(--cream);
+  text-decoration: none;
+  padding: 16px 40px;
+  border-radius: 32px;
+  letter-spacing: 0.04em;
+  transition: background 0.15s, transform 0.1s;
+  position: relative;
+}
+.cta-btn:hover { background: #D4604A; transform: translateY(-1px); }
+.cta-free {
+  font-size: 12px;
+  color: rgba(251,247,240,0.4);
+  margin-top: 14px;
+  position: relative;
+  letter-spacing: 0.06em;
+}
+
+/* ── FOOTER ── */
+footer {
+  background: #060F1C;
+  padding: 48px 48px 28px;
+}
+.footer-inner { max-width: 1160px; margin: 0 auto; }
+.footer-top {
+  display: flex;
+  gap: 48px;
+  flex-wrap: wrap;
+  padding-bottom: 36px;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  margin-bottom: 24px;
+}
+.footer-brand {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 400;
+  color: #FBF7F0;
+  letter-spacing: 0.03em;
+  margin-bottom: 8px;
+}
+.footer-tagline {
+  font-size: 13px;
+  color: rgba(251,247,240,0.45);
+  line-height: 1.65;
+  max-width: 280px;
+  margin-bottom: 20px;
+}
+.footer-social { display: flex; gap: 10px; }
+.footer-social a {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: rgba(251,247,240,0.6);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px;
+  text-decoration: none;
+  transition: all 0.15s;
+}
+.footer-social a:hover { background: #C4503A; border-color: #C4503A; color: #FBF7F0; }
+.footer-col { display: flex; flex-direction: column; gap: 10px; }
+.footer-col h4 {
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #F5DFA8;
+  margin-bottom: 4px;
+}
+.footer-col a {
+  font-size: 13px;
+  color: rgba(251,247,240,0.5);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.footer-col a:hover { color: #FBF7F0; }
+.footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.footer-copy { font-size: 12px; color: rgba(251,247,240,0.25); }
+.footer-dream { font-size: 12px; color: rgba(251,247,240,0.25); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .nav { padding: 14px 20px; }
+  .hero, .compare-section, .resorts-section, .picker-section, .cta-section { padding-left: 20px; padding-right: 20px; }
+  .resort-header { grid-template-columns: 1fr; }
+  .resort-body { grid-template-columns: 1fr; }
+  .resort-col:first-child { border-right: none; border-bottom: 1px solid var(--cream-2); }
+  .resort-header, .resort-col, .resort-footer { padding-left: 24px; padding-right: 24px; }
+  .picker-grid { grid-template-columns: 1fr; }
+  footer { justify-content: center; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav class="nav" id="nav">
+  <a class="nav-brand" href="vanessa-homepage.html">Styled Escapes by Vanessa</a>
+  <a class="nav-cta" href="vanessa-travel-chatbot.html">Plan My Trip →</a>
+</nav>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">The honest guide · From a travel pro</div>
+    <h1 class="hero-title">All-Inclusive Resorts:<br><em>Which Brand Is Right for You?</em></h1>
+    <p class="hero-sub">Sandals, Secrets, Beaches, Club Med — each brand promises paradise, but they're built for very different travelers. Here's the honest breakdown so you can stop guessing.</p>
+    <div class="hero-brands">
+      <span class="hero-brand-pill">Sandals</span>
+      <span class="hero-brand-pill">Secrets</span>
+      <span class="hero-brand-pill">Beaches</span>
+      <span class="hero-brand-pill">Club Med</span>
+    </div>
+  </div>
+</div>
+
+<!-- Jump Nav -->
+<div class="jump-nav">
+  <a class="jump-link sandals" href="#sandals">Sandals</a>
+  <a class="jump-link secrets" href="#secrets">Secrets</a>
+  <a class="jump-link beaches" href="#beaches">Beaches</a>
+  <a class="jump-link clubmed" href="#clubmed">Club Med</a>
+  <a class="jump-link compare" href="#compare">Side-by-Side</a>
+  <a class="jump-link compare" href="#which">Which Is Right for You?</a>
+</div>
+
+<!-- At-a-glance compare table -->
+<section class="compare-section" id="compare">
+  <div class="section-inner">
+    <div class="section-eyebrow">At a glance</div>
+    <h2 class="section-title">Side-by-Side <em>Comparison</em></h2>
+    <p class="section-sub">The quick-reference breakdown across the things that matter most when choosing an all-inclusive resort brand.</p>
+
+    <div class="compare-table-wrap">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th class="th-sandals">Sandals</th>
+            <th class="th-secrets">Secrets</th>
+            <th class="th-beaches">Beaches</th>
+            <th class="th-clubmed">Club Med</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Best For</td>
+            <td>Couples &amp; romance</td>
+            <td>Upscale adult couples</td>
+            <td>Families with kids</td>
+            <td>Active families &amp; groups</td>
+          </tr>
+          <tr>
+            <td>Kids Allowed</td>
+            <td><span class="cross">✗</span> Adults only</td>
+            <td><span class="cross">✗</span> Adults only</td>
+            <td><span class="check">✓</span> All ages</td>
+            <td><span class="check">✓</span> All ages</td>
+          </tr>
+          <tr>
+            <td>Price Range</td>
+            <td><span class="dollar">$$$ – $$$$</span></td>
+            <td><span class="dollar">$$$ – $$$$</span></td>
+            <td><span class="dollar">$$$ – $$$$</span></td>
+            <td><span class="dollar">$$ – $$$</span></td>
+          </tr>
+          <tr>
+            <td>Locations</td>
+            <td>Caribbean only</td>
+            <td>Caribbean &amp; Mexico</td>
+            <td>Caribbean only</td>
+            <td>Worldwide</td>
+          </tr>
+          <tr>
+            <td>Unlimited Dining</td>
+            <td><span class="check">✓</span> Yes</td>
+            <td><span class="check">✓</span> Yes</td>
+            <td><span class="check">✓</span> Yes</td>
+            <td><span class="check">✓</span> Yes</td>
+          </tr>
+          <tr>
+            <td>Overwater Bungalows</td>
+            <td><span class="check">✓</span> Select resorts</td>
+            <td><span class="check">✓</span> Select resorts</td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="cross">✗</span></td>
+          </tr>
+          <tr>
+            <td>Water Sports Included</td>
+            <td><span class="check">✓</span> Extensive</td>
+            <td><span class="check">✓</span> Good selection</td>
+            <td><span class="check">✓</span> Extensive</td>
+            <td><span class="check">✓</span> Very extensive</td>
+          </tr>
+          <tr>
+            <td>Kids Club</td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="check">✓</span> Camp Sesame</td>
+            <td><span class="check">✓</span> Mini Club Med</td>
+          </tr>
+          <tr>
+            <td>Butler Service</td>
+            <td><span class="check">✓</span> Select suites</td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="check">✓</span> Select suites</td>
+            <td><span class="cross">✗</span></td>
+          </tr>
+          <tr>
+            <td>Nightlife / Entertainment</td>
+            <td>Moderate</td>
+            <td>Moderate</td>
+            <td>Family-focused</td>
+            <td>Very lively / G.O. led</td>
+          </tr>
+          <tr>
+            <td>Vibe</td>
+            <td>Romantic, intimate</td>
+            <td>Sophisticated, refined</td>
+            <td>Lively, family fun</td>
+            <td>Energetic, social</td>
+          </tr>
+          <tr>
+            <td>Vanessa's Rating</td>
+            <td><span class="star">★★★★★</span></td>
+            <td><span class="star">★★★★½</span></td>
+            <td><span class="star">★★★★★</span></td>
+            <td><span class="star">★★★★</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- Resort Deep-Dives -->
+<section class="resorts-section">
+  <div class="section-inner">
+    <div class="section-eyebrow">The full breakdown</div>
+    <h2 class="section-title">What You Need to Know About <em>Each Brand</em></h2>
+    <p class="section-sub">The honest details — what each brand does exceptionally well, and who they're really built for.</p>
+
+    <!-- Sandals -->
+    <div class="resort-card card-sandals" id="sandals">
+      <div class="resort-header">
+        <div class="resort-name-block">
+          <div class="resort-eyebrow">Adults Only · Couples Only</div>
+          <div class="resort-name">Sandals <em>Resorts</em></div>
+          <p class="resort-tagline">The gold standard for romantic all-inclusive travel. Sandals pioneered the couples-only all-inclusive concept and still sets the benchmark for romance, service, and included amenities.</p>
+        </div>
+        <div class="resort-badge">Best for Couples</div>
+      </div>
+      <div class="resort-body">
+        <div class="resort-col">
+          <div class="col-title">What makes Sandals special</div>
+          <ul class="resort-list">
+            <li><span class="li-dot"></span>Couples-only creates an atmosphere that's simply more peaceful and romantic</li>
+            <li><span class="li-dot"></span>Overwater bungalows at select Caribbean properties — some of the most stunning accommodations in the world</li>
+            <li><span class="li-dot"></span>Butler service at upper-tier suites — someone handles everything</li>
+            <li><span class="li-dot"></span>Unlimited scuba diving included (PADI certified or resort dives)</li>
+            <li><span class="li-dot"></span>Some of the best food in the all-inclusive space — many restaurants, genuinely good quality</li>
+            <li><span class="li-dot"></span>Love Is All You Need® policy — same-sex couples equally welcome</li>
+          </ul>
+        </div>
+        <div class="resort-col">
+          <div class="col-title">Who should book Sandals</div>
+          <ul class="resort-list">
+            <li><span class="li-dot"></span>Honeymooners and anniversary couples who want everything to feel intentional</li>
+            <li><span class="li-dot"></span>Anyone who wants maximum pampering and romance</li>
+            <li><span class="li-dot"></span>Scuba divers — the diving inclusion is extraordinary value</li>
+            <li><span class="li-dot"></span>Couples who want a "bucket list" room — overwater villa, over-the-water hammock, butler service</li>
+          </ul>
+          <div style="margin-top:16px">
+            <div class="col-title">Top Properties</div>
+            <ul class="resort-list">
+              <li><span class="li-dot"></span>Sandals Royal Caribbean (Jamaica) — overwater villas</li>
+              <li><span class="li-dot"></span>Sandals Grande St. Lucian — most dramatic setting</li>
+              <li><span class="li-dot"></span>Sandals Emerald Bay (Bahamas) — remote luxury</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="resort-footer">
+        <p class="resort-footer-tip"><strong>Vanessa's take:</strong> If you're celebrating something — a honeymoon, anniversary, milestone birthday — Sandals is where I send couples first. The overwater villas in Jamaica are bucket-list material, and the scuba inclusion alone can save you hundreds per trip.</p>
+        <a href="vanessa-travel-chatbot.html" class="nav-cta" style="flex-shrink:0">Ask Vanessa →</a>
+      </div>
+    </div>
+
+    <!-- Secrets -->
+    <div class="resort-card card-secrets" id="secrets">
+      <div class="resort-header">
+        <div class="resort-name-block">
+          <div class="resort-eyebrow">Adults Only · Upscale Luxury</div>
+          <div class="resort-name">Secrets <em>Resorts &amp; Spas</em></div>
+          <p class="resort-tagline">Where Sandals leans romantic, Secrets leans sophisticated. Part of the AMResorts family (now Apple Leisure Group), Secrets properties are sleek, modern, and built for adults who want luxury without the "couples-only" focus.</p>
+        </div>
+        <div class="resort-badge">Best for Upscale Adults</div>
+      </div>
+      <div class="resort-body">
+        <div class="resort-col">
+          <div class="col-title">What makes Secrets special</div>
+          <ul class="resort-list">
+            <li><span class="li-dot"></span>Stunning modern architecture — pools, suites, and public spaces that feel genuinely luxurious</li>
+            <li><span class="li-dot"></span>Mexico locations (Cancún, Riviera Maya, Los Cabos) — often more accessible and more affordable than Caribbean</li>
+            <li><span class="li-dot"></span>Preferred Club tier adds significant perks: upgraded rooms, private beach section, premium spirits, exclusive restaurant access</li>
+            <li><span class="li-dot"></span>AMResorts loyalty program — great repeat value</li>
+            <li><span class="li-dot"></span>Usually slightly more affordable than Sandals for comparable quality</li>
+          </ul>
+        </div>
+        <div class="resort-col">
+          <div class="col-title">Who should book Secrets</div>
+          <ul class="resort-list">
+            <li><span class="li-dot"></span>Adult couples who want luxury without the "honeymoon resort" atmosphere</li>
+            <li><span class="li-dot"></span>Friend groups (all adults) wanting a high-end base in Mexico</li>
+            <li><span class="li-dot"></span>Travelers who want Mexico's food/culture scene beyond the resort</li>
+            <li><span class="li-dot"></span>Budget-conscious luxury travelers — Secrets often beats Sandals on price</li>
+          </ul>
+          <div style="margin-top:16px">
+            <div class="col-title">Top Properties</div>
+            <ul class="resort-list">
+              <li><span class="li-dot"></span>Secrets Maroma Beach (Riviera Maya) — world-class beach</li>
+              <li><span class="li-dot"></span>Secrets Akumal (Riviera Maya) — snorkeling right off the beach</li>
+              <li><span class="li-dot"></span>Secrets Cap Cana (Dominican Republic) — largest marina in the Caribbean</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="resort-footer">
+        <p class="resort-footer-tip"><strong>Vanessa's take:</strong> Secrets is my go-to when adults want luxury at a slightly more approachable price point, or when they specifically want Mexico. Preferred Club is absolutely worth the upgrade — ask me about it when we talk.</p>
+        <a href="vanessa-travel-chatbot.html" class="nav-cta" style="flex-shrink:0">Ask Vanessa →</a>
+      </div>
+    </div>
+
+    <!-- Beaches -->
+    <div class="resort-card card-beaches" id="beaches">
+      <div class="resort-header">
+        <div class="resort-name-block">
+          <div class="resort-eyebrow">Family-Friendly · All Ages</div>
+          <div class="resort-name">Beaches <em>Resorts</em></div>
+          <p class="resort-tagline">Sandals' family-friendly sister brand is built from the ground up for multi-generational travel. With Sesame Street characters, water parks, and Butler service for families, Beaches delivers the full Sandals experience for everyone — kids very much included.</p>
+        </div>
+        <div class="resort-badge">Best for Families</div>
+      </div>
+      <div class="resort-body">
+        <div class="resort-col">
+          <div class="col-title">What makes Beaches special</div>
+          <ul class="resort-list">
+            <li><span class="li-dot"></span>Sesame Street characters roam the resort — young kids absolutely love it</li>
+            <li><span class="li-dot"></span>Turks &amp; Caicos property sits on Grace Bay Beach — consistently ranked the world's #1 beach</li>
+            <li><span class="li-dot"></span>Massive water parks and multiple pools keep kids busy all day</li>
+            <li><span class="li-dot"></span>Xbox Play Lounge and teen programs mean older kids aren't bored</li>
+            <li><span class="li-dot"></span>Same quality restaurants and service as Sandals — adults aren't compromising</li>
+            <li><span class="li-dot"></span>Butler service available for families — life-changing with young kids</li>
+          </ul>
+        </div>
+        <div class="resort-col">
+          <div class="col-title">Who should book Beaches</div>
+          <ul class="resort-list">
+            <li><span class="li-dot"></span>Families with kids 3–12 — the sweet spot for Sesame Street and water parks</li>
+            <li><span class="li-dot"></span>Multi-generational trips — grandparents through grandkids all have something to do</li>
+            <li><span class="li-dot"></span>Parents who want a resort that genuinely entertains kids so adults can relax</li>
+            <li><span class="li-dot"></span>Anyone who wants to experience Grace Bay Beach — it truly lives up to the hype</li>
+          </ul>
+          <div style="margin-top:16px">
+            <div class="col-title">Properties</div>
+            <ul class="resort-list">
+              <li><span class="li-dot"></span>Beaches Turks &amp; Caicos — the flagship, world-class on every level</li>
+              <li><span class="li-dot"></span>Beaches Negril (Jamaica) — more laid-back, great beach</li>
+              <li><span class="li-dot"></span>Beaches Ocho Rios (Jamaica) — smaller, more intimate</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="resort-footer">
+        <p class="resort-footer-tip"><strong>Vanessa's take:</strong> Beaches Turks &amp; Caicos is the best family all-inclusive in the world — I'll stand behind that. It costs more than most, but families who go once go back every year. I can help you find the best room category for your family's needs.</p>
+        <a href="vanessa-travel-chatbot.html" class="nav-cta" style="flex-shrink:0">Ask Vanessa →</a>
+      </div>
+    </div>
+
+    <!-- Club Med -->
+    <div class="resort-card card-clubmed" id="clubmed">
+      <div class="resort-header">
+        <div class="resort-name-block">
+          <div class="resort-eyebrow">All Ages · Activity-Focused</div>
+          <div class="resort-name">Club <em>Med</em></div>
+          <p class="resort-tagline">The original all-inclusive — Club Med invented the concept in 1950. Today it's built around activity, energy, and the famous G.O. (Gentil Organisateur) staff who do everything from teach trapeze to run the nightly shows. If you want energy and variety, this is your brand.</p>
+        </div>
+        <div class="resort-badge">Best for Active Families</div>
+      </div>
+      <div class="resort-body">
+        <div class="resort-col">
+          <div class="col-title">What makes Club Med special</div>
+          <ul class="resort-list">
+            <li><span class="li-dot"></span>The broadest activity offering of any all-inclusive — flying trapeze, archery, snorkeling, sailing, tennis, and dozens more included</li>
+            <li><span class="li-dot"></span>G.O. staff are unlike anything else — genuinely energetic, involved, and fun</li>
+            <li><span class="li-dot"></span>Worldwide locations including France, Japan, and the Maldives — not just Caribbean</li>
+            <li><span class="li-dot"></span>Mini Club Med kids program is genuinely great — structured, fun, and supervised all day</li>
+            <li><span class="li-dot"></span>Generally more affordable than Sandals or Beaches for comparable quality</li>
+          </ul>
+        </div>
+        <div class="resort-col">
+          <div class="col-title">Who should book Club Med</div>
+          <ul class="resort-list">
+            <li><span class="li-dot"></span>Active families who want to DO things, not just lounge</li>
+            <li><span class="li-dot"></span>Travelers who want to learn something — sailing, trapeze, water sports</li>
+            <li><span class="li-dot"></span>Social travelers who love meeting new people and joining group activities</li>
+            <li><span class="li-dot"></span>Anyone considering an international all-inclusive (Europe, Asia)</li>
+          </ul>
+          <div style="margin-top:16px">
+            <div class="col-title">Top Caribbean Properties</div>
+            <ul class="resort-list">
+              <li><span class="li-dot"></span>Club Med Punta Cana (Dominican Republic) — the flagship Caribbean resort</li>
+              <li><span class="li-dot"></span>Club Med Buccaneer's Creek (Martinique) — adults-focused, French-Caribbean vibe</li>
+              <li><span class="li-dot"></span>Club Med Turquoise (Turks &amp; Caicos) — incredible water sports</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="resort-footer">
+        <p class="resort-footer-tip"><strong>Vanessa's take:</strong> Club Med gets underrated because people don't know it well. For active families or anyone who gets bored just lying by a pool, it's the best option out there. The flying trapeze alone is worth the trip.</p>
+        <a href="vanessa-travel-chatbot.html" class="nav-cta" style="flex-shrink:0">Ask Vanessa →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Which is right for you -->
+<section class="picker-section" id="which">
+  <div class="section-inner">
+    <div class="section-eyebrow">Find your match</div>
+    <h2 class="section-title">Which Brand Is <em>Right for You?</em></h2>
+    <p class="section-sub">Not sure where to start? Here's the quick guide based on what matters most to you.</p>
+
+    <div class="picker-grid">
+      <div class="picker-card sandals">
+        <div class="picker-if">Choose Sandals if…</div>
+        <div class="picker-title">Sandals</div>
+        <ul class="picker-list">
+          <li>You're celebrating a honeymoon or anniversary</li>
+          <li>You want romance above everything else</li>
+          <li>An overwater bungalow is on your bucket list</li>
+          <li>You or your partner want to scuba dive</li>
+          <li>You want butler service to handle every detail</li>
+        </ul>
+      </div>
+      <div class="picker-card secrets">
+        <div class="picker-if">Choose Secrets if…</div>
+        <div class="picker-title">Secrets</div>
+        <ul class="picker-list">
+          <li>You want adult luxury without the romance theme</li>
+          <li>You prefer Mexico to the Caribbean</li>
+          <li>You want sleek, modern design over lush tropical</li>
+          <li>Budget matters and you want maximum value</li>
+          <li>You're going with a group of adult friends</li>
+        </ul>
+      </div>
+      <div class="picker-card beaches">
+        <div class="picker-if">Choose Beaches if…</div>
+        <div class="picker-title">Beaches</div>
+        <ul class="picker-list">
+          <li>You're traveling with kids (especially ages 3–12)</li>
+          <li>You want the best beach in the Caribbean</li>
+          <li>You need grandparents and grandkids both happy</li>
+          <li>You want Sandals quality but with your whole family</li>
+          <li>You've been before and want to come back</li>
+        </ul>
+      </div>
+      <div class="picker-card clubmed">
+        <div class="picker-if">Choose Club Med if…</div>
+        <div class="picker-title">Club Med</div>
+        <ul class="picker-list">
+          <li>You get bored just lying on a beach</li>
+          <li>Your family loves sports and activities</li>
+          <li>You want more value than Sandals or Beaches</li>
+          <li>You're interested in a non-Caribbean destination</li>
+          <li>You love a social, high-energy atmosphere</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-glow"></div>
+  <div class="cta-eyebrow">Still not sure? Let Vanessa help.</div>
+  <h2 class="cta-title">Tell me about your trip<br>and I'll find <em>your perfect match.</em></h2>
+  <p class="cta-sub">Every traveler is different — and the best resort for you depends on details a comparison chart can't capture. Vanessa will ask the right questions and point you in the right direction. And it's completely free.</p>
+  <a href="vanessa-travel-chatbot.html" class="cta-btn">Talk to Vanessa About My Trip →</a>
+  <div class="cta-free">✦ &nbsp; Free to book · No fees, ever · No pressure</div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand">Styled Escapes by Vanessa</div>
+        <p class="footer-tagline">Dream Vacations certified travel consultant serving Portland, TN and clients nationwide. Let's plan something beautiful.</p>
+        <div class="footer-social">
+          <a href="https://www.facebook.com/styledescapesbyvanessa" target="_blank" title="Facebook">f</a>
+          <a href="https://www.instagram.com/vanessa_abundant_travel/" target="_blank" title="Instagram">&#9642;</a>
+          <a href="mailto:vanessa@example.com" title="Email">@</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Free Resources</h4>
+        <a href="allinclusive-resort-guide.html">All-Inclusive Resort Guide</a>
+        <a href="travel-style-quiz.html">Travel Style Quiz</a>
+        <a href="caribbean-island-quiz.html">Caribbean Island Quiz</a>
+        <a href="cruise-planner-landing.html">Free Cruise Planner</a>
+      </div>
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <a href="vanessa-homepage.html">Back to Home</a>
+        <a href="vanessa-travel-chatbot.html">Plan My Trip</a>
+        <a href="https://vjacobs.dreamvacations.com" target="_blank">Dream Vacations</a>
+        <a href="mailto:vanessa@example.com">Contact Vanessa</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2025 Styled Escapes by Vanessa · All rights reserved</div>
+      <div class="footer-dream">Affiliated with Dream Vacations</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+window.addEventListener('scroll', function() {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 60);
+});
+</script>
+</body>
+</html>

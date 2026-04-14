@@ -1,0 +1,1562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Client Manager · Styled Escapes by Vanessa</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --ocean:     #1A4A5C;
+  --ocean-mid: #2A6A82;
+  --ocean-l:   #E8F2F6;
+  --coral:     #C4503A;
+  --coral-l:   #FAEAE7;
+  --gold:      #C8852A;
+  --gold-l:    #FDF3E3;
+  --sand:      #F5F0E8;
+  --sand-2:    #EDE7DC;
+  --sand-3:    #E0D8CC;
+  --ink:       #1C1A18;
+  --ink-mid:   #4A4640;
+  --ink-muted: #7A7068;
+  --white:     #FEFDFB;
+  --green:     #2D6A4F;
+  --green-l:   #E8F5EF;
+  --radius:    12px;
+  --radius-sm: 8px;
+}
+
+html, body {
+  height: 100%;
+  font-family: 'DM Sans', Georgia, sans-serif;
+  background: var(--sand);
+  color: var(--ink);
+  overflow: hidden;
+}
+
+/* ── LAYOUT ── */
+.app {
+  display: grid;
+  grid-template-rows: 52px 1fr;
+  grid-template-columns: 260px 1fr;
+  height: 100vh;
+}
+
+/* ── TOP BAR ── */
+.topbar {
+  grid-column: 1 / -1;
+  background: var(--ocean);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px 0 0;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.topbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  height: 100%;
+  padding: 0 20px;
+  border-right: 1px solid rgba(255,255,255,0.08);
+}
+.topbar-logo {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 17px;
+  font-weight: 400;
+  color: #F5F0E8;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+.topbar-sub {
+  font-size: 10px;
+  color: rgba(245,240,232,0.5);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-left: 14px;
+  padding-left: 14px;
+  border-left: 1px solid rgba(255,255,255,0.12);
+}
+.btn-dash {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 14px;
+  margin-left: 16px;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.08);
+  color: rgba(245,240,232,0.85);
+  cursor: pointer;
+  transition: all 0.15s;
+  letter-spacing: 0.02em;
+}
+.btn-dash:hover { background: rgba(255,255,255,0.16); color: #F5F0E8; }
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.topbar-stat {
+  font-size: 12px;
+  color: rgba(245,240,232,0.6);
+  padding: 4px 12px;
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 20px;
+}
+.topbar-stat strong {
+  color: #F5F0E8;
+  font-weight: 500;
+}
+.btn-export {
+  font-size: 11px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  padding: 5px 14px;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.2);
+  background: transparent;
+  color: rgba(245,240,232,0.8);
+  cursor: pointer;
+  letter-spacing: 0.04em;
+  transition: all 0.15s;
+}
+.btn-export:hover {
+  background: rgba(255,255,255,0.1);
+  color: #F5F0E8;
+}
+
+/* ── SIDEBAR ── */
+.sidebar {
+  background: var(--white);
+  border-right: 1px solid var(--sand-3);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.sidebar-search {
+  padding: 14px 14px 10px;
+  border-bottom: 1px solid var(--sand-3);
+  flex-shrink: 0;
+}
+.search-wrap {
+  position: relative;
+}
+.search-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--ink-muted);
+  font-size: 13px;
+  pointer-events: none;
+}
+.search-input {
+  width: 100%;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  padding: 7px 10px 7px 30px;
+  border: 1.5px solid var(--sand-3);
+  border-radius: var(--radius-sm);
+  background: var(--sand);
+  color: var(--ink);
+  outline: none;
+  transition: border-color 0.15s, background 0.15s;
+}
+.search-input:focus {
+  border-color: var(--ocean-mid);
+  background: var(--white);
+}
+.search-input::placeholder { color: var(--ink-muted); opacity: 0.7; }
+
+.client-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 8px;
+}
+.client-list::-webkit-scrollbar { width: 4px; }
+.client-list::-webkit-scrollbar-track { background: transparent; }
+.client-list::-webkit-scrollbar-thumb { background: var(--sand-3); border-radius: 4px; }
+
+.client-item {
+  padding: 10px 10px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  margin-bottom: 2px;
+  border: 1px solid transparent;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: background 0.12s, border-color 0.12s;
+}
+.client-item:hover {
+  background: var(--sand);
+  border-color: var(--sand-3);
+}
+.client-item.active {
+  background: var(--ocean-l);
+  border-color: rgba(26,74,92,0.2);
+}
+.ci-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--ocean);
+  color: #F5F0E8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 500;
+  flex-shrink: 0;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 14px;
+}
+.client-item.active .ci-avatar { background: var(--ocean); }
+.ci-info { flex: 1; min-width: 0; }
+.ci-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ci-meta {
+  font-size: 11px;
+  color: var(--ink-muted);
+  margin-top: 1px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ci-badge {
+  font-size: 10px;
+  background: var(--coral);
+  color: white;
+  border-radius: 10px;
+  padding: 2px 7px;
+  flex-shrink: 0;
+  font-weight: 500;
+}
+
+.sidebar-footer {
+  padding: 12px;
+  border-top: 1px solid var(--sand-3);
+  flex-shrink: 0;
+}
+.btn-new-client {
+  width: 100%;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 9px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--ocean);
+  background: var(--ocean);
+  color: #F5F0E8;
+  cursor: pointer;
+  transition: background 0.15s;
+  letter-spacing: 0.02em;
+}
+.btn-new-client:hover { background: var(--ocean-mid); }
+
+/* ── MAIN PANEL ── */
+.main {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── DASHBOARD ── */
+.dashboard-view {
+  flex: 1;
+  overflow-y: auto;
+  padding: 28px 32px;
+}
+.dash-greeting {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 32px;
+  font-weight: 300;
+  color: var(--ocean);
+  margin-bottom: 4px;
+}
+.dash-greeting em { font-style: italic; }
+.dash-subhead {
+  font-size: 13px;
+  color: var(--ink-muted);
+  margin-bottom: 24px;
+}
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-bottom: 28px;
+}
+.stat-card {
+  background: var(--white);
+  border: 1px solid var(--sand-3);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+}
+.stat-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 36px;
+  font-weight: 300;
+  line-height: 1;
+  color: var(--ink);
+}
+.stat-num.danger { color: var(--coral); }
+.stat-num.warn   { color: var(--gold); }
+.stat-num.good   { color: var(--green); }
+.stat-label {
+  font-size: 12px;
+  color: var(--ink-muted);
+  margin-top: 4px;
+  letter-spacing: 0.02em;
+}
+
+.dash-section-label {
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink-muted);
+  margin-bottom: 10px;
+  margin-top: 24px;
+}
+.dash-section-label:first-of-type { margin-top: 0; }
+.dash-section-label.danger { color: var(--coral); }
+
+.due-item {
+  background: var(--white);
+  border: 1px solid var(--sand-3);
+  border-radius: var(--radius-sm);
+  padding: 11px 14px;
+  margin-bottom: 7px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: border-color 0.12s, box-shadow 0.12s;
+}
+.due-item:hover {
+  border-color: var(--ocean-mid);
+  box-shadow: 0 2px 12px rgba(26,74,92,0.07);
+}
+.due-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--ocean);
+  color: #F5F0E8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 13px;
+  flex-shrink: 0;
+}
+.due-content { flex: 1; min-width: 0; }
+.due-client-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+}
+.due-task-text {
+  font-size: 12px;
+  color: var(--ink-muted);
+  margin-top: 1px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.due-badge {
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 10px;
+  border-radius: 12px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.due-badge.overdue {
+  background: var(--coral-l);
+  color: var(--coral);
+}
+.due-badge.today {
+  background: var(--gold-l);
+  color: var(--gold);
+}
+.due-badge.soon {
+  background: var(--ocean-l);
+  color: var(--ocean);
+}
+
+.empty-dash {
+  text-align: center;
+  padding: 48px 24px;
+  background: var(--white);
+  border: 1px solid var(--sand-3);
+  border-radius: var(--radius);
+  color: var(--ink-muted);
+}
+.empty-dash h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--ocean);
+  margin-bottom: 8px;
+}
+.empty-dash p { font-size: 13px; line-height: 1.6; }
+
+/* ── CLIENT VIEW ── */
+.client-view {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.client-header {
+  background: var(--white);
+  border-bottom: 1px solid var(--sand-3);
+  padding: 16px 24px 0;
+  flex-shrink: 0;
+}
+.client-name-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.ch-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--ocean);
+  color: #F5F0E8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+.ch-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--ink);
+  flex: 1;
+}
+.ch-actions { display: flex; gap: 8px; }
+.btn-action {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 5px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--sand-3);
+  background: var(--white);
+  color: var(--ink-mid);
+  cursor: pointer;
+  transition: all 0.12s;
+}
+.btn-action:hover { background: var(--sand); border-color: var(--sand-2); }
+.btn-action.primary {
+  background: var(--ocean);
+  color: #F5F0E8;
+  border-color: var(--ocean);
+}
+.btn-action.primary:hover { background: var(--ocean-mid); }
+.btn-action.danger { color: var(--coral); border-color: rgba(196,80,58,0.3); }
+.btn-action.danger:hover { background: var(--coral-l); border-color: var(--coral); }
+
+.tabs-row {
+  display: flex;
+  gap: 0;
+}
+.tab-btn {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  padding: 8px 18px;
+  border: none;
+  background: none;
+  color: var(--ink-muted);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: color 0.12s;
+}
+.tab-btn.active {
+  color: var(--ocean);
+  border-bottom-color: var(--ocean);
+  font-weight: 500;
+}
+.tab-btn:hover:not(.active) { color: var(--ink); }
+
+/* ── TAB BODY ── */
+.tab-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px 24px;
+}
+.tab-body::-webkit-scrollbar { width: 4px; }
+.tab-body::-webkit-scrollbar-track { background: transparent; }
+.tab-body::-webkit-scrollbar-thumb { background: var(--sand-3); border-radius: 4px; }
+
+/* Info tab */
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px 24px;
+  margin-bottom: 20px;
+}
+.info-field { display: flex; flex-direction: column; gap: 4px; }
+.info-field.full { grid-column: span 2; }
+.info-label {
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink-muted);
+}
+.info-val {
+  font-size: 14px;
+  color: var(--ink);
+  padding: 5px 0;
+  border-bottom: 1px solid var(--sand-3);
+  min-height: 28px;
+  line-height: 1.4;
+}
+.info-val.empty { color: var(--ink-muted); opacity: 0.6; }
+
+.field-input {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  padding: 6px 10px;
+  border: 1.5px solid var(--sand-3);
+  border-radius: var(--radius-sm);
+  background: var(--sand);
+  color: var(--ink);
+  outline: none;
+  width: 100%;
+  transition: border-color 0.15s, background 0.15s;
+}
+.field-input:focus {
+  border-color: var(--ocean-mid);
+  background: var(--white);
+}
+textarea.field-input {
+  resize: vertical;
+  min-height: 64px;
+  font-family: 'DM Sans', sans-serif;
+}
+select.field-input {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='7' viewBox='0 0 10 7'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%237A7068' stroke-width='1.4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 28px;
+}
+
+.section-divider {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 15px;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--ocean);
+  margin: 20px 0 12px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--sand-3);
+}
+.edit-save-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+/* Interest chips */
+.chip-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  padding: 4px 0;
+}
+.chip {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  border: 1px solid var(--sand-3);
+  background: transparent;
+  color: var(--ink-muted);
+  cursor: pointer;
+  transition: all 0.12s;
+}
+.chip:hover { border-color: var(--ocean); color: var(--ocean); }
+.chip.sel {
+  background: var(--ocean);
+  color: #F5F0E8;
+  border-color: var(--ocean);
+}
+.chip.view-only { cursor: default; }
+
+/* Notes tab */
+.note-add-area {
+  background: var(--white);
+  border: 1px solid var(--sand-3);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  margin-bottom: 16px;
+}
+.note-add-area textarea {
+  width: 100%;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  color: var(--ink);
+  background: transparent;
+  border: none;
+  outline: none;
+  resize: none;
+  min-height: 56px;
+  line-height: 1.6;
+}
+.note-add-area textarea::placeholder { color: var(--ink-muted); opacity: 0.7; }
+.note-add-footer {
+  display: flex;
+  justify-content: flex-end;
+  border-top: 1px solid var(--sand-3);
+  padding-top: 8px;
+  margin-top: 6px;
+}
+.note-item {
+  background: var(--white);
+  border: 1px solid var(--sand-3);
+  border-radius: var(--radius);
+  padding: 12px 14px;
+  margin-bottom: 9px;
+  animation: slideIn 0.25s ease;
+}
+.note-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 7px;
+}
+.note-date {
+  font-size: 11px;
+  color: var(--ink-muted);
+}
+.note-del-btn {
+  font-size: 11px;
+  color: var(--ink-muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  font-family: 'DM Sans', sans-serif;
+  opacity: 0.6;
+  transition: opacity 0.12s, color 0.12s;
+}
+.note-del-btn:hover { opacity: 1; color: var(--coral); }
+.note-text {
+  font-size: 13px;
+  color: var(--ink);
+  line-height: 1.65;
+  white-space: pre-wrap;
+}
+
+/* Todos tab */
+.todo-add-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  background: var(--white);
+  border: 1px solid var(--sand-3);
+  border-radius: var(--radius);
+  padding: 10px 12px;
+  align-items: flex-end;
+}
+.todo-add-row input[type="text"] {
+  flex: 2;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  color: var(--ink);
+  background: transparent;
+  border: none;
+  outline: none;
+}
+.todo-add-row input[type="text"]::placeholder { color: var(--ink-muted); opacity: 0.7; }
+.todo-add-row input[type="date"] {
+  flex: 1;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  color: var(--ink-mid);
+  background: var(--sand);
+  border: 1px solid var(--sand-3);
+  border-radius: var(--radius-sm);
+  padding: 5px 8px;
+  outline: none;
+  min-width: 0;
+}
+.todo-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: var(--white);
+  border: 1px solid var(--sand-3);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  margin-bottom: 7px;
+  transition: opacity 0.15s;
+  animation: slideIn 0.25s ease;
+}
+.todo-item.done { opacity: 0.5; }
+.todo-item.overdue { border-left: 3px solid var(--coral); }
+.todo-check {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--ocean);
+  margin-top: 2px;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+.todo-body { flex: 1; min-width: 0; }
+.todo-text-val {
+  font-size: 13px;
+  color: var(--ink);
+  line-height: 1.45;
+}
+.todo-item.done .todo-text-val { text-decoration: line-through; }
+.todo-due-val {
+  font-size: 11px;
+  color: var(--ink-muted);
+  margin-top: 2px;
+}
+.todo-due-val.overdue { color: var(--coral); font-weight: 500; }
+.todo-due-val.today { color: var(--gold); font-weight: 500; }
+.todo-del-btn {
+  font-size: 13px;
+  color: var(--ink-muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  opacity: 0.4;
+  transition: opacity 0.12s, color 0.12s;
+  flex-shrink: 0;
+}
+.todo-del-btn:hover { opacity: 1; color: var(--coral); }
+.section-subhead {
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-muted);
+  margin: 16px 0 8px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--sand-3);
+}
+
+/* no-client placeholder */
+.no-client {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  color: var(--ink-muted);
+}
+.no-client-icon {
+  font-size: 40px;
+  opacity: 0.3;
+}
+.no-client h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--ocean);
+  opacity: 0.6;
+}
+.no-client p { font-size: 13px; }
+
+/* ── MODAL ── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(28,26,24,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  animation: fadeIn 0.15s ease;
+}
+.modal {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 24px;
+  width: 360px;
+  box-shadow: 0 8px 40px rgba(28,26,24,0.15);
+  animation: slideUp 0.2s ease;
+}
+.modal h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--ink);
+  margin-bottom: 16px;
+}
+.modal-field { margin-bottom: 12px; }
+.modal-field label {
+  display: block;
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-muted);
+  margin-bottom: 5px;
+}
+.modal-btns {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.empty-tab {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--ink-muted);
+  font-size: 13px;
+}
+.empty-tab p { line-height: 1.6; }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+  <!-- TOP BAR -->
+  <header class="topbar">
+    <div class="topbar-brand">
+      <span class="topbar-logo">Styled Escapes by Vanessa</span>
+      <span class="topbar-sub">Client Manager</span>
+      <button class="btn-dash" onclick="showDashboard()" title="Dashboard">⌂ Dashboard</button>
+    </div>
+    <div class="topbar-right">
+      <span class="topbar-stat" id="topStat"><strong>0</strong> clients</span>
+      <button class="btn-export" onclick="exportCSV()">Export CSV</button>
+    </div>
+  </header>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-search">
+      <div class="search-wrap">
+        <span class="search-icon">⌕</span>
+        <input class="search-input" id="searchInput" placeholder="Search clients…" oninput="filterClients()">
+      </div>
+    </div>
+    <div class="client-list" id="clientList"></div>
+    <div class="sidebar-footer">
+      <button class="btn-new-client" onclick="showNewModal()">+ New Client</button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main" id="main">
+    <!-- will be rendered by JS -->
+  </main>
+</div>
+
+<script>
+// ── Config ──────────────────────────────────────────────────────
+var GAS_URL = 'https://script.google.com/macros/s/AKfycbzwpKU33T2fYOOE1a6RPTAtysw-lGEQM7YdV2GHqm5WBI9XxBoC3zCQDbLSOxP4qb8a/exec';
+
+// ── Static lookup tables ────────────────────────────────────────
+var INTERESTS = ['Cruise','All-Inclusive Resort','Disney Vacation','Hawaii','Europe','Caribbean','Group Travel','Honeymoon','Anniversary','Family Trip','Girls / Friends Trip','Adventure / Outdoors'];
+var SOURCES   = ['Facebook','Instagram','Referral','Dream Vacations site','Web search','Returning client','Other'];
+
+// ── In-memory state (populated on load from Sheets) ─────────────
+var clients    = [];
+var allTodos   = [];
+var allNotes   = [];
+
+var selectedId = null;
+var activeTab  = 'info';
+var editMode   = false;
+
+// ── GAS API helpers ─────────────────────────────────────────────
+function gasPost(payload) {
+  return fetch(GAS_URL, {
+    method:  'POST',
+    headers: { 'Content-Type': 'text/plain' },
+    body:    JSON.stringify(payload)
+  }).then(function(r) { return r.json(); });
+}
+
+function loadAll(callback) {
+  if (!GAS_URL || GAS_URL === 'YOUR_GAS_WEB_APP_URL') {
+    var saved = JSON.parse(localStorage.getItem('vnCRM_v2_dev') || 'null');
+    if (saved) {
+      clients  = saved.clients || [];
+      allTodos = saved.todos   || [];
+      allNotes = saved.notes   || [];
+    }
+    if (callback) callback();
+    return;
+  }
+  showLoadingOverlay(true);
+  gasPost({ type: 'crm', action: 'getAll' })
+    .then(function(res) {
+      if (res.success) {
+        clients  = res.clients || [];
+        allTodos = res.todos   || [];
+        allNotes = res.notes   || [];
+      }
+      showLoadingOverlay(false);
+      if (callback) callback();
+    })
+    .catch(function(err) {
+      console.error('Load error:', err);
+      showLoadingOverlay(false);
+      showToast('Could not connect to the data sheet. Check GAS_URL config.', 'error');
+      if (callback) callback();
+    });
+}
+
+function buildClientObjects() {
+  clients.forEach(function(c) {
+    c.todos   = allTodos.filter(function(t) { return t.clientId === c.id; });
+    c.notelog = allNotes.filter(function(n) { return n.clientId === c.id; });
+  });
+}
+
+function getClient(id) { return clients.find(function(c) { return c.id === id; }) || null; }
+
+// ── Toast / Loading UI ──────────────────────────────────────────
+function showToast(msg, type) {
+  var existing = document.getElementById('crmToast');
+  if (existing) existing.remove();
+  var t = document.createElement('div');
+  t.id = 'crmToast';
+  t.style.cssText = 'position:fixed;bottom:24px;right:24px;z-index:9999;padding:10px 18px;border-radius:8px;font-size:13px;font-family:"DM Sans",sans-serif;box-shadow:0 4px 16px rgba(0,0,0,0.15);transition:opacity 0.3s;' +
+    (type === 'error' ? 'background:#C4503A;color:#fff;' : type === 'success' ? 'background:#2D6A4F;color:#fff;' : 'background:#1A4A5C;color:#F5F0E8;');
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(function() { t.style.opacity = '0'; setTimeout(function() { t.remove(); }, 300); }, 3000);
+}
+
+function showLoadingOverlay(show) {
+  var existing = document.getElementById('crmLoadingOverlay');
+  if (show) {
+    if (existing) return;
+    var el = document.createElement('div');
+    el.id = 'crmLoadingOverlay';
+    el.style.cssText = 'position:fixed;inset:0;z-index:9998;background:rgba(251,247,240,0.75);display:flex;align-items:center;justify-content:center;';
+    el.innerHTML = '<div style="font-family:Cormorant Garamond,Georgia,serif;font-size:22px;color:#1A4A5C;font-style:italic;">Loading\u2026</div>';
+    document.body.appendChild(el);
+  } else {
+    if (existing) existing.remove();
+  }
+}
+
+// ── Sheet write helpers ─────────────────────────────────────────
+function saveDevLocal() {
+  localStorage.setItem('vnCRM_v2_dev', JSON.stringify({
+    clients: clients, todos: allTodos, notes: allNotes
+  }));
+}
+
+function stripVirtual(c) {
+  var copy = Object.assign({}, c);
+  delete copy.todos;
+  delete copy.notelog;
+  return copy;
+}
+
+function syncClientToSheet(c, isNew) {
+  if (!GAS_URL || GAS_URL === 'YOUR_GAS_WEB_APP_URL') { saveDevLocal(); return Promise.resolve(); }
+  return gasPost({ type: 'crm', action: isNew ? 'addClient' : 'updateClient', client: stripVirtual(c) });
+}
+
+function addTodoToSheet(todo) {
+  if (!GAS_URL || GAS_URL === 'YOUR_GAS_WEB_APP_URL') { saveDevLocal(); return Promise.resolve(); }
+  return gasPost({ type: 'crm', action: 'addTodo', todo: todo });
+}
+
+function updateTodoInSheet(todo) {
+  if (!GAS_URL || GAS_URL === 'YOUR_GAS_WEB_APP_URL') { saveDevLocal(); return Promise.resolve(); }
+  return gasPost({ type: 'crm', action: 'updateTodo', todo: todo });
+}
+
+function deleteTodoFromSheet(id) {
+  if (!GAS_URL || GAS_URL === 'YOUR_GAS_WEB_APP_URL') { saveDevLocal(); return Promise.resolve(); }
+  return gasPost({ type: 'crm', action: 'deleteTodo', id: id });
+}
+
+function addNoteToSheet(note) {
+  if (!GAS_URL || GAS_URL === 'YOUR_GAS_WEB_APP_URL') { saveDevLocal(); return Promise.resolve(); }
+  return gasPost({ type: 'crm', action: 'addNote', note: note });
+}
+
+function deleteNoteFromSheet(id) {
+  if (!GAS_URL || GAS_URL === 'YOUR_GAS_WEB_APP_URL') { saveDevLocal(); return Promise.resolve(); }
+  return gasPost({ type: 'crm', action: 'deleteNote', id: id });
+}
+
+function deleteClientFromSheet(id) {
+  if (!GAS_URL || GAS_URL === 'YOUR_GAS_WEB_APP_URL') { saveDevLocal(); return Promise.resolve(); }
+  return gasPost({ type: 'crm', action: 'deleteClient', id: id });
+}
+
+// Legacy no-op (saves are now explicit per action)
+function save() {}
+
+// ── Pure helpers ────────────────────────────────────────────────
+function esc(s) {
+  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function initials(n) {
+  var p = n.trim().split(/\s+/);
+  return p.length >= 2 ? p[0][0].toUpperCase() + p[p.length-1][0].toUpperCase() : n.slice(0,2).toUpperCase();
+}
+function today() { return new Date().toISOString().slice(0,10); }
+function diffDays(d) {
+  return Math.round((new Date(d+'T00:00:00') - new Date(today()+'T00:00:00')) / 86400000);
+}
+function fmtDate(d) {
+  if (!d) return '';
+  var dt = new Date(d + 'T00:00:00');
+  return dt.toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'});
+}
+function nowLabel() {
+  return new Date().toLocaleString('en-US', {month:'short', day:'numeric', year:'numeric', hour:'numeric', minute:'2-digit'});
+}
+function genId() { return Date.now().toString(36) + Math.random().toString(36).slice(2,6); }
+
+// ── Sidebar ────────────────────────────────────────────────────
+function filterClients() {
+  var q = document.getElementById('searchInput').value.toLowerCase();
+  renderSidebar(q);
+}
+
+function renderSidebar(q) {
+  q = q || '';
+  var el = document.getElementById('clientList');
+  var sorted = [...clients].sort((a,b) => a.name.localeCompare(b.name));
+  var filtered = sorted.filter(c =>
+    !q ||
+    c.name.toLowerCase().includes(q) ||
+    (c.email||'').toLowerCase().includes(q) ||
+    (c.phone||'').includes(q)
+  );
+
+  if (!filtered.length) {
+    el.innerHTML = '<div style="padding:14px;font-size:12px;color:var(--ink-muted);text-align:center">' +
+      (clients.length ? 'No matches' : 'No clients yet') + '</div>';
+    return;
+  }
+
+  el.innerHTML = filtered.map(c => {
+    var open    = (c.todos||[]).filter(t => !t.done).length;
+    var overdue = (c.todos||[]).filter(t => !t.done && t.due && diffDays(t.due) < 0).length;
+    var meta    = (c.interests||[]).slice(0,2).join(' · ') || (c.email || 'No details yet');
+    return '<div class="client-item' + (c.id === selectedId ? ' active' : '') + '" onclick="selectClient(\'' + c.id + '\')">' +
+      '<div class="ci-avatar">' + esc(initials(c.name)) + '</div>' +
+      '<div class="ci-info">' +
+        '<div class="ci-name">' + esc(c.name) + '</div>' +
+        '<div class="ci-meta">' + esc(meta) + '</div>' +
+      '</div>' +
+      (overdue ? '<div class="ci-badge">' + overdue + '</div>' : '') +
+    '</div>';
+  }).join('');
+
+  // Update top stat
+  document.getElementById('topStat').innerHTML = '<strong>' + clients.length + '</strong> client' + (clients.length !== 1 ? 's' : '');
+}
+
+// ── Main area routing ──────────────────────────────────────────
+function showDashboard() {
+  selectedId = null;
+  editMode   = false;
+  renderSidebar();
+  var main = document.getElementById('main');
+  main.innerHTML = '<div class="dashboard-view" id="dashView"></div>';
+  renderDashboard();
+}
+
+function selectClient(id) {
+  selectedId = id;
+  editMode   = false;
+  activeTab  = 'info';
+  renderSidebar();
+  renderClientView();
+}
+
+function renderClientView() {
+  var c = getClient(selectedId);
+  if (!c) { showDashboard(); return; }
+
+  var main = document.getElementById('main');
+  main.innerHTML =
+    '<div class="client-view">' +
+      '<div class="client-header">' +
+        '<div class="client-name-row">' +
+          '<div class="ch-avatar" id="chAv">' + esc(initials(c.name)) + '</div>' +
+          '<div class="ch-name" id="chName">' + esc(c.name) + '</div>' +
+          '<div class="ch-actions">' +
+            '<button class="btn-action" id="editBtn" onclick="toggleEdit()">Edit</button>' +
+            '<button class="btn-action danger" onclick="deleteClient()">Delete</button>' +
+          '</div>' +
+        '</div>' +
+        '<div class="tabs-row">' +
+          '<button class="tab-btn active" id="tab-info"  onclick="switchTab(\'info\')">Info</button>' +
+          '<button class="tab-btn"        id="tab-notes" onclick="switchTab(\'notes\')">Notes</button>' +
+          '<button class="tab-btn"        id="tab-todos" onclick="switchTab(\'todos\')">Follow-ups</button>' +
+        '</div>' +
+      '</div>' +
+      '<div class="tab-body" id="tabBody"></div>' +
+    '</div>';
+
+  renderTabContent();
+}
+
+function switchTab(t) {
+  if (editMode && t !== 'info') { saveEdit(); }
+  activeTab = t;
+  ['info','notes','todos'].forEach(function(tab) {
+    var b = document.getElementById('tab-' + tab);
+    if (b) b.className = 'tab-btn' + (tab === t ? ' active' : '');
+  });
+  renderTabContent();
+}
+
+function renderTabContent() {
+  if (activeTab === 'info')  renderInfoTab();
+  if (activeTab === 'notes') renderNotesTab();
+  if (activeTab === 'todos') renderTodosTab();
+}
+
+// ── Info tab ───────────────────────────────────────────────────
+function renderInfoTab() {
+  var c = getClient(selectedId);
+  var b = document.getElementById('tabBody');
+  if (!b || !c) return;
+
+  if (!editMode) {
+    b.innerHTML =
+      '<div class="info-grid">' +
+        infoRow('Name', c.name) +
+        infoRow('Phone', c.phone) +
+        infoRow('Email', c.email, 'full') +
+        infoRow('Address', c.address, 'full') +
+        infoRow('Birthday', fmtDate(c.bday)) +
+        infoRow('How they found Vanessa', c.source) +
+      '</div>' +
+      '<div class="section-divider">Trip interests</div>' +
+      '<div class="chip-group">' +
+        (INTERESTS.map(i =>
+          '<span class="chip view-only' + ((c.interests||[]).includes(i) ? ' sel' : '') + '">' + esc(i) + '</span>'
+        ).join('')) +
+      '</div>' +
+      (c.general_notes ? '<div class="section-divider">General notes</div><div style="font-size:13px;line-height:1.65;white-space:pre-wrap;color:var(--ink)">' + esc(c.general_notes) + '</div>' : '');
+  } else {
+    b.innerHTML =
+      '<div class="info-grid">' +
+        editField('Full Name', 'f_name', c.name, 'text') +
+        editField('Phone', 'f_phone', c.phone, 'tel') +
+        editField('Email', 'f_email', c.email, 'email', 'full') +
+        editField('Address', 'f_address', c.address, 'text', 'full') +
+        editField('Birthday', 'f_bday', c.bday, 'date') +
+        editSelectField('How they found Vanessa', 'f_source', c.source) +
+      '</div>' +
+      '<div class="section-divider">Trip interests</div>' +
+      '<div class="chip-group" id="chipsEdit">' +
+        INTERESTS.map(i =>
+          '<button type="button" class="chip' + ((c.interests||[]).includes(i) ? ' sel' : '') + '" onclick="this.classList.toggle(\'sel\')">' + esc(i) + '</button>'
+        ).join('') +
+      '</div>' +
+      '<div class="section-divider">General notes</div>' +
+      '<div class="info-field full"><textarea class="field-input" id="f_notes" style="width:100%;min-height:80px" placeholder="Anything else to remember about this client…">' + esc(c.general_notes||'') + '</textarea></div>' +
+      '<div class="edit-save-row">' +
+        '<button class="btn-action primary" onclick="saveEdit()">Save changes</button>' +
+        '<button class="btn-action" onclick="cancelEdit()">Cancel</button>' +
+      '</div>';
+  }
+}
+
+function infoRow(label, val, cls) {
+  var empty = !val;
+  return '<div class="info-field' + (cls === 'full' ? ' full' : '') + '">' +
+    '<div class="info-label">' + esc(label) + '</div>' +
+    '<div class="info-val' + (empty ? ' empty' : '') + '">' + esc(val || '—') + '</div>' +
+  '</div>';
+}
+
+function editField(label, id, val, type, cls) {
+  return '<div class="info-field' + (cls === 'full' ? ' full' : '') + '">' +
+    '<div class="info-label">' + esc(label) + '</div>' +
+    '<input class="field-input" id="' + id + '" type="' + type + '" value="' + esc(val||'') + '">' +
+  '</div>';
+}
+
+function editSelectField(label, id, val) {
+  return '<div class="info-field">' +
+    '<div class="info-label">' + esc(label) + '</div>' +
+    '<select class="field-input" id="' + id + '">' +
+      '<option value="">Select…</option>' +
+      SOURCES.map(s => '<option value="' + esc(s) + '"' + (val===s?' selected':'') + '>' + esc(s) + '</option>').join('') +
+    '</select>' +
+  '</div>';
+}
+
+function toggleEdit() {
+  if (editMode) { saveEdit(); } else { editMode = true; renderInfoTab(); }
+  var btn = document.getElementById('editBtn');
+  if (btn) btn.textContent = editMode ? 'Save' : 'Edit';
+}
+
+function saveEdit() {
+  var c = getClient(selectedId);
+  if (!c) return;
+  ['name','phone','email','address','bday'].forEach(function(k) {
+    var el = document.getElementById('f_' + k);
+    if (el) c[k] = el.value.trim();
+  });
+  var src = document.getElementById('f_source');
+  if (src) c.source = src.value;
+  var nt = document.getElementById('f_notes');
+  if (nt) c.general_notes = nt.value.trim();
+  var chips = document.querySelectorAll('#chipsEdit .chip.sel');
+  if (chips.length >= 0) c.interests = Array.from(chips).map(b => b.textContent);
+  syncClientToSheet(c, false).catch(function() { showToast('Client save error — check connection', 'error'); });
+  editMode = false;
+  // update header
+  var av = document.getElementById('chAv');
+  var nm = document.getElementById('chName');
+  if (av) av.textContent = initials(c.name);
+  if (nm) nm.textContent = c.name;
+  var btn = document.getElementById('editBtn');
+  if (btn) btn.textContent = 'Edit';
+  renderSidebar();
+  renderInfoTab();
+}
+
+function cancelEdit() {
+  editMode = false;
+  var btn = document.getElementById('editBtn');
+  if (btn) btn.textContent = 'Edit';
+  renderInfoTab();
+}
+
+// ── Notes tab ──────────────────────────────────────────────────
+function renderNotesTab() {
+  var c = getClient(selectedId);
+  var b = document.getElementById('tabBody');
+  if (!b || !c) return;
+  var notes = (c.notelog || []).slice().reverse();
+
+  b.innerHTML =
+    '<div class="note-add-area">' +
+      '<textarea id="noteTA" placeholder="Add a note — call summary, client preferences, what they mentioned, anything useful…" rows="3"></textarea>' +
+      '<div class="note-add-footer"><button class="btn-action primary" onclick="addNote()">Add note</button></div>' +
+    '</div>' +
+    (notes.length ?
+      notes.map(function(n, ri) {
+        var realIdx = (c.notelog.length - 1) - ri;
+        return '<div class="note-item">' +
+          '<div class="note-meta">' +
+            '<span class="note-date">' + esc(n.date) + '</span>' +
+            '<button class="note-del-btn" onclick="deleteNote(' + realIdx + ')">Remove</button>' +
+          '</div>' +
+          '<div class="note-text">' + esc(n.text) + '</div>' +
+        '</div>';
+      }).join('') :
+      '<div class="empty-tab"><p>No notes yet.<br>Add your first note above — call summaries, preferences, ideas.</p></div>'
+    );
+
+  // auto-focus
+  var ta = document.getElementById('noteTA');
+  if (ta) ta.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) { e.preventDefault(); addNote(); }
+  });
+}
+
+function addNote() {
+  var c = getClient(selectedId);
+  var ta = document.getElementById('noteTA');
+  if (!ta || !c) return;
+  var text = ta.value.trim();
+  if (!text) return;
+  if (!c.notelog) c.notelog = [];
+  var note = { id: genId(), clientId: c.id, text: text, date: nowLabel() };
+  c.notelog.push(note);
+  allNotes.push(note);
+  ta.value = '';
+  renderNotesTab();
+  addNoteToSheet(note).catch(function() { showToast('Note sync error', 'error'); });
+}
+
+function deleteNote(idx) {
+  var c = getClient(selectedId);
+  if (!c) return;
+  var note = (c.notelog || [])[idx];
+  if (!note) return;
+  c.notelog.splice(idx, 1);
+  allNotes = allNotes.filter(function(n) { return n.id !== note.id; });
+  renderNotesTab();
+  if (note.id) deleteNoteFromSheet(note.id).catch(function() {});
+}
+
+// ── Todos tab ──────────────────────────────────────────────────
+function renderTodosTab() {
+  var c = getClient(selectedId);
+  var b = document.getElementById('tabBody');
+  if (!b || !c) return;
+  var todos = c.todos || [];
+  var open  = todos.filter(t => !t.done);
+  var done  = todos.filter(t =>  t.done);
+
+  b.innerHTML =
+    '<div class="todo-add-row">' +
+      '<input type="text" id="todoText" placeholder="Add a follow-up task…" onkeydown="if(event.key===\'Enter\')addTodo()">' +
+      '<input type="date" id="todoDue">' +
+      '<button class="btn-action primary" onclick="addTodo()">Add</button>' +
+    '</div>' +
+    (open.length ? open.map((t,i) => todoHtml(t, todos.indexOf(t))).join('') : '<div class="empty-tab"><p>No open follow-ups — you\'re all caught up!</p></div>') +
+    (done.length ? '<div class="section-subhead">Completed</div>' + done.map(t => todoHtml(t, todos.indexOf(t))).join('') : '');
+}
+
+function todoHtml(t, idx) {
+  var d    = t.due ? diffDays(t.due) : null;
+  var overdue = !t.done && d !== null && d < 0;
+  var todayDue = !t.done && d === 0;
+  var dateLabel = t.due ? (overdue ? Math.abs(d) + 'd overdue · ' + fmtDate(t.due) : todayDue ? 'Today · ' + fmtDate(t.due) : fmtDate(t.due)) : 'No due date';
+  var dateCls   = overdue ? ' overdue' : todayDue ? ' today' : '';
+  return '<div class="todo-item' + (t.done ? ' done' : '') + (overdue ? ' overdue' : '') + '">' +
+    '<input type="checkbox" class="todo-check"' + (t.done ? ' checked' : '') + ' onchange="toggleTodo(' + idx + ', this.checked)">' +
+    '<div class="todo-body">' +
+      '<div class="todo-text-val">' + esc(t.text) + '</div>' +
+      '<div class="todo-due-val' + dateCls + '">' + dateLabel + '</div>' +
+    '</div>' +
+    '<button class="todo-del-btn" onclick="deleteTodo(' + idx + ')" title="Remove">✕</button>' +
+  '</div>';
+}
+
+function addTodo() {
+  var c = getClient(selectedId);
+  var txt = document.getElementById('todoText');
+  var dueEl = document.getElementById('todoDue');
+  if (!txt || !c || !txt.value.trim()) return;
+  if (!c.todos) c.todos = [];
+  var todo = { id: genId(), clientId: c.id, text: txt.value.trim(), due: dueEl ? dueEl.value : '', done: false, created: nowLabel() };
+  c.todos.push(todo);
+  allTodos.push(todo);
+  txt.value = '';
+  if (dueEl) dueEl.value = '';
+  renderSidebar();
+  renderTodosTab();
+  addTodoToSheet(todo).catch(function() { showToast('Follow-up sync error', 'error'); });
+}
+
+function toggleTodo(idx, val) {
+  var c = getClient(selectedId);
+  if (!c || !c.todos[idx]) return;
+  var todo = c.todos[idx];
+  todo.done = val;
+  // sync the matching entry in allTodos too
+  var master = allTodos.find(function(t) { return t.id === todo.id; });
+  if (master) master.done = val;
+  renderSidebar();
+  renderTodosTab();
+  updateTodoInSheet(todo).catch(function() { showToast('Follow-up sync error', 'error'); });
+}
+
+function deleteTodo(idx) {
+  var c = getClient(selectedId);
+  if (!c) return;
+  var todo = (c.todos || [])[idx];
+  if (!todo) return;
+  c.todos.splice(idx, 1);
+  allTodos = allTodos.filter(function(t) { return t.id !== todo.id; });
+  renderSidebar();
+  renderTodosTab();
+  if (todo.id) deleteTodoFromSheet(todo.id).catch(function() {});
+}
+
+// ── Delete client ──────────────────────────────────────────────
+function deleteClient() {
+  var c = getClient(selectedId);
+  if (!c) return;
+  if (!confirm('Delete ' + c.name + '? This cannot be undone.')) return;
+  var id = selectedId;
+  allTodos = allTodos.filter(function(t) { return t.clientId !== id; });
+  allNotes = allNotes.filter(function(n) { return n.clientId !== id; });
+  clients = clients.filter(function(x) { return x.id !== id; });
+  deleteClientFromSheet(id).catch(function() {});
+  showDashboard();
+}
+
+// ── New client modal ───────────────────────────────────────────
+function showNewModal() {
+  var bg = document.createElement('div');
+  bg.className = 'modal-overlay';
+  bg.id = 'newModal';
+  bg.innerHTML =
+    '<div class="modal">' +
+      '<h3>New client</h3>' +
+      '<div class="modal-field"><label>Full name *</label><input class="field-input" id="mn_name" placeholder="Sarah Johnson" style="width:100%"></div>' +
+      '<div class="modal-field"><label>Email</label><input class="field-input" id="mn_email" type="email" placeholder="sarah@email.com" style="width:100%"></div>' +
+      '<div class="modal-field"><label>Phone</label><input class="field-input" id="mn_phone" type="tel" placeholder="615-555-0100" style="width:100%"></div>' +
+      '<div class="modal-btns">' +
+        '<button class="btn-action" onclick="document.getElementById(\'newModal\').remove()">Cancel</button>' +
+        '<button class="btn-action primary" onclick="createClient()">Create client</button>' +
+      '</div>' +
+    '</div>';
+  document.body.appendChild(bg);
+  bg.addEventListener('click', function(e) { if (e.target === bg) bg.remove(); });
+  setTimeout(function() { var el = document.getElementById('mn_name'); if (el) el.focus(); }, 60);
+  document.getElementById('mn_name').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') createClient();
+  });
+}
+
+function createClient() {
+  var name = (document.getElementById('mn_name').value || '').trim();
+  if (!name) { document.getElementById('mn_name').focus(); return; }
+  var c = {
+    id: genId(), name: name,
+    email: (document.getElementById('mn_email').value||'').trim(),
+    phone: (document.getElementById('mn_phone').value||'').trim(),
+    address: '', bday: '', source: '', interests: [],
+    general_notes: '', notelog: [], todos: []
+  };
+  clients.push(c);
+  syncClientToSheet(c, true).catch(function() { showToast('Client sync error', 'error'); });
+  var modal = document.getElementById('newModal');
+  if (modal) modal.remove();
+  renderSidebar();
+  selectClient(c.id);
+  // drop into edit mode after render
+  setTimeout(function() { editMode = true; renderInfoTab(); var btn = document.getElementById('editBtn'); if (btn) btn.textContent = 'Save'; }, 80);
+}
+
+// ── Dashboard ──────────────────────────────────────────────────
+function renderDashboard() {
+  var dv = document.getElementById('dashView');
+  if (!dv) return;
+
+  var total  = clients.length;
+  var allDue = [];
+  clients.forEach(function(c) {
+    (c.todos||[]).forEach(function(t) {
+      if (!t.done && t.due) allDue.push({ client: c, todo: t });
+    });
+  });
+  allDue.sort((a,b) => a.todo.due.localeCompare(b.todo.due));
+
+  var overdue  = allDue.filter(x => diffDays(x.todo.due) < 0);
+  var upcoming = allDue.filter(x => diffDays(x.todo.due) >= 0);
+
+  var greeting = greetingText();
+
+  dv.innerHTML =
+    '<div class="dash-greeting">' + greeting + '</div>' +
+    '<div class="dash-subhead">Here\'s what\'s on your plate today.</div>' +
+    '<div class="stats-row">' +
+      statCard(total, 'Total clients', '') +
+      statCard(overdue.length, 'Overdue follow-ups', overdue.length > 0 ? 'danger' : 'good') +
+      statCard(upcoming.length, 'Upcoming follow-ups', upcoming.length > 0 ? 'warn' : 'good') +
+    '</div>' +
+    (overdue.length ?
+      '<div class="dash-section-label danger">Overdue</div>' +
+      overdue.map(dueItemHtml).join('') : '') +
+    (upcoming.length ?
+      '<div class="dash-section-label">Upcoming</div>' +
+      upcoming.slice(0, 10).map(dueItemHtml).join('') : '') +
+    (!total ?
+      '<div class="empty-dash"><h3>Ready when you are</h3><p>Add your first client using the button in the sidebar.<br>Notes, follow-ups, and trip details will all live here.</p></div>' :
+      (!overdue.length && !upcoming.length ?
+        '<div class="empty-dash" style="padding:28px"><h3>All caught up!</h3><p>No follow-ups due. Select a client and add some under their Follow-ups tab.</p></div>' : '')
+    );
+}
+
+function greetingText() {
+  var h = new Date().getHours();
+  var part = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
+  return part + ', <em>Vanessa</em>.';
+}
+
+function statCard(num, label, cls) {
+  return '<div class="stat-card">' +
+    '<div class="stat-num' + (cls ? ' ' + cls : '') + '">' + num + '</div>' +
+    '<div class="stat-label">' + esc(label) + '</div>' +
+  '</div>';
+}
+
+function dueItemHtml(x) {
+  var d    = diffDays(x.todo.due);
+  var cls  = d < 0 ? 'overdue' : d === 0 ? 'today' : 'soon';
+  var rel  = d < 0 ? Math.abs(d) + 'd overdue' : d === 0 ? 'Today · ' : d === 1 ? 'Tomorrow · ' : '';
+  var lbl  = rel + fmtDate(x.todo.due);
+  return '<div class="due-item" onclick="selectClient(\'' + x.client.id + '\')">' +
+    '<div class="due-avatar">' + esc(initials(x.client.name)) + '</div>' +
+    '<div class="due-content">' +
+      '<div class="due-client-name">' + esc(x.client.name) + '</div>' +
+      '<div class="due-task-text">' + esc(x.todo.text) + '</div>' +
+    '</div>' +
+    '<div class="due-badge ' + cls + '">' + lbl + '</div>' +
+  '</div>';
+}
+
+// ── Export CSV ─────────────────────────────────────────────────
+function exportCSV() {
+  var rows = [['Name','Email','Phone','Address','Birthday','Source','Interests','Open Follow-ups','Last Note']];
+  clients.forEach(function(c) {
+    var openTodos = (c.todos||[]).filter(t=>!t.done).map(t=>t.text).join('; ');
+    var lastNote  = (c.notelog||[]).length ? c.notelog[c.notelog.length-1].text.replace(/\n/g,' ') : '';
+    rows.push([
+      c.name, c.email||'', c.phone||'', c.address||'',
+      c.bday||'', c.source||'',
+      (c.interests||[]).join('; '),
+      openTodos, lastNote
+    ]);
+  });
+  var csv = rows.map(r => r.map(v => '"' + String(v).replace(/"/g,'""') + '"').join(',')).join('\n');
+  var blob = new Blob([csv], {type:'text/csv'});
+  var a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+  a.download = 'vanessa-clients-' + today() + '.csv';
+  a.click();
+}
+
+// ── Init ───────────────────────────────────────────────────────
+loadAll(function() {
+  buildClientObjects();
+  showDashboard();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plan Your Dream Trip · Styled Escapes by Vanessa</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --sand: #F5F0E8;
+    --sand-dark: #E8E0D0;
+    --ocean: #1A4A5C;
+    --ocean-light: #2A6A82;
+    --coral: #C4613A;
+    --text: #1C1C1A;
+    --text-muted: #6B6558;
+    --white: #FEFDFB;
+    --radius: 16px;
+  }
+
+  html, body {
+    height: 100%;
+    font-family: 'DM Sans', sans-serif;
+    background: var(--sand);
+    color: var(--text);
+  }
+
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 0;
+  }
+
+  .page-header {
+    width: 100%;
+    background: var(--ocean);
+    padding: 18px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .brand { display: flex; flex-direction: column; }
+  .brand-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: #F5F0E8;
+    letter-spacing: 0.02em;
+  }
+  .brand-sub {
+    font-size: 11px;
+    color: rgba(245,240,232,0.6);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+  .header-badge {
+    font-size: 11px;
+    color: rgba(245,240,232,0.7);
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 20px;
+    padding: 5px 14px;
+    letter-spacing: 0.06em;
+  }
+
+  .main {
+    width: 100%;
+    max-width: 680px;
+    padding: 40px 20px 60px;
+    flex: 1;
+  }
+
+  .intro {
+    text-align: center;
+    margin-bottom: 36px;
+    animation: fadeUp 0.6s ease both;
+  }
+  .intro-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--coral);
+    margin-bottom: 10px;
+  }
+  .intro h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 42px;
+    font-weight: 300;
+    line-height: 1.15;
+    color: var(--ocean);
+    margin-bottom: 14px;
+  }
+  .intro h1 em { font-style: italic; color: var(--coral); }
+  .intro p {
+    font-size: 15px;
+    color: var(--text-muted);
+    line-height: 1.65;
+    max-width: 460px;
+    margin: 0 auto;
+  }
+  .free-tag {
+    display: inline-block;
+    background: var(--ocean);
+    color: var(--sand);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-top: 12px;
+  }
+
+  .chat-wrap {
+    background: var(--white);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: 0 2px 40px rgba(26,74,92,0.10), 0 0 0 1px rgba(26,74,92,0.07);
+    animation: fadeUp 0.6s 0.15s ease both;
+  }
+
+  .messages {
+    padding: 28px 24px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-height: 200px;
+  }
+
+  .msg { display: flex; gap: 10px; animation: fadeUp 0.35s ease both; }
+  .msg.user { flex-direction: row-reverse; }
+
+  .avatar {
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 500;
+  }
+  .avatar.agent { background: var(--ocean); color: var(--sand); font-family: 'Cormorant Garamond', serif; font-size: 16px; }
+  .avatar.user-av { background: var(--sand-dark); color: var(--text-muted); font-size: 13px; }
+
+  .bubble {
+    max-width: 78%;
+    padding: 12px 16px;
+    border-radius: 14px;
+    font-size: 14.5px;
+    line-height: 1.6;
+  }
+  .msg.agent .bubble { background: var(--sand); color: var(--text); border-bottom-left-radius: 4px; }
+  .msg.user  .bubble { background: var(--ocean); color: var(--sand); border-bottom-right-radius: 4px; }
+
+  .typing { display: flex; gap: 5px; align-items: center; padding: 4px 2px; }
+  .typing span {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--text-muted);
+    opacity: 0.4;
+    animation: bounce 1.2s infinite;
+  }
+  .typing span:nth-child(2) { animation-delay: 0.2s; }
+  .typing span:nth-child(3) { animation-delay: 0.4s; }
+
+  .input-area { border-top: 1px solid var(--sand-dark); padding: 16px 20px; background: var(--white); }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+  .chip {
+    font-size: 13px;
+    font-family: 'DM Sans', sans-serif;
+    background: var(--sand);
+    color: var(--ocean);
+    border: 1px solid var(--sand-dark);
+    border-radius: 20px;
+    padding: 6px 14px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .chip:hover { background: var(--ocean); color: var(--sand); border-color: var(--ocean); }
+
+  .input-row { display: flex; gap: 10px; align-items: flex-end; }
+  .msg-input {
+    flex: 1;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    border: 1.5px solid var(--sand-dark);
+    border-radius: 12px;
+    padding: 10px 14px;
+    resize: none;
+    background: var(--sand);
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.15s;
+    min-height: 44px;
+    max-height: 110px;
+  }
+  .msg-input:focus { border-color: var(--ocean-light); background: var(--white); }
+  .msg-input::placeholder { color: var(--text-muted); opacity: 0.7; }
+
+  .send-btn {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    background: var(--ocean);
+    color: var(--sand);
+    border: none;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s, transform 0.1s;
+    flex-shrink: 0;
+  }
+  .send-btn:hover { background: var(--ocean-light); }
+  .send-btn:active { transform: scale(0.95); }
+  .send-btn:disabled { background: var(--sand-dark); color: var(--text-muted); cursor: not-allowed; }
+
+  .confirm-msg {
+    background: var(--white);
+    border-radius: var(--radius);
+    border: 1px solid var(--sand-dark);
+    margin-top: 16px;
+    padding: 36px 28px;
+    text-align: center;
+    display: none;
+    animation: fadeUp 0.4s ease both;
+    box-shadow: 0 2px 40px rgba(26,74,92,0.08);
+  }
+  .confirm-msg.visible { display: block; }
+  .confirm-icon { font-size: 28px; color: var(--coral); margin-bottom: 14px; }
+  .confirm-msg h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 300;
+    color: var(--ocean);
+    margin-bottom: 10px;
+  }
+  .confirm-msg p {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.65;
+    max-width: 380px;
+    margin: 0 auto 6px;
+  }
+  .confirm-links {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  .confirm-links a {
+    font-size: 13px;
+    color: var(--ocean);
+    background: var(--sand);
+    border: 1px solid var(--sand-dark);
+    border-radius: 20px;
+    padding: 7px 18px;
+    text-decoration: none;
+    transition: all 0.15s;
+  }
+  .confirm-links a:hover { background: var(--ocean); color: var(--sand); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes bounce {
+    0%, 60%, 100% { transform: translateY(0); }
+    30% { transform: translateY(-5px); }
+  }
+
+  @media (max-width: 500px) {
+    .intro h1 { font-size: 32px; }
+    .page-header { padding: 14px 18px; }
+    .brand-name { font-size: 18px; }
+    .header-badge { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="page-header">
+  <a href="vanessa-homepage.html" class="brand" style="text-decoration:none;">
+    <div class="brand-name">Styled Escapes by Vanessa</div>
+    <div class="brand-sub">Dream Vacations · Travel Consultant</div>
+  </a>
+  <div class="header-badge">Free to book · No fees</div>
+</header>
+
+<main class="main">
+  <div class="intro">
+    <div class="intro-eyebrow">Let's get planning</div>
+    <h1>Tell me about your<br><em>dream trip</em></h1>
+    <p>Answer a few quick questions and I'll connect you with Vanessa — she'll handle everything from there.</p>
+    <span class="free-tag">✦ No booking fees — ever</span>
+  </div>
+
+  <div class="chat-wrap">
+    <div class="messages" id="messages"></div>
+    <div class="input-area">
+      <div class="chips" id="chips"></div>
+      <div class="input-row">
+        <textarea class="msg-input" id="userInput" placeholder="Type your answer..." rows="1"
+          onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
+        <button class="send-btn" id="sendBtn" onclick="sendMessage()" title="Send">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13"/>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="confirm-msg" id="confirmMsg">
+    <div class="confirm-icon">✦</div>
+    <h2>You're all set!</h2>
+    <p>Vanessa has your trip details and will be in touch soon with ideas tailored just for you.</p>
+    <p>In the meantime, follow along for inspiration:</p>
+    <div class="confirm-links">
+      <a href="https://www.facebook.com/styledescapesbyvanessa" target="_blank">Facebook</a>
+      <a href="https://www.instagram.com/vanessa_abundant_travel/" target="_blank">Instagram</a>
+    </div>
+  </div>
+</main>
+
+<script>
+// ── Config — fill these in before deploying ───────────────────────
+var EMAILJS_PUBLIC_KEY  = 'QvAERgBuGJwX1bMzh';
+var EMAILJS_SERVICE_ID  = 'service_l7auvsa';
+var EMAILJS_TEMPLATE_ID = 'template_sm4lowo';
+var VANESSA_EMAIL       = 'travel@myjacobs.com';
+var CHATBOT_URL         = window.location.href;
+var GAS_PROXY_URL       = 'https://script.google.com/macros/s/AKfycbzwpKU33T2fYOOE1a6RPTAtysw-lGEQM7YdV2GHqm5WBI9XxBoC3zCQDbLSOxP4qb8a/exec';
+
+// ── Steps ─────────────────────────────────────────────────────────
+var steps = [
+  {
+    key: 'destination',
+    ask: "Hi! I'm Vanessa's assistant. I'll gather a few details so Vanessa can reach out with the perfect trip ideas for you.\n\nFirst — where are you dreaming of going, or what kind of trip are you hoping for?",
+    placeholder: 'e.g. Hawaii, a Caribbean cruise, Disney World...',
+    chips: ['Caribbean Cruise', 'Disney World', 'Hawaii', 'Europe', 'All-Inclusive Resort', 'Not sure yet'],
+    validate: function(v) { return v.trim().length > 1; }
+  },
+  {
+    key: 'dates',
+    ask: 'Love it! When are you thinking of traveling? Even a rough timeframe works.',
+    placeholder: 'e.g. Summer 2025, around Thanksgiving, flexible...',
+    chips: ['Spring', 'Summer', 'Fall', 'Winter', 'Flexible'],
+    validate: function(v) { return v.trim().length > 1; }
+  },
+  {
+    key: 'travelers',
+    ask: "Got it. Who's going on this trip?",
+    placeholder: 'e.g. Just the two of us, family of 4 with young kids...',
+    chips: ['Solo trip', 'Just us two', 'Family with kids', 'Group of friends', 'Large group / event'],
+    validate: function(v) { return v.trim().length > 1; }
+  },
+  {
+    key: 'budget',
+    ask: "Perfect. What's your approximate budget for the whole trip? (Don't worry — this is just a ballpark so Vanessa can tailor her recommendations.)",
+    placeholder: 'e.g. $3,000, around $5k per person, flexible...',
+    chips: ['Under $2,000', '$2k\u2013$5k', '$5k\u2013$10k', '$10k+', 'Flexible / Not sure'],
+    validate: function(v) { return v.trim().length > 1; }
+  },
+  {
+    key: 'contact',
+    ask: "Almost done! What's the best way for Vanessa to reach you?\n\nPlease share your name, email address, and phone number (optional).",
+    placeholder: 'e.g. Sarah Johnson · sarah@email.com · 615-555-0100',
+    chips: [],
+    validate: function(v) { return v.trim().length > 4; }
+  }
+];
+
+var currentStep = 0;
+var answers = {};
+var isTyping = false;
+
+var messagesEl = document.getElementById('messages');
+var chipsEl    = document.getElementById('chips');
+var inputEl    = document.getElementById('userInput');
+var sendBtn    = document.getElementById('sendBtn');
+
+// ── Helpers ───────────────────────────────────────────────────────
+function scrollBottom() {
+  messagesEl.scrollTop = messagesEl.scrollHeight;
+}
+
+function addMessage(role, text) {
+  var msg = document.createElement('div');
+  msg.className = 'msg ' + role;
+  var av = document.createElement('div');
+  av.className = 'avatar ' + (role === 'agent' ? 'agent' : 'user-av');
+  av.textContent = role === 'agent' ? 'V' : '\u2736';
+  var bub = document.createElement('div');
+  bub.className = 'bubble';
+  bub.innerHTML = text.replace(/\n/g, '<br>');
+  msg.appendChild(av);
+  msg.appendChild(bub);
+  messagesEl.appendChild(msg);
+  scrollBottom();
+}
+
+function showTyping() {
+  var msg = document.createElement('div');
+  msg.className = 'msg agent';
+  msg.id = 'typing-indicator';
+  var av = document.createElement('div');
+  av.className = 'avatar agent';
+  av.textContent = 'V';
+  var bub = document.createElement('div');
+  bub.className = 'bubble';
+  bub.innerHTML = '<div class="typing"><span></span><span></span><span></span></div>';
+  msg.appendChild(av);
+  msg.appendChild(bub);
+  messagesEl.appendChild(msg);
+  scrollBottom();
+}
+
+function removeTyping() {
+  var t = document.getElementById('typing-indicator');
+  if (t) t.remove();
+}
+
+function setChips(list) {
+  chipsEl.innerHTML = '';
+  list.forEach(function(label) {
+    var c = document.createElement('button');
+    c.className = 'chip';
+    c.textContent = label;
+    c.onclick = function() { inputEl.value = label; sendMessage(); };
+    chipsEl.appendChild(c);
+  });
+}
+
+function autoResize(el) {
+  el.style.height = 'auto';
+  el.style.height = Math.min(el.scrollHeight, 110) + 'px';
+}
+
+function handleKey(e) {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+}
+
+function agentSay(text, delay) {
+  delay = delay || 600;
+  return new Promise(function(resolve) {
+    isTyping = true;
+    sendBtn.disabled = true;
+    showTyping();
+    setTimeout(function() {
+      removeTyping();
+      addMessage('agent', text);
+      isTyping = false;
+      sendBtn.disabled = false;
+      inputEl.focus();
+      resolve();
+    }, delay);
+  });
+}
+
+// ── Flow ──────────────────────────────────────────────────────────
+async function sendMessage() {
+  if (isTyping) return;
+  var val = inputEl.value.trim();
+  if (!val) return;
+
+  var step = steps[currentStep];
+  if (step.validate && !step.validate(val)) return;
+
+  answers[step.key] = val;
+  addMessage('user', val);
+  inputEl.value = '';
+  inputEl.style.height = 'auto';
+  setChips([]);
+  currentStep++;
+
+  if (currentStep < steps.length) {
+    var next = steps[currentStep];
+    await agentSay(next.ask);
+    inputEl.placeholder = next.placeholder || 'Type your answer...';
+    setChips(next.chips || []);
+  } else {
+    await finishConversation();
+  }
+}
+
+async function finishConversation() {
+  await agentSay("That's everything I need!\n\nVanessa will review your trip details and reach out soon with some great ideas tailored just for you.", 700);
+
+  inputEl.disabled = true;
+  sendBtn.disabled = true;
+  inputEl.placeholder = 'Chat complete — Vanessa will be in touch!';
+
+  // Parse contact field
+  var contactStr = answers.contact || '';
+  var name = '', email = '', phone = '';
+  var emailMatch = contactStr.match(/[\w.+-]+@[\w-]+\.[a-z]{2,}/i);
+  if (emailMatch) { email = emailMatch[0]; contactStr = contactStr.replace(email, ''); }
+  var phoneMatch = contactStr.match(/[\d\s\-()+.]{7,}/);
+  if (phoneMatch) { phone = phoneMatch[0].trim(); contactStr = contactStr.replace(phoneMatch[0], ''); }
+  name = contactStr.replace(/[·\-,|]/g, ' ').replace(/\s+/g, ' ').trim();
+
+  var leadData = {
+    name:        name,
+    email:       email,
+    phone:       phone,
+    destination: answers.destination,
+    dates:       answers.dates,
+    travelers:   answers.travelers,
+    budget:      answers.budget
+  };
+
+  setTimeout(async function() {
+    document.getElementById('confirmMsg').classList.add('visible');
+    var followUpText = await generateFollowUp(leadData);
+    await sendNotificationEmail(leadData, followUpText);
+    saveToCRM(leadData, followUpText);
+  }, 500);
+}
+
+// ── GAS Proxy ─────────────────────────────────────────────────────
+async function generateFollowUp(data) {
+  if (!GAS_PROXY_URL || GAS_PROXY_URL === 'YOUR_GAS_WEB_APP_URL') {
+    return 'Follow-up draft unavailable — GAS proxy not configured.';
+  }
+  try {
+    var res = await fetch(GAS_PROXY_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify(data)
+    });
+    var json = await res.json();
+    if (!json.success) throw new Error(json.error || 'Proxy error');
+    return json.draft;
+  } catch (err) {
+    return 'Could not generate follow-up — please draft manually.';
+  }
+}
+
+// ── EmailJS ───────────────────────────────────────────────────────
+async function sendNotificationEmail(data, followUpText) {
+  if (!EMAILJS_PUBLIC_KEY || EMAILJS_PUBLIC_KEY === 'YOUR_PUBLIC_KEY') return;
+  try {
+    emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+    var timestamp = new Date().toLocaleString('en-US', {
+      weekday: 'short', month: 'short', day: 'numeric',
+      hour: 'numeric', minute: '2-digit', timeZoneName: 'short'
+    });
+    await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+      to_email:       VANESSA_EMAIL,
+      to_name:        'Vanessa',
+      subject:        'New Trip Inquiry \u2014 ' + (data.name || 'New Lead') + ' \u00b7 ' + (data.destination || 'Trip'),
+      lead_name:      data.name        || 'Not provided',
+      lead_email:     data.email       || 'Not provided',
+      lead_phone:     data.phone       || 'Not provided',
+      destination:    data.destination || 'Not provided',
+      travel_dates:   data.dates       || 'Not provided',
+      travelers:      data.travelers   || 'Not provided',
+      budget:         data.budget      || 'Not provided',
+      followup_draft: followUpText,
+      chatbot_url:    CHATBOT_URL,
+      submitted_at:   timestamp
+    });
+    console.log('Notification sent to Vanessa.');
+  } catch (err) {
+    console.warn('EmailJS error:', err);
+  }
+}
+
+// ── CRM Integration ───────────────────────────────────────────────
+function saveToCRM(data, followUpText) {
+  if (!GAS_PROXY_URL || GAS_PROXY_URL === 'YOUR_GAS_WEB_APP_URL') {
+    console.warn('CRM: GAS proxy not configured — skipping CRM save.');
+    return;
+  }
+
+  // Detect interests from destination + travelers answers
+  var destLower      = (data.destination || '').toLowerCase();
+  var travelersLower = (data.travelers   || '').toLowerCase();
+  var interests = [];
+  if (destLower.includes('cruise'))       interests.push('Cruise');
+  if (destLower.includes('disney'))       interests.push('Disney Vacation');
+  if (destLower.includes('hawaii'))       interests.push('Hawaii');
+  if (destLower.includes('europe'))       interests.push('Europe');
+  if (destLower.includes('caribbean'))    interests.push('Caribbean');
+  if (destLower.includes('all-inclusive') || destLower.includes('resort') ||
+      destLower.includes('sandals')       || destLower.includes('secrets') ||
+      destLower.includes('beaches')       || destLower.includes('club med')) {
+    interests.push('All-Inclusive Resort');
+  }
+  if (destLower.includes('group'))        interests.push('Group Travel');
+  if (destLower.includes('honeymoon'))    interests.push('Honeymoon');
+  if (destLower.includes('anniversar'))   interests.push('Anniversary');
+  if (travelersLower.includes('famil') || travelersLower.includes('kid'))    interests.push('Family Trip');
+  if (travelersLower.includes('girl')  || travelersLower.includes('friend')) interests.push('Girls / Friends Trip');
+  // Deduplicate
+  interests = interests.filter(function(v, i, a) { return a.indexOf(v) === i; });
+
+  // Single GAS call — duplicate check + write handled atomically on the server
+  fetch(GAS_PROXY_URL, {
+    method:  'POST',
+    headers: { 'Content-Type': 'text/plain' },
+    body: JSON.stringify({
+      type:          'crm',
+      action:        'chatbotLead',
+      lead:          data,
+      followUpText:  followUpText || '',
+      interests:     interests
+    })
+  })
+  .then(function(res) { return res.json(); })
+  .then(function(json) {
+    if (json.success) {
+      console.log('CRM: ' + (json.isNew ? 'new client created' : 'existing client updated') + ' · id=' + json.clientId);
+    } else {
+      console.warn('CRM save error:', json.error);
+    }
+  })
+  .catch(function(err) {
+    console.warn('CRM network error:', err);
+  });
+}
+
+// ── Init ──────────────────────────────────────────────────────────
+(async function() {
+  var first = steps[0];
+  await agentSay(first.ask, 800);
+  inputEl.placeholder = first.placeholder;
+  setChips(first.chips);
+})();
+</script>
+</body>
+</html>
