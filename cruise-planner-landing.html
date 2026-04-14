@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Free Caribbean Cruise Planner · Styled Escapes by Vanessa</title>
 <style>
@@ -30,46 +31,10 @@ body {
   padding: 0;
 }
 
-/* ── NAV ── */
-.nav {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  padding: 18px 48px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  z-index: 100;
-  background: rgba(13,24,37,0.92);
-  backdrop-filter: blur(12px);
-  box-shadow: 0 1px 0 rgba(255,255,255,0.06);
-}
-.nav-brand {
-  font-family: var(--serif);
-  font-size: 20px;
-  font-weight: 400;
-  color: #FBF7F0;
-  text-decoration: none;
-  letter-spacing: 0.04em;
-}
-.nav-cta {
-  font-family: var(--sans);
-  font-size: 12px;
-  font-weight: 500;
-  background: var(--coral);
-  color: var(--cream);
-  text-decoration: none;
-  padding: 8px 20px;
-  border-radius: 20px;
-  letter-spacing: 0.04em;
-  transition: background 0.15s;
-}
-.nav-cta:hover { background: var(--coral-d); }
-
 /* ── HERO ── */
 .hero {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  padding-top: 64px;
 }
 
 .hero-left {
@@ -338,7 +303,6 @@ body {
 
 /* ── RESPONSIVE ── */
 @media (max-width: 680px) {
-  .nav { padding: 14px 20px; }
   .hero { grid-template-columns: 1fr; }
   .hero-left  { padding: 48px 24px 40px; }
   .hero-title { font-size: 34px; }
@@ -350,11 +314,6 @@ body {
 </style>
 </head>
 <body>
-
-<nav class="nav" id="nav">
-  <a class="nav-brand" href="vanessa-homepage.html">Styled Escapes by Vanessa</a>
-  <a class="nav-cta" href="vanessa-travel-chatbot.html">Plan My Trip →</a>
-</nav>
 
 <div class="hero">
 
@@ -387,7 +346,7 @@ body {
           <div class="pdf-name">Caribbean Cruise Planner.pdf</div>
           <div class="pdf-desc">Checklists &middot; Port Guides &middot; Packing List &middot; Tips</div>
         </div>
-        <div class="pdf-pages">7 pages</div>
+        <div class="pdf-pages">11 pages</div>
       </div>
 
       <form onsubmit="handleSubmit(event)">
@@ -413,7 +372,7 @@ body {
     <div class="success-state" id="successState">
       <div class="success-icon">&#127881;</div>
       <h3 class="success-title">You&rsquo;re all set!</h3>
-      <p class="success-body">Vanessa will email your Caribbean Cruise Planner shortly. While you wait, she&rsquo;d love to help you start planning the actual trip &mdash; it&rsquo;s completely free!</p>
+      <p class="success-body">Vanessa will email your Caribbean Cruise Planner shortly. While you wait, she&rsquo;d love to help you start planning the actual trip &mdash; for cruises and resort vacations, her planning services are completely free!</p>
       <a href="vanessa-travel-chatbot.html" class="success-link">&rarr; Tell Vanessa about your dream cruise</a>
     </div>
 
@@ -423,7 +382,7 @@ body {
 <!-- Proof bar -->
 <div class="proof-bar">
   <div class="proof-item"><strong>&#10022;</strong> Dream Vacations certified agent</div>
-  <div class="proof-item"><strong>100%</strong> free to book through Vanessa</div>
+  <div class="proof-item"><strong>Free</strong> consultation with Vanessa</div>
   <div class="proof-item"><strong>&#127749;</strong> Portland, TN &middot; Clients nationwide</div>
   <div class="proof-item"><strong>&#10022;</strong> No booking fees &mdash; ever</div>
 </div>
@@ -433,7 +392,7 @@ body {
   <div class="about-avatar">Photo<br>here</div>
   <div class="about-copy">
     <h3>Hi, I&rsquo;m Vanessa!</h3>
-    <p>I&rsquo;m a Dream Vacations certified travel consultant based in Portland, TN, and I created this guide because planning a cruise shouldn&rsquo;t be stressful. Whether it&rsquo;s your first sailing or your tenth, I&rsquo;m here to help &mdash; and my planning services are completely free to you.</p>
+    <p>I&rsquo;m a Dream Vacations certified travel consultant based in Portland, TN, and I created this guide because planning a cruise shouldn&rsquo;t be stressful. Whether it&rsquo;s your first sailing or your tenth, I&rsquo;m here to help &mdash; and for most trips — cruises and all-inclusive resorts — my planning services are completely free to you.</p>
     <a href="vanessa-travel-chatbot.html">Ready to start planning? Tell me about your dream trip &rarr;</a>
   </div>
 </div>

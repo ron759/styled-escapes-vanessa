@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Content Studio · Styled Escapes by Vanessa</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
@@ -504,7 +505,7 @@ async function generate() {
   var tones = [
     { class: 'tone-inspirational', label: 'Caption 1', tag: 'Inspirational', tone: 'inspirational and aspirational — paint a vivid picture, evoke wanderlust, use sensory language' },
     { class: 'tone-conversational', label: 'Caption 2', tag: 'Conversational', tone: 'warm and conversational — write like Vanessa is talking to a close friend, relatable and personal' },
-    { class: 'tone-deal',           label: 'Caption 3', tag: 'Deal-focused',   tone: 'benefit and value-focused — highlight what the traveler gets, stress that Vanessa\'s service is free to use, create mild urgency' }
+    { class: 'tone-deal',           label: 'Caption 3', tag: 'Deal-focused',   tone: 'benefit and value-focused — highlight what the traveler gets, stress that Vanessa offers a free consultation, create mild urgency' }
   ];
 
   // Create skeleton cards
@@ -533,7 +534,7 @@ async function generate() {
 
   var prompt =
     'You are a social media content writer for Vanessa Jacobs, a travel consultant at Styled Escapes by Vanessa (Dream Vacations) based in Portland, TN. ' +
-    'She specializes in cruises, all-inclusive resorts, Disney vacations, and group travel. Her service is always free to the traveler — she is paid by the travel supplier.\n\n' +
+    'She specializes in cruises, all-inclusive resorts, Disney vacations, and group travel. Her consultation is always free. For most trips — cruises and all-inclusive resorts — she is paid by the travel supplier, so there is no cost to the traveler.\n\n' +
     'Trip details:\n' + context + '\n\n' +
     'Generate the following content. Return ONLY a valid JSON object — no markdown, no backticks, no explanation.\n\n' +
     'Required JSON structure:\n' +
