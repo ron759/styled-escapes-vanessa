@@ -30,10 +30,46 @@ body {
   padding: 0;
 }
 
+/* ── NAV ── */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  padding: 18px 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 100;
+  background: rgba(13,24,37,0.92);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.06);
+}
+.nav-brand {
+  font-family: var(--serif);
+  font-size: 20px;
+  font-weight: 400;
+  color: #FBF7F0;
+  text-decoration: none;
+  letter-spacing: 0.04em;
+}
+.nav-cta {
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 500;
+  background: var(--coral);
+  color: var(--cream);
+  text-decoration: none;
+  padding: 8px 20px;
+  border-radius: 20px;
+  letter-spacing: 0.04em;
+  transition: background 0.15s;
+}
+.nav-cta:hover { background: var(--coral-d); }
+
 /* ── HERO ── */
 .hero {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  padding-top: 64px;
 }
 
 .hero-left {
@@ -302,6 +338,7 @@ body {
 
 /* ── RESPONSIVE ── */
 @media (max-width: 680px) {
+  .nav { padding: 14px 20px; }
   .hero { grid-template-columns: 1fr; }
   .hero-left  { padding: 48px 24px 40px; }
   .hero-title { font-size: 34px; }
@@ -313,6 +350,11 @@ body {
 </style>
 </head>
 <body>
+
+<nav class="nav" id="nav">
+  <a class="nav-brand" href="vanessa-homepage.html">Styled Escapes by Vanessa</a>
+  <a class="nav-cta" href="vanessa-travel-chatbot.html">Plan My Trip →</a>
+</nav>
 
 <div class="hero">
 
@@ -399,7 +441,7 @@ body {
 <!-- Footer -->
 <div class="site-footer">
   <span>&copy; 2025 Styled Escapes by Vanessa &middot; Dream Vacations affiliate</span>
-  <span>Questions? travel@myjacobs.com</span>
+  <span>Questions? vanessa@example.com</span>
 </div>
 
 <script>
