@@ -31,6 +31,35 @@ body {
   padding: 0;
 }
 
+/* ── TOP NAV ── */
+.top-nav {
+  background: rgba(13,24,37,0.92);
+  backdrop-filter: blur(12px);
+  padding: 14px 36px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.top-nav-brand {
+  font-family: var(--serif);
+  font-size: 17px;
+  color: #FBF7F0;
+  text-decoration: none;
+  letter-spacing: 0.02em;
+}
+.top-nav-back {
+  font-size: 12px;
+  color: rgba(251,247,240,0.6);
+  text-decoration: none;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: color 0.15s;
+}
+.top-nav-back:hover { color: #F5DFA8; }
+
 /* ── HERO ── */
 .hero {
   display: grid;
@@ -315,6 +344,12 @@ body {
 </head>
 <body>
 
+
+<nav class="top-nav">
+  <a class="top-nav-brand" href="vanessa-homepage.html">Styled Escapes by Vanessa</a>
+  <a class="top-nav-back" href="vanessa-homepage.html">← Back to Home</a>
+</nav>
+
 <div class="hero">
 
   <!-- Left: pitch -->
@@ -400,7 +435,7 @@ body {
 <!-- Footer -->
 <div class="site-footer">
   <span>&copy; 2025 Styled Escapes by Vanessa &middot; Dream Vacations affiliate</span>
-  <span>Questions? vanessa@example.com</span>
+  <span>Questions? travel@myjacobs.com</span>
 </div>
 
 <script>
