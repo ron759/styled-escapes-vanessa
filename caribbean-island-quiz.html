@@ -895,7 +895,8 @@ var scores = { jamaica:0, aruba:0, lucia:0, cayman:0, turks:0, barbados:0 };
 var selectedTag = null;
 
 // ── CRM config (same GAS proxy as the CRM tool) ───────────────────
-var CRM_GAS_URL = 'https://script.google.com/macros/s/AKfycbzwpKU33T2fYOOE1a6RPTAtysw-lGEQM7YdV2GHqm5WBI9XxBoC3zCQDbLSOxP4qb8a/exec';
+var CRM_GAS_URL  = 'https://script.google.com/macros/s/AKfycbzwpKU33T2fYOOE1a6RPTAtysw-lGEQM7YdV2GHqm5WBI9XxBoC3zCQDbLSOxP4qb8a/exec';
+var PROXY_SECRET = 'YOUR_PROXY_SECRET';  // Must match PROXY_SECRET in GAS Script Properties
 var CRM_LOCAL_KEY = 'vnCRM_v2_dev';
 
 function crmGenId() { return Date.now().toString(36) + Math.random().toString(36).slice(2,6); }
@@ -908,7 +909,7 @@ function crmGasPost(payload) {
   return fetch(CRM_GAS_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'text/plain' },
-    body: JSON.stringify(payload)
+    body: JSON.stringify(Object.assign({ secret: PROXY_SECRET }, payload))
   }).then(function(r) { return r.json(); }).catch(function() { return null; });
 }
 

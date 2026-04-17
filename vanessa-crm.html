@@ -854,9 +854,111 @@ select.field-input {
   from { opacity: 0; transform: translateY(6px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+/* ── Login gate ─────────────────────────────────────────────────── */
+#loginGate {
+  position: fixed;
+  inset: 0;
+  background: #060F1C;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  font-family: 'DM Sans', system-ui, sans-serif;
+}
+#loginGate.hidden { display: none; }
+.login-card {
+  background: #0d1f2d;
+  border: 1px solid rgba(200,133,42,0.25);
+  border-radius: 16px;
+  padding: 48px 40px 40px;
+  width: 340px;
+  text-align: center;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.5);
+}
+.login-logo {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 22px;
+  color: #C8852A;
+  letter-spacing: 0.03em;
+  margin-bottom: 4px;
+}
+.login-sub {
+  font-size: 12px;
+  color: rgba(251,247,240,0.4);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 36px;
+}
+.login-label {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(251,247,240,0.5);
+  margin-bottom: 8px;
+  text-align: left;
+}
+.login-input {
+  width: 100%;
+  padding: 12px 14px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(200,133,42,0.3);
+  border-radius: 8px;
+  color: #FBF7F0;
+  font-size: 15px;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+.login-input:focus { border-color: #C8852A; }
+.login-btn {
+  width: 100%;
+  margin-top: 20px;
+  padding: 13px;
+  background: linear-gradient(135deg, #C8852A, #C4503A);
+  border: none;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.login-btn:hover { opacity: 0.88; }
+.login-btn:disabled { opacity: 0.55; cursor: not-allowed; }
+.login-btn.checking { opacity: 0.7; cursor: wait; }
+.login-error {
+  margin-top: 14px;
+  font-size: 13px;
+  color: #e07070;
+  min-height: 18px;
+}
+.login-butterfly {
+  font-size: 28px;
+  margin-bottom: 16px;
+  opacity: 0.7;
+}
 </style>
 </head>
 <body>
+
+<!-- ── Login Gate ─────────────────────────────────────────── -->
+<div id="loginGate">
+  <div class="login-card">
+    <div class="login-butterfly">🦋</div>
+    <div class="login-logo">Styled Escapes by Vanessa</div>
+    <div class="login-sub">Client Manager</div>
+    <label class="login-label">Password</label>
+    <input class="login-input" id="loginPw" type="password"
+           placeholder="Enter password"
+           onkeydown="if(event.key==='Enter')checkLogin()">
+    <button class="login-btn" onclick="checkLogin()">Unlock</button>
+    <div class="login-error" id="loginErr"></div>
+  </div>
+</div>
+
 
 <div class="app">
   <!-- TOP BAR -->
@@ -894,7 +996,8 @@ select.field-input {
 
 <script>
 // ── Config ──────────────────────────────────────────────────────
-var GAS_URL = 'https://script.google.com/macros/s/AKfycbzwpKU33T2fYOOE1a6RPTAtysw-lGEQM7YdV2GHqm5WBI9XxBoC3zCQDbLSOxP4qb8a/exec';
+var GAS_URL      = 'https://script.google.com/macros/s/AKfycbzwpKU33T2fYOOE1a6RPTAtysw-lGEQM7YdV2GHqm5WBI9XxBoC3zCQDbLSOxP4qb8a/exec';
+var PROXY_SECRET = 'YOUR_PROXY_SECRET';  // Must match PROXY_SECRET in GAS Script Properties
 
 // ── Static lookup tables ────────────────────────────────────────
 var INTERESTS = ['Cruise','All-Inclusive Resort','Disney Vacation','Hawaii','Europe','Caribbean','Group Travel','Honeymoon','Anniversary','Family Trip','Girls / Friends Trip','Adventure / Outdoors'];
@@ -914,7 +1017,7 @@ function gasPost(payload) {
   return fetch(GAS_URL, {
     method:  'POST',
     headers: { 'Content-Type': 'text/plain' },
-    body:    JSON.stringify(payload)
+    body:    JSON.stringify(Object.assign({ secret: PROXY_SECRET }, payload))
   }).then(function(r) { return r.json(); });
 }
 
@@ -1558,6 +1661,68 @@ loadAll(function() {
   buildClientObjects();
   showDashboard();
 });
+
+// ── Login gate ───────────────────────────────────────────────────
+// Password is verified server-side via GAS — never stored in this file.
+// GAS tracks failed attempts and enforces a 15-minute lockout after 5 failures.
+
+function checkLogin() {
+  var pw  = document.getElementById('loginPw').value.trim();
+  var btn = document.querySelector('.login-btn');
+  var err = document.getElementById('loginErr');
+  if (!pw) return;
+
+  // Show loading state
+  btn.disabled = true;
+  btn.textContent = 'Checking…';
+  btn.classList.add('checking');
+  err.textContent = '';
+
+  fetch(GAS_URL, {
+    method:  'POST',
+    headers: { 'Content-Type': 'text/plain' },
+    body:    JSON.stringify({ type: 'crmAuth', secret: PROXY_SECRET, password: pw })
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(res) {
+    btn.disabled = false;
+    btn.textContent = 'Unlock';
+    btn.classList.remove('checking');
+
+    if (res.success) {
+      sessionStorage.setItem('crm_unlocked', '1');
+      document.getElementById('loginGate').classList.add('hidden');
+    } else {
+      err.textContent = res.message || 'Incorrect password.';
+      document.getElementById('loginPw').value = '';
+      document.getElementById('loginPw').focus();
+      // If locked out, disable the field too
+      if (res.locked) {
+        document.getElementById('loginPw').disabled = true;
+        btn.disabled = true;
+      }
+    }
+  })
+  .catch(function() {
+    btn.disabled = false;
+    btn.textContent = 'Unlock';
+    btn.classList.remove('checking');
+    err.textContent = 'Could not reach server. Check your connection.';
+  });
+}
+
+// On page load, check if already unlocked this session
+(function() {
+  if (sessionStorage.getItem('crm_unlocked') === '1') {
+    document.getElementById('loginGate').classList.add('hidden');
+  } else {
+    setTimeout(function() {
+      var el = document.getElementById('loginPw');
+      if (el) el.focus();
+    }, 100);
+  }
+})();
+
 </script>
 </body>
 </html>

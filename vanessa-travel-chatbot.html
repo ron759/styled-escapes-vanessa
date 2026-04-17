@@ -332,6 +332,7 @@ var EMAILJS_TEMPLATE_ID = 'template_sm4lowo';
 var VANESSA_EMAIL       = 'travel@myjacobs.com';
 var CHATBOT_URL         = window.location.href;
 var GAS_PROXY_URL       = 'https://script.google.com/macros/s/AKfycbzwpKU33T2fYOOE1a6RPTAtysw-lGEQM7YdV2GHqm5WBI9XxBoC3zCQDbLSOxP4qb8a/exec';
+var PROXY_SECRET        = 'YOUR_PROXY_SECRET';  // Must match PROXY_SECRET in GAS Script Properties
 
 // ── Steps ─────────────────────────────────────────────────────────
 var steps = [
@@ -528,7 +529,7 @@ async function generateFollowUp(data) {
     var res = await fetch(GAS_PROXY_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'text/plain' },
-      body: JSON.stringify(data)
+      body: JSON.stringify(Object.assign({}, data, { secret: PROXY_SECRET }))
     });
     var json = await res.json();
     if (!json.success) throw new Error(json.error || 'Proxy error');
@@ -604,6 +605,7 @@ function saveToCRM(data, followUpText) {
     body: JSON.stringify({
       type:          'crm',
       action:        'chatbotLead',
+      secret:        PROXY_SECRET,
       lead:          data,
       followUpText:  followUpText || '',
       interests:     interests

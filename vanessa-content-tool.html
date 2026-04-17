@@ -414,6 +414,7 @@ html, body {
 <script>
 // ── Config ────────────────────────────────────────────────────────
 var GAS_PROXY_URL = 'https://script.google.com/macros/s/AKfycbzc4ur29JAp_e51bT_gocscVUZpnP_ZLuYQBEQqgYzxmezb3ldgu71EVXj_hkR6IHk6/exec';
+var PROXY_SECRET  = 'YOUR_PROXY_SECRET';  // Must match PROXY_SECRET in GAS Script Properties
 // Paste your Google Apps Script Web App URL above.
 // This is the SAME proxy used by the lead intake chatbot —
 // the FollowUpProxy.gs handles content generation too (see note below).
@@ -563,7 +564,7 @@ async function generate() {
     var res = await fetch(GAS_PROXY_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'text/plain' },
-      body: JSON.stringify({ type: 'content', prompt: prompt })
+      body: JSON.stringify({ type: 'content', secret: PROXY_SECRET, prompt: prompt })
     });
 
     var json = await res.json();

@@ -440,7 +440,8 @@ body {
 
 <script>
 // ── Config ────────────────────────────────────────────────────────
-var GAS_URL = 'https://script.google.com/macros/s/AKfycbzwpKU33T2fYOOE1a6RPTAtysw-lGEQM7YdV2GHqm5WBI9XxBoC3zCQDbLSOxP4qb8a/exec';
+var GAS_URL      = 'https://script.google.com/macros/s/AKfycbzwpKU33T2fYOOE1a6RPTAtysw-lGEQM7YdV2GHqm5WBI9XxBoC3zCQDbLSOxP4qb8a/exec';
+var PROXY_SECRET = 'YOUR_PROXY_SECRET';  // Must match PROXY_SECRET in GAS Script Properties
 
 // ── Helpers ───────────────────────────────────────────────────────
 function genId() {
@@ -492,7 +493,7 @@ function handleSubmit(e) {
   fetch(GAS_URL, {
     method:  'POST',
     headers: { 'Content-Type': 'text/plain' },
-    body:    JSON.stringify({ type: 'crm', action: 'getAll' })
+    body:    JSON.stringify({ type: 'crm', secret: PROXY_SECRET, action: 'getAll' })
   })
   .then(function(r) { return r.json(); })
   .then(function(res) {
@@ -518,7 +519,7 @@ function handleSubmit(e) {
       return fetch(GAS_URL, {
         method:  'POST',
         headers: { 'Content-Type': 'text/plain' },
-        body:    JSON.stringify({ type: 'crm', action: 'addTodo', todo: todo })
+        body:    JSON.stringify({ type: 'crm', secret: PROXY_SECRET, action: 'addTodo', todo: todo })
       });
     } else {
       // New client — create them first, then add the todo
@@ -539,7 +540,7 @@ function handleSubmit(e) {
       return fetch(GAS_URL, {
         method:  'POST',
         headers: { 'Content-Type': 'text/plain' },
-        body:    JSON.stringify({ type: 'crm', action: 'addClient', client: client })
+        body:    JSON.stringify({ type: 'crm', secret: PROXY_SECRET, action: 'addClient', client: client })
       })
       .then(function(r) { return r.json(); })
       .then(function(res) {
@@ -547,7 +548,7 @@ function handleSubmit(e) {
         return fetch(GAS_URL, {
           method:  'POST',
           headers: { 'Content-Type': 'text/plain' },
-          body:    JSON.stringify({ type: 'crm', action: 'addTodo', todo: todo })
+          body:    JSON.stringify({ type: 'crm', secret: PROXY_SECRET, action: 'addTodo', todo: todo })
         });
       });
     }
