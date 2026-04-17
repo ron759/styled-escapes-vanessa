@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cruise Vacations · Styled Escapes by Vanessa</title>
+<meta name="description" content="Find the right cruise line for your trip — Royal Caribbean, Carnival, Norwegian, Celebrity, MSC, and more. Honest breakdowns and a side-by-side comparison chart from a certified travel consultant.">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --gold:       #C8852A;
+  --gold-lt:    #F5DFA8;
+  --coral:      #C4503A;
+  --coral-lt:   #FAE8E4;
+  --teal:       #1A5C50;
+  --teal-lt:    #E0EFEC;
+  --ocean:      #0D1825;
+  --ocean-mid:  #1A3A5C;
+  --ink:        #1C1A18;
+  --ink-muted:  #6B5E54;
+  --cream:      #FBF7F0;
+  --cream-2:    #F2EDE3;
+  --white:      #FFFFFF;
+
+  /* Per-line accent colors */
+  --rcc:    #003087;   /* Royal Caribbean — deep navy */
+  --cnv:    #D5001B;   /* Carnival — signature red */
+  --ncl:    #00338D;   /* Norwegian — blue */
+  --cel:    #1A4A5C;   /* Celebrity — teal/slate */
+  --msc:    #0055A5;   /* MSC — cobalt */
+  --vkg:    #7B1C3A;   /* Viking — burgundy */
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+  overflow-x: hidden;
+}
+
+/* ── NAV ── */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  padding: 18px 48px;
+  display: flex; align-items: center; justify-content: space-between;
+  z-index: 100;
+  transition: background 0.4s, backdrop-filter 0.4s, box-shadow 0.4s;
+}
+.nav.scrolled {
+  background: rgba(13,24,37,0.92);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.06);
+}
+.nav-brand {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px; font-weight: 400;
+  color: #FBF7F0; text-decoration: none; letter-spacing: 0.04em;
+}
+.nav-cta {
+  font-size: 12px; font-weight: 500;
+  background: var(--coral); color: var(--cream);
+  text-decoration: none; padding: 8px 20px;
+  border-radius: 20px; letter-spacing: 0.04em;
+  transition: background 0.15s;
+}
+.nav-cta:hover { background: #D4604A; }
+
+/* ── HERO ── */
+.hero {
+  position: relative; padding: 130px 40px 72px;
+  text-align: center; overflow: hidden;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background: linear-gradient(
+    160deg,
+    #04080F 0%, #081420 12%,
+    #0D1C38 25%, #142A52 38%,
+    #1A3060 50%, #2A3870 58%,
+    #5A3060 68%, #8A3848 76%,
+    #C05830 86%, #C8851A 94%, #A06820 100%
+  );
+}
+.hero-water {
+  position: absolute; bottom: 0; left: 0; right: 0; height: 80px;
+  background: linear-gradient(to top, rgba(13,24,37,0.6), transparent);
+}
+.hero-glow {
+  position: absolute; bottom: -10px; left: 50%;
+  transform: translateX(-50%);
+  width: 800px; height: 160px;
+  background: radial-gradient(ellipse, rgba(200,133,42,0.4) 0%, transparent 70%);
+  filter: blur(28px);
+}
+/* Animated ship silhouette */
+.hero-ship {
+  position: absolute; bottom: 28px; left: 50%;
+  transform: translateX(-50%);
+  opacity: 0.18;
+}
+.hero-content { position: relative; z-index: 2; }
+.hero-eyebrow {
+  font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--gold-lt); opacity: 0.85; margin-bottom: 14px;
+}
+.hero-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(36px, 6vw, 68px); font-weight: 300;
+  color: var(--cream); line-height: 1.06; margin-bottom: 20px;
+}
+.hero-title em { font-style: italic; color: var(--gold-lt); }
+.hero-sub {
+  font-size: 15px; color: rgba(251,247,240,0.72);
+  line-height: 1.75; max-width: 560px; margin: 0 auto 36px;
+}
+.hero-pills {
+  display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;
+}
+.hero-pill {
+  font-size: 12px; letter-spacing: 0.06em;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.18);
+  color: rgba(251,247,240,0.82);
+  padding: 6px 18px; border-radius: 20px;
+}
+
+/* ── JUMP NAV ── */
+.jump-nav {
+  background: var(--white);
+  border-bottom: 1px solid var(--cream-2);
+  padding: 0 40px;
+  display: flex; gap: 0;
+  overflow-x: auto; scrollbar-width: none;
+  position: sticky; top: 56px; z-index: 50;
+}
+.jump-nav::-webkit-scrollbar { display: none; }
+.jump-link {
+  font-size: 12px; font-weight: 500;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--ink-muted); text-decoration: none;
+  padding: 16px 20px; white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  transition: color 0.15s, border-color 0.15s;
+}
+.jump-link:hover { color: var(--ink); border-color: var(--coral); }
+
+/* ── SHARED SECTION STYLES ── */
+.section-inner { max-width: 960px; margin: 0 auto; }
+.section-eyebrow {
+  font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--coral); margin-bottom: 10px;
+}
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(28px, 4vw, 46px); font-weight: 300;
+  line-height: 1.15; color: var(--ink); margin-bottom: 12px;
+}
+.section-title em { font-style: italic; color: var(--teal); }
+.section-sub {
+  font-size: 14px; color: var(--ink-muted);
+  line-height: 1.75; margin-bottom: 40px; max-width: 620px;
+}
+
+/* ── INTRO SECTION ── */
+.intro-section {
+  background: var(--cream); padding: 64px 40px 0;
+}
+.why-grid {
+  display: grid; grid-template-columns: repeat(3,1fr); gap: 24px;
+  margin-top: 40px;
+}
+.why-card {
+  background: var(--white); border-radius: 16px;
+  padding: 28px 24px;
+  box-shadow: 0 2px 16px rgba(28,26,24,0.06);
+  border-top: 3px solid var(--gold);
+}
+.why-icon { font-size: 28px; margin-bottom: 14px; }
+.why-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px; font-weight: 500; color: var(--ink);
+  margin-bottom: 8px;
+}
+.why-desc { font-size: 13px; color: var(--ink-muted); line-height: 1.7; }
+
+/* ── CRUISE LINE CARDS ── */
+.lines-section { padding: 64px 40px; background: var(--cream-2); }
+
+.line-card {
+  background: var(--white); border-radius: 20px;
+  overflow: hidden; margin-bottom: 40px;
+  box-shadow: 0 2px 24px rgba(28,26,24,0.07);
+}
+.line-card:last-child { margin-bottom: 0; }
+
+.line-header {
+  padding: 32px 40px 28px;
+  display: grid; grid-template-columns: 1fr auto;
+  align-items: start; gap: 20px;
+}
+.line-wordmark {
+  display: flex; align-items: center; gap: 16px; margin-bottom: 10px;
+}
+.line-icon {
+  width: 44px; height: 44px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; flex-shrink: 0;
+}
+.line-eyebrow {
+  font-size: 10px; letter-spacing: 0.18em;
+  text-transform: uppercase; margin-bottom: 4px;
+}
+.line-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(26px, 3.5vw, 38px); font-weight: 400;
+  line-height: 1.1; margin-bottom: 8px;
+}
+.line-name em { font-style: italic; }
+.line-tagline { font-size: 14px; color: var(--ink-muted); line-height: 1.6; max-width: 500px; }
+
+.line-badge {
+  font-size: 12px; font-weight: 500;
+  padding: 7px 16px; border-radius: 20px; white-space: nowrap;
+}
+
+.line-body {
+  display: grid; grid-template-columns: 1fr 1fr;
+  border-top: 1px solid var(--cream-2);
+}
+.line-col { padding: 26px 40px; }
+.line-col:first-child { border-right: 1px solid var(--cream-2); }
+.col-title {
+  font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--ink-muted); margin-bottom: 14px;
+}
+.line-list { list-style: none; }
+.line-list li {
+  font-size: 13.5px; color: var(--ink);
+  padding: 7px 0; border-bottom: 1px solid var(--cream-2);
+  display: flex; gap: 10px; align-items: flex-start; line-height: 1.5;
+}
+.line-list li:last-child { border-bottom: none; }
+.li-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  flex-shrink: 0; margin-top: 7px;
+}
+
+.line-footer {
+  padding: 18px 40px;
+  background: var(--cream); border-top: 1px solid var(--cream-2);
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 20px; flex-wrap: wrap;
+}
+.line-footer-tip {
+  font-size: 13px; color: var(--ink-muted); line-height: 1.6; flex: 1;
+}
+.line-footer-tip strong { color: var(--ink); font-weight: 500; }
+.ask-btn {
+  font-size: 12px; font-weight: 500; letter-spacing: 0.04em;
+  background: var(--coral); color: var(--cream);
+  text-decoration: none; padding: 9px 20px;
+  border-radius: 20px; white-space: nowrap;
+  transition: background 0.15s;
+}
+.ask-btn:hover { background: #D4604A; }
+
+/* Line-specific theming */
+.card-rcc .line-eyebrow, .card-rcc .line-name { color: var(--rcc); }
+.card-rcc .line-badge { background: #EAF0FB; color: var(--rcc); border: 1px solid rgba(0,48,135,0.15); }
+.card-rcc .line-icon { background: #EAF0FB; }
+.card-rcc .li-dot   { background: var(--rcc); }
+
+.card-cnv .line-eyebrow, .card-cnv .line-name { color: var(--cnv); }
+.card-cnv .line-badge { background: #FBE8EA; color: var(--cnv); border: 1px solid rgba(213,0,27,0.15); }
+.card-cnv .line-icon { background: #FBE8EA; }
+.card-cnv .li-dot   { background: var(--cnv); }
+
+.card-ncl .line-eyebrow, .card-ncl .line-name { color: var(--ncl); }
+.card-ncl .line-badge { background: #E8EDF8; color: var(--ncl); border: 1px solid rgba(0,51,141,0.15); }
+.card-ncl .line-icon { background: #E8EDF8; }
+.card-ncl .li-dot   { background: var(--ncl); }
+
+.card-cel .line-eyebrow, .card-cel .line-name { color: var(--cel); }
+.card-cel .line-badge { background: #E4EEF0; color: var(--cel); border: 1px solid rgba(26,74,92,0.15); }
+.card-cel .line-icon { background: #E4EEF0; }
+.card-cel .li-dot   { background: var(--cel); }
+
+.card-msc .line-eyebrow, .card-msc .line-name { color: var(--msc); }
+.card-msc .line-badge { background: #E6EEF8; color: var(--msc); border: 1px solid rgba(0,85,165,0.15); }
+.card-msc .line-icon { background: #E6EEF8; }
+.card-msc .li-dot   { background: var(--msc); }
+
+.card-vkg .line-eyebrow, .card-vkg .line-name { color: var(--vkg); }
+.card-vkg .line-badge { background: #F3E8EF; color: var(--vkg); border: 1px solid rgba(123,28,58,0.15); }
+.card-vkg .line-icon { background: #F3E8EF; }
+.card-vkg .li-dot   { background: var(--vkg); }
+
+/* ── COMPARISON TABLE ── */
+.compare-section {
+  padding: 72px 40px; background: var(--cream);
+}
+.compare-wrap {
+  overflow-x: auto; border-radius: 16px;
+  box-shadow: 0 2px 32px rgba(28,26,24,0.08), 0 0 0 1px rgba(28,26,24,0.05);
+  margin-top: 40px;
+}
+.compare-table {
+  width: 100%; border-collapse: collapse;
+  background: var(--white); min-width: 780px;
+}
+.compare-table th {
+  padding: 16px 18px; text-align: center;
+  font-size: 12px; font-weight: 500;
+  letter-spacing: 0.07em; text-transform: uppercase;
+  border-bottom: 2px solid var(--cream-2);
+}
+.compare-table th:first-child {
+  text-align: left; color: var(--ink-muted); font-size: 10px;
+  width: 150px;
+}
+.th-rcc { color: var(--rcc); border-top: 3px solid var(--rcc); }
+.th-cnv { color: var(--cnv); border-top: 3px solid var(--cnv); }
+.th-ncl { color: var(--ncl); border-top: 3px solid var(--ncl); }
+.th-cel { color: var(--cel); border-top: 3px solid var(--cel); }
+.th-msc { color: var(--msc); border-top: 3px solid var(--msc); }
+.th-vkg { color: var(--vkg); border-top: 3px solid var(--vkg); }
+
+.compare-table td {
+  padding: 13px 18px; font-size: 12.5px; color: var(--ink);
+  border-bottom: 1px solid var(--cream-2);
+  text-align: center; vertical-align: top; line-height: 1.5;
+}
+.compare-table td:first-child {
+  text-align: left; font-weight: 500; color: var(--ink-muted);
+  font-size: 11px; letter-spacing: 0.04em; text-transform: uppercase;
+}
+.compare-table tr:last-child td { border-bottom: none; }
+.compare-table tr:hover td { background: var(--cream); }
+.check { color: var(--teal); font-size: 14px; }
+.cross { color: #CCC; font-size: 13px; }
+.star  { color: var(--gold); }
+.pill {
+  display: inline-block; font-size: 11px; padding: 3px 10px;
+  border-radius: 12px; font-weight: 500;
+}
+.pill-budget   { background: #E8F4EC; color: #1A6A3A; }
+.pill-mid      { background: #FFF3E0; color: #B06010; }
+.pill-premium  { background: #EAF0FB; color: var(--ocean-mid); }
+.pill-luxury   { background: #F3E8EF; color: var(--vkg); }
+.compare-note {
+  font-size: 12px; color: var(--ink-muted); margin-top: 16px;
+  font-style: italic; text-align: center;
+}
+
+/* ── DESTINATIONS CALLOUT ── */
+.dest-section {
+  padding: 64px 40px; background: var(--cream-2);
+}
+.dest-grid {
+  display: grid; grid-template-columns: repeat(3,1fr); gap: 20px;
+  margin-top: 36px;
+}
+.dest-card {
+  border-radius: 16px; overflow: hidden; position: relative;
+  min-height: 180px;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 24px 22px 22px;
+  background: var(--ocean);
+  transition: transform 0.2s;
+}
+.dest-card:hover { transform: translateY(-3px); }
+.dest-card-bg {
+  position: absolute; inset: 0;
+  opacity: 0.45;
+}
+.dest-bg-carib {
+  background: linear-gradient(135deg, #0A2A5A 0%, #1A5A9A 40%, #2A9A8A 80%, #C8D840 100%);
+}
+.dest-bg-alaska {
+  background: linear-gradient(135deg, #0A1A2A 0%, #1A3A5A 40%, #4A6A7A 70%, #8AAABB 100%);
+}
+.dest-bg-med {
+  background: linear-gradient(135deg, #2A1A0A 0%, #6A3A1A 35%, #C87828 65%, #E8B060 100%);
+}
+.dest-bg-europe {
+  background: linear-gradient(135deg, #1A0A2A 0%, #3A1A5A 40%, #6A3A8A 70%, #A870C8 100%);
+}
+.dest-bg-hawaii {
+  background: linear-gradient(135deg, #0A2A1A 0%, #1A5A3A 35%, #2A8A5A 60%, #70C890 100%);
+}
+.dest-bg-bahamas {
+  background: linear-gradient(135deg, #0A2A4A 0%, #1A6A9A 40%, #40B0D8 70%, #B0E0F0 100%);
+}
+.dest-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(6,15,28,0.85) 0%, rgba(6,15,28,0.1) 60%, transparent 100%);
+}
+.dest-label {
+  position: relative; z-index: 2;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px; font-weight: 400; color: var(--cream);
+  line-height: 1.2;
+}
+.dest-label em { font-style: italic; color: var(--gold-lt); display: block; font-size: 12px; font-family: 'DM Sans', sans-serif; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 4px; }
+
+/* ── CTA ── */
+.cta-section {
+  background: linear-gradient(135deg, var(--ocean) 0%, #1A2A4A 50%, #2A1A3A 100%);
+  padding: 80px 40px; text-align: center; position: relative; overflow: hidden;
+}
+.cta-glow {
+  position: absolute; bottom: -40px; left: 50%; transform: translateX(-50%);
+  width: 600px; height: 200px;
+  background: radial-gradient(ellipse, rgba(200,133,42,0.3) 0%, transparent 70%);
+  filter: blur(30px);
+}
+.cta-eyebrow {
+  font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
+  color: rgba(245,223,168,0.7); margin-bottom: 14px; position: relative;
+}
+.cta-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(30px, 4.5vw, 52px); font-weight: 300;
+  color: var(--cream); line-height: 1.1; margin-bottom: 18px; position: relative;
+}
+.cta-title em { font-style: italic; color: var(--gold-lt); }
+.cta-sub {
+  font-size: 14px; color: rgba(251,247,240,0.65);
+  line-height: 1.75; max-width: 520px; margin: 0 auto 32px; position: relative;
+}
+.cta-btn {
+  display: inline-block;
+  background: var(--coral); color: var(--cream);
+  text-decoration: none; padding: 16px 40px;
+  border-radius: 32px; font-size: 14px; font-weight: 500;
+  letter-spacing: 0.04em;
+  transition: background 0.15s; position: relative;
+}
+.cta-btn:hover { background: #D4604A; }
+.cta-free {
+  font-size: 12px; color: rgba(251,247,240,0.45);
+  letter-spacing: 0.12em; margin-top: 20px; position: relative;
+}
+
+/* ── FOOTER ── */
+footer {
+  background: #060F1C; padding: 56px 40px 32px;
+  color: rgba(251,247,240,0.6);
+}
+.footer-inner { max-width: 960px; margin: 0 auto; }
+.footer-top {
+  display: grid; grid-template-columns: 2fr 1fr 1fr;
+  gap: 40px; margin-bottom: 40px;
+}
+.footer-brand {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px; font-weight: 400; color: var(--cream);
+  margin-bottom: 12px;
+}
+.footer-tagline { font-size: 13px; line-height: 1.7; margin-bottom: 20px; }
+.footer-social { display: flex; gap: 12px; }
+.footer-social a {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(251,247,240,0.7); text-decoration: none; font-size: 12px;
+  transition: background 0.15s;
+}
+.footer-social a:hover { background: rgba(255,255,255,0.16); }
+.footer-col h4 {
+  font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(251,247,240,0.4); margin-bottom: 16px;
+}
+.footer-col a {
+  display: block; color: rgba(251,247,240,0.65); text-decoration: none;
+  font-size: 13px; margin-bottom: 10px; transition: color 0.15s;
+}
+.footer-col a:hover { color: var(--cream); }
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.07);
+  padding-top: 24px; display: flex;
+  justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 8px;
+  font-size: 12px; color: rgba(251,247,240,0.3);
+}
+
+/* ── REVEAL ── */
+.reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s, transform 0.6s; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.12s; }
+.reveal-delay-2 { transition-delay: 0.22s; }
+.reveal-delay-3 { transition-delay: 0.32s; }
+
+/* ── MOBILE ── */
+@media (max-width: 680px) {
+  .nav { padding: 14px 20px; }
+  .hero { padding: 100px 20px 56px; }
+  .intro-section, .lines-section, .compare-section, .dest-section { padding: 48px 20px; }
+  .why-grid { grid-template-columns: 1fr; }
+  .line-header { grid-template-columns: 1fr; padding: 24px 20px 20px; }
+  .line-body { grid-template-columns: 1fr; }
+  .line-col:first-child { border-right: none; border-bottom: 1px solid var(--cream-2); }
+  .line-col { padding: 20px; }
+  .line-footer { padding: 16px 20px; }
+  .jump-nav { padding: 0 20px; }
+  .dest-grid { grid-template-columns: 1fr 1fr; }
+  .footer-top { grid-template-columns: 1fr; gap: 28px; }
+  .cta-section { padding: 56px 20px; }
+}
+@media (max-width: 420px) {
+  .dest-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav class="nav" id="nav">
+  <a class="nav-brand" href="vanessa-homepage.html">Styled Escapes by Vanessa</a>
+  <a class="nav-cta" href="vanessa-travel-chatbot.html">Plan My Trip →</a>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-glow"></div>
+  <svg class="hero-ship" width="420" height="80" viewBox="0 0 420 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="80" y="40" width="260" height="22" rx="3" fill="white"/>
+    <rect x="100" y="24" width="180" height="18" rx="2" fill="white"/>
+    <rect x="120" y="12" width="100" height="14" rx="2" fill="white"/>
+    <rect x="148" y="4" width="8" height="10" rx="1" fill="white"/>
+    <rect x="172" y="2" width="8" height="12" rx="1" fill="white"/>
+    <rect x="196" y="6" width="8" height="8" rx="1" fill="white"/>
+    <path d="M60 62 L80 62 L80 40 L60 62Z" fill="white"/>
+    <path d="M340 62 L360 62 L340 40 L340 62Z" fill="white"/>
+    <path d="M30 62 Q50 55 80 62 Q210 72 340 62 Q370 58 390 62 L380 70 Q210 80 40 70 Z" fill="white" opacity="0.9"/>
+  </svg>
+  <div class="hero-water"></div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">Cruise vacations</div>
+    <h1 class="hero-title">The ocean is calling.<br><em>Which ship is yours?</em></h1>
+    <p class="hero-sub">Not every cruise line is the same — and the right one for you depends on your travel style, your budget, and what you actually want out of a week at sea. Here's the honest breakdown.</p>
+    <div class="hero-pills">
+      <span class="hero-pill">Royal Caribbean</span>
+      <span class="hero-pill">Carnival</span>
+      <span class="hero-pill">Norwegian</span>
+      <span class="hero-pill">Celebrity</span>
+      <span class="hero-pill">MSC</span>
+      <span class="hero-pill">Viking</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── JUMP NAV ── -->
+<div class="jump-nav">
+  <a class="jump-link" href="#why-cruise">Why Cruise?</a>
+  <a class="jump-link" href="#royal">Royal Caribbean</a>
+  <a class="jump-link" href="#carnival">Carnival</a>
+  <a class="jump-link" href="#norwegian">Norwegian</a>
+  <a class="jump-link" href="#celebrity">Celebrity</a>
+  <a class="jump-link" href="#msc">MSC</a>
+  <a class="jump-link" href="#viking">Viking</a>
+  <a class="jump-link" href="#compare">Compare All</a>
+  <a class="jump-link" href="#destinations">Where to Go</a>
+</div>
+
+<!-- ── WHY CRUISE ── -->
+<section class="intro-section" id="why-cruise">
+  <div class="section-inner">
+    <div class="section-eyebrow reveal">Why a cruise?</div>
+    <h2 class="section-title reveal reveal-delay-1">One booking.<br><em>Endless destinations.</em></h2>
+    <p class="section-sub reveal reveal-delay-2">A cruise is the only vacation where you unpack once and wake up somewhere new every day. Here's what makes it one of the best values in travel — especially when you book through a travel consultant.</p>
+    <div class="why-grid">
+      <div class="why-card reveal">
+        <div class="why-icon">🛳️</div>
+        <div class="why-title">Unpack Once</div>
+        <div class="why-desc">Your cabin is your home base. Visit multiple countries, ports, and islands — with your luggage waiting for you each night.</div>
+      </div>
+      <div class="why-card reveal reveal-delay-1">
+        <div class="why-icon">🍽️</div>
+        <div class="why-title">All-Inclusive Value</div>
+        <div class="why-desc">Most meals, entertainment, and activities are included in the fare. Budgeting is simple. Surprises are rare.</div>
+      </div>
+      <div class="why-card reveal reveal-delay-2">
+        <div class="why-icon">🗺️</div>
+        <div class="why-title">Multiple Destinations</div>
+        <div class="why-desc">A 7-night Caribbean cruise can hit four to six islands. Compare that to flying, booking hotels, and arranging transfers for each one.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CRUISE LINES ── -->
+<section class="lines-section" id="lines">
+  <div class="section-inner">
+    <div class="section-eyebrow reveal">The cruise lines</div>
+    <h2 class="section-title reveal reveal-delay-1">Find the line<br>that fits <em>your style.</em></h2>
+    <p class="section-sub reveal reveal-delay-2">Every major cruise line has a personality. Here's what you actually need to know about each one — not the marketing copy.</p>
+
+    <!-- Royal Caribbean -->
+    <div class="line-card card-rcc reveal" id="royal">
+      <div class="line-header">
+        <div>
+          <div class="line-wordmark">
+            <div class="line-icon">🌊</div>
+            <div>
+              <div class="line-eyebrow">Best for families &amp; adventure seekers</div>
+              <div class="line-name">Royal <em>Caribbean</em></div>
+            </div>
+          </div>
+          <p class="line-tagline">The most recognized name in cruising — and for good reason. Royal Caribbean ships are floating resorts packed with amenities, activities, and entertainment that rival any theme park.</p>
+        </div>
+        <span class="line-badge">Mid–Premium</span>
+      </div>
+      <div class="line-body">
+        <div class="line-col">
+          <div class="col-title">What it does best</div>
+          <ul class="line-list">
+            <li><span class="li-dot"></span>Largest ships at sea — the Icon and Wonder class have surf simulators, zip lines, and indoor skydiving</li>
+            <li><span class="li-dot"></span>Exceptional kids and teen programming — kids are genuinely entertained, not just babysat</li>
+            <li><span class="li-dot"></span>Wide variety of dining options at every price point</li>
+            <li><span class="li-dot"></span>Private island destinations (Perfect Day at CocoCay) exclusive to the line</li>
+            <li><span class="li-dot"></span>Loyalty program (Crown &amp; Anchor) rewards repeat cruisers well</li>
+          </ul>
+        </div>
+        <div class="line-col">
+          <div class="col-title">Best for</div>
+          <ul class="line-list">
+            <li><span class="li-dot"></span>Families with kids of any age — the onboard options are unmatched</li>
+            <li><span class="li-dot"></span>First-time cruisers who want "a lot to do"</li>
+            <li><span class="li-dot"></span>Groups with varied interests — there's something for everyone</li>
+            <li><span class="li-dot"></span>Active travelers who want more than just pool and beach</li>
+            <li><span class="li-dot"></span>Travelers who want a private island day built into the itinerary</li>
+          </ul>
+        </div>
+      </div>
+      <div class="line-footer">
+        <p class="line-footer-tip"><strong>Vanessa's take:</strong> Royal is my go-to recommendation for families and first-timers. The ships are impressive, the entertainment is genuinely good, and CocoCay is one of the best days you'll have on any vacation. Book early — the best cabins and dining reservations go fast.</p>
+        <a href="vanessa-travel-chatbot.html" class="ask-btn">Ask Vanessa →</a>
+      </div>
+    </div>
+
+    <!-- Carnival -->
+    <div class="line-card card-cnv reveal" id="carnival">
+      <div class="line-header">
+        <div>
+          <div class="line-wordmark">
+            <div class="line-icon">🎉</div>
+            <div>
+              <div class="line-eyebrow">Best for budget travelers &amp; fun seekers</div>
+              <div class="line-name"><em>Carnival</em> Cruise Line</div>
+            </div>
+          </div>
+          <p class="line-tagline">America's most popular cruise line. Carnival delivers a lively, casual, fun-first experience at a price point that's hard to beat. This is the "Fun Ship" promise — and they mean it.</p>
+        </div>
+        <span class="line-badge">Budget–Mid</span>
+      </div>
+      <div class="line-body">
+        <div class="line-col">
+          <div class="col-title">What it does best</div>
+          <ul class="line-list">
+            <li><span class="li-dot"></span>Best value in cruising — consistently the most affordable major line</li>
+            <li><span class="li-dot"></span>Lively atmosphere — great for groups, bachelorettes, and people who want to socialize</li>
+            <li><span class="li-dot"></span>Guy's Burger Joint and BlueIguana Cantina are genuinely excellent free dining options</li>
+            <li><span class="li-dot"></span>Dr. Seuss Bookville and WaterWorks are great for families with younger kids</li>
+            <li><span class="li-dot"></span>Short itineraries (3–5 nights) make it accessible for first-timers testing the waters</li>
+          </ul>
+        </div>
+        <div class="line-col">
+          <div class="col-title">Best for</div>
+          <ul class="line-list">
+            <li><span class="li-dot"></span>Budget-conscious travelers who want a real vacation without the premium price</li>
+            <li><span class="li-dot"></span>Friend groups and bachelorette/bachelor trips</li>
+            <li><span class="li-dot"></span>Younger travelers and first-timers</li>
+            <li><span class="li-dot"></span>Families with young children</li>
+            <li><span class="li-dot"></span>Anyone who wants a rowdy, social, party-friendly atmosphere</li>
+          </ul>
+        </div>
+      </div>
+      <div class="line-footer">
+        <p class="line-footer-tip"><strong>Vanessa's take:</strong> Carnival gets a bad reputation from people who haven't been on it in a decade. The newer ships are really impressive. If budget is a real concern and you want a legitimate cruise experience — not a compromise — Carnival delivers. Great for groups who want to have fun and not spend a fortune doing it.</p>
+        <a href="vanessa-travel-chatbot.html" class="ask-btn">Ask Vanessa →</a>
+      </div>
+    </div>
+
+    <!-- Norwegian -->
+    <div class="line-card card-ncl reveal" id="norwegian">
+      <div class="line-header">
+        <div>
+          <div class="line-wordmark">
+            <div class="line-icon">🌬️</div>
+            <div>
+              <div class="line-eyebrow">Best for flexibility &amp; freestyle dining</div>
+              <div class="line-name">Norwegian <em>Cruise Line</em></div>
+            </div>
+          </div>
+          <p class="line-tagline">Norwegian invented "freestyle cruising" — and it changed the industry. No fixed dining times, no formal nights unless you want them, and consistently strong specialty restaurant options across the fleet.</p>
+        </div>
+        <span class="line-badge">Mid–Premium</span>
+      </div>
+      <div class="line-body">
+        <div class="line-col">
+          <div class="col-title">What it does best</div>
+          <ul class="line-list">
+            <li><span class="li-dot"></span>Freestyle dining — eat when you want, where you want, no reservations required for main dining</li>
+            <li><span class="li-dot"></span>The Haven — Norwegian's luxury ship-within-a-ship concept with exclusive dining, sundeck, and concierge</li>
+            <li><span class="li-dot"></span>Strong Broadway-caliber entertainment (Jersey Boys, Six, Kinky Boots on various ships)</li>
+            <li><span class="li-dot"></span>Great Alaska and Europe itineraries — one of the better lines for those destinations</li>
+            <li><span class="li-dot"></span>Good "Free at Sea" promotions that bundle drinks, dining, and WiFi</li>
+          </ul>
+        </div>
+        <div class="line-col">
+          <div class="col-title">Best for</div>
+          <ul class="line-list">
+            <li><span class="li-dot"></span>Couples who want flexibility without the formality</li>
+            <li><span class="li-dot"></span>Theater and entertainment lovers</li>
+            <li><span class="li-dot"></span>Travelers who want a taste of luxury (the Haven) without full-ship luxury pricing</li>
+            <li><span class="li-dot"></span>Alaska itineraries — Norwegian's Alaska product is excellent</li>
+            <li><span class="li-dot"></span>Multigenerational families with varied schedules</li>
+          </ul>
+        </div>
+      </div>
+      <div class="line-footer">
+        <p class="line-footer-tip"><strong>Vanessa's take:</strong> If you've done a cruise before and want something a step up — more dining variety, better entertainment, and more flexibility — Norwegian is a great next move. The Haven is worth asking me about if budget allows; it's a completely different experience within the same ship.</p>
+        <a href="vanessa-travel-chatbot.html" class="ask-btn">Ask Vanessa →</a>
+      </div>
+    </div>
+
+    <!-- Celebrity -->
+    <div class="line-card card-cel reveal" id="celebrity">
+      <div class="line-header">
+        <div>
+          <div class="line-wordmark">
+            <div class="line-icon">⭐</div>
+            <div>
+              <div class="line-eyebrow">Best for adults &amp; elevated experience</div>
+              <div class="line-name">Celebrity <em>Cruises</em></div>
+            </div>
+          </div>
+          <p class="line-tagline">Celebrity sits in the sweet spot between mainstream and luxury. Stunning modern ships, genuinely excellent food, a more refined crowd, and itineraries that go deeper into ports rather than just scratching the surface.</p>
+        </div>
+        <span class="line-badge">Premium</span>
+      </div>
+      <div class="line-body">
+        <div class="line-col">
+          <div class="col-title">What it does best</div>
+          <ul class="line-list">
+            <li><span class="li-dot"></span>Food quality that consistently outperforms the mainstream lines — the main dining room is actually good</li>
+            <li><span class="li-dot"></span>Beautiful, modern ship design — the Edge class ships are genuinely stunning</li>
+            <li><span class="li-dot"></span>Excellent Europe and Mediterranean itineraries with longer port times</li>
+            <li><span class="li-dot"></span>The Retreat — suite-class experience with exclusive restaurant, lounge, and sundeck</li>
+            <li><span class="li-dot"></span>More adult, quieter atmosphere — not a party ship</li>
+          </ul>
+        </div>
+        <div class="line-col">
+          <div class="col-title">Best for</div>
+          <ul class="line-list">
+            <li><span class="li-dot"></span>Couples and adults who want a more elevated, calmer atmosphere</li>
+            <li><span class="li-dot"></span>Foodies — the dining program on Celebrity is legitimately good</li>
+            <li><span class="li-dot"></span>Europe and Mediterranean travel — Celebrity does this exceptionally well</li>
+            <li><span class="li-dot"></span>Experienced cruisers who want to step up from mainstream lines</li>
+            <li><span class="li-dot"></span>Travelers who appreciate design and aesthetics</li>
+          </ul>
+        </div>
+      </div>
+      <div class="line-footer">
+        <p class="line-footer-tip"><strong>Vanessa's take:</strong> Celebrity is one of my personal favorites for couples and adult travelers. The ships are beautiful, the food is genuinely impressive for a cruise, and the overall experience feels polished without feeling stuffy. If you want more sophistication without paying full luxury prices, this is where I'd start.</p>
+        <a href="vanessa-travel-chatbot.html" class="ask-btn">Ask Vanessa →</a>
+      </div>
+    </div>
+
+    <!-- MSC -->
+    <div class="line-card card-msc reveal" id="msc">
+      <div class="line-header">
+        <div>
+          <div class="line-wordmark">
+            <div class="line-icon">🌍</div>
+            <div>
+              <div class="line-eyebrow">Best for European style &amp; value</div>
+              <div class="line-name">MSC <em>Cruises</em></div>
+            </div>
+          </div>
+          <p class="line-tagline">The world's largest privately-owned cruise line, headquartered in Switzerland. MSC brings a European sensibility — stylish ships, a more international crowd, and genuinely competitive pricing on their newer vessels.</p>
+        </div>
+        <span class="line-badge">Budget–Mid</span>
+      </div>
+      <div class="line-body">
+        <div class="line-col">
+          <div class="col-title">What it does best</div>
+          <ul class="line-list">
+            <li><span class="li-dot"></span>Outstanding price-to-ship-quality ratio — the newest ships are gorgeous and very affordable</li>
+            <li><span class="li-dot"></span>MSC Yacht Club — a true luxury ship-within-a-ship at competitive rates</li>
+            <li><span class="li-dot"></span>Mediterranean itineraries run year-round and are some of the most comprehensive available</li>
+            <li><span class="li-dot"></span>Very family-friendly — Doritos Playground and Lego partnership on family-class ships</li>
+            <li><span class="li-dot"></span>International atmosphere — great for travelers who want a more worldly crowd</li>
+          </ul>
+        </div>
+        <div class="line-col">
+          <div class="col-title">Best for</div>
+          <ul class="line-list">
+            <li><span class="li-dot"></span>Budget-savvy travelers who don't want to sacrifice a beautiful ship</li>
+            <li><span class="li-dot"></span>Europe and Mediterranean cruises</li>
+            <li><span class="li-dot"></span>Travelers who want a luxury experience (Yacht Club) at a lower price than traditional luxury lines</li>
+            <li><span class="li-dot"></span>Families and multigenerational groups</li>
+            <li><span class="li-dot"></span>Anyone curious about a different, more international cruising culture</li>
+          </ul>
+        </div>
+      </div>
+      <div class="line-footer">
+        <p class="line-footer-tip"><strong>Vanessa's take:</strong> MSC is genuinely underrated among American cruisers. The newer ships are stunning, and if you're considering Europe, their Mediterranean itineraries are hard to beat for coverage and price. The Yacht Club is a hidden gem — it's the best luxury-value secret in cruising right now.</p>
+        <a href="vanessa-travel-chatbot.html" class="ask-btn">Ask Vanessa →</a>
+      </div>
+    </div>
+
+    <!-- Viking -->
+    <div class="line-card card-vkg reveal" id="viking">
+      <div class="line-header">
+        <div>
+          <div class="line-wordmark">
+            <div class="line-icon">🏰</div>
+            <div>
+              <div class="line-eyebrow">Best for river cruises &amp; cultural travel</div>
+              <div class="line-name">Viking <em>Cruises</em></div>
+            </div>
+          </div>
+          <p class="line-tagline">Viking is in a category of its own. Adults-only, no casinos, no kids, no formal nights — just extraordinary destinations, included shore excursions, and a ship that feels like a floating boutique hotel. This is travel for people who want to actually learn something.</p>
+        </div>
+        <span class="line-badge">Luxury</span>
+      </div>
+      <div class="line-body">
+        <div class="line-col">
+          <div class="col-title">What it does best</div>
+          <ul class="line-list">
+            <li><span class="li-dot"></span>All shore excursions included — no à la carte surprise bills at every port</li>
+            <li><span class="li-dot"></span>River cruises through Europe are genuinely unmatched — Viking owns this category</li>
+            <li><span class="li-dot"></span>Adults-only, no casino, no production shows — intentionally calm and refined</li>
+            <li><span class="li-dot"></span>Exceptional cultural programming — lectures, cooking demos, local expert guides</li>
+            <li><span class="li-dot"></span>Ocean cruises now rival the river product — the ships are beautiful and purpose-built</li>
+          </ul>
+        </div>
+        <div class="line-col">
+          <div class="col-title">Best for</div>
+          <ul class="line-list">
+            <li><span class="li-dot"></span>Adults 50+ who want a sophisticated, cultural travel experience</li>
+            <li><span class="li-dot"></span>Europe river cruises — the Rhine, Danube, and Seine itineraries are exceptional</li>
+            <li><span class="li-dot"></span>Travelers who want everything truly included — no nickel-and-diming</li>
+            <li><span class="li-dot"></span>Couples celebrating milestone anniversaries or retirements</li>
+            <li><span class="li-dot"></span>Anyone who has "done the big ships" and wants something completely different</li>
+          </ul>
+        </div>
+      </div>
+      <div class="line-footer">
+        <p class="line-footer-tip"><strong>Vanessa's take:</strong> If you've cruised before and want the next level — and you're not bringing kids — Viking is the answer. The river cruise product especially is something you have to experience. Shore excursions included, exceptional destinations, a calm ship, and no casino noise. It's not for everyone, but for the right traveler it's life-changing.</p>
+        <a href="vanessa-travel-chatbot.html" class="ask-btn">Ask Vanessa →</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── COMPARISON TABLE ── -->
+<section class="compare-section" id="compare">
+  <div class="section-inner">
+    <div class="section-eyebrow reveal">Side by side</div>
+    <h2 class="section-title reveal reveal-delay-1">Cruise line<br><em>comparison chart</em></h2>
+    <p class="section-sub reveal reveal-delay-2">A quick-reference breakdown of the major lines across the factors that matter most when choosing.</p>
+
+    <div class="compare-wrap reveal">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th class="th-rcc">Royal Caribbean</th>
+            <th class="th-cnv">Carnival</th>
+            <th class="th-ncl">Norwegian</th>
+            <th class="th-cel">Celebrity</th>
+            <th class="th-msc">MSC</th>
+            <th class="th-vkg">Viking</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Price Range</td>
+            <td><span class="pill pill-mid">Mid–Premium</span></td>
+            <td><span class="pill pill-budget">Budget–Mid</span></td>
+            <td><span class="pill pill-mid">Mid–Premium</span></td>
+            <td><span class="pill pill-premium">Premium</span></td>
+            <td><span class="pill pill-budget">Budget–Mid</span></td>
+            <td><span class="pill pill-luxury">Luxury</span></td>
+          </tr>
+          <tr>
+            <td>Family Friendly</td>
+            <td><span class="check">✓</span> Exceptional</td>
+            <td><span class="check">✓</span> Very good</td>
+            <td><span class="check">✓</span> Good</td>
+            <td>Limited</td>
+            <td><span class="check">✓</span> Good</td>
+            <td><span class="cross">✗</span> Adults only</td>
+          </tr>
+          <tr>
+            <td>Adults Only Option</td>
+            <td>Select ships</td>
+            <td><span class="cross">✗</span></td>
+            <td>Select ships</td>
+            <td>Select ships</td>
+            <td>Yacht Club deck</td>
+            <td><span class="check">✓</span> Entire line</td>
+          </tr>
+          <tr>
+            <td>Private Island</td>
+            <td><span class="check">✓</span> CocoCay</td>
+            <td><span class="check">✓</span> Celebration Key</td>
+            <td><span class="check">✓</span> Great Stirrup Cay</td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="cross">✗</span></td>
+          </tr>
+          <tr>
+            <td>Dining Style</td>
+            <td>Flexible</td>
+            <td>Flexible</td>
+            <td>Freestyle</td>
+            <td>Flexible+</td>
+            <td>Flexible</td>
+            <td>Open seating</td>
+          </tr>
+          <tr>
+            <td>Shore Excursions Incl.</td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="check">✓</span> Included</td>
+          </tr>
+          <tr>
+            <td>River Cruise Option</td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="cross">✗</span></td>
+            <td><span class="check">✓</span> Best in class</td>
+          </tr>
+          <tr>
+            <td>Best Caribbean</td>
+            <td><span class="star">★★★★★</span></td>
+            <td><span class="star">★★★★</span></td>
+            <td><span class="star">★★★★</span></td>
+            <td><span class="star">★★★★</span></td>
+            <td><span class="star">★★★</span></td>
+            <td><span class="star">★★</span></td>
+          </tr>
+          <tr>
+            <td>Best Mediterranean</td>
+            <td><span class="star">★★★</span></td>
+            <td><span class="star">★★</span></td>
+            <td><span class="star">★★★★</span></td>
+            <td><span class="star">★★★★★</span></td>
+            <td><span class="star">★★★★★</span></td>
+            <td><span class="star">★★★★★</span></td>
+          </tr>
+          <tr>
+            <td>Best Alaska</td>
+            <td><span class="star">★★★★</span></td>
+            <td><span class="star">★★★</span></td>
+            <td><span class="star">★★★★★</span></td>
+            <td><span class="star">★★★★</span></td>
+            <td><span class="star">★★</span></td>
+            <td><span class="star">★★★★</span></td>
+          </tr>
+          <tr>
+            <td>Vanessa's Rating</td>
+            <td><span class="star">★★★★★</span></td>
+            <td><span class="star">★★★★</span></td>
+            <td><span class="star">★★★★</span></td>
+            <td><span class="star">★★★★★</span></td>
+            <td><span class="star">★★★★</span></td>
+            <td><span class="star">★★★★★</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="compare-note">Ratings reflect Vanessa's personal experience and client feedback — not sponsored rankings. All cruise lines carry similar safety and service standards.</p>
+  </div>
+</section>
+
+<!-- ── WHERE TO GO ── -->
+<section class="dest-section" id="destinations">
+  <div class="section-inner">
+    <div class="section-eyebrow reveal">Popular cruise destinations</div>
+    <h2 class="section-title reveal reveal-delay-1">Where do you want<br>to <em>wake up tomorrow?</em></h2>
+    <p class="section-sub reveal reveal-delay-2">The itinerary matters as much as the ship. Here's a quick look at the most popular cruise regions — each one a completely different experience.</p>
+    <div class="dest-grid">
+      <div class="dest-card reveal">
+        <div class="dest-card-bg dest-bg-carib"></div>
+        <div class="dest-overlay"></div>
+        <div class="dest-label"><em>Sun &amp; sand</em>Caribbean</div>
+      </div>
+      <div class="dest-card reveal reveal-delay-1">
+        <div class="dest-card-bg dest-bg-alaska"></div>
+        <div class="dest-overlay"></div>
+        <div class="dest-label"><em>Glaciers &amp; wildlife</em>Alaska</div>
+      </div>
+      <div class="dest-card reveal reveal-delay-2">
+        <div class="dest-card-bg dest-bg-med"></div>
+        <div class="dest-overlay"></div>
+        <div class="dest-label"><em>History &amp; cuisine</em>Mediterranean</div>
+      </div>
+      <div class="dest-card reveal">
+        <div class="dest-card-bg dest-bg-europe"></div>
+        <div class="dest-overlay"></div>
+        <div class="dest-label"><em>Castles &amp; canals</em>European Rivers</div>
+      </div>
+      <div class="dest-card reveal reveal-delay-1">
+        <div class="dest-card-bg dest-bg-hawaii"></div>
+        <div class="dest-overlay"></div>
+        <div class="dest-label"><em>Volcanoes &amp; aloha</em>Hawaii</div>
+      </div>
+      <div class="dest-card reveal reveal-delay-2">
+        <div class="dest-card-bg dest-bg-bahamas"></div>
+        <div class="dest-overlay"></div>
+        <div class="dest-label"><em>Crystal water &amp; beaches</em>The Bahamas</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+<section class="cta-section">
+  <div class="cta-glow"></div>
+  <div class="cta-eyebrow">Ready when you are</div>
+  <h2 class="cta-title">Tell me about your trip<br>and I'll find <em>your perfect ship.</em></h2>
+  <p class="cta-sub">The right cruise comes down to more than a comparison chart — it's about your travel style, your budget, and what you actually want out of a week at sea. Vanessa will ask the right questions and point you in exactly the right direction. Free, always.</p>
+  <a href="vanessa-travel-chatbot.html" class="cta-btn">Talk to Vanessa About My Cruise →</a>
+  <div class="cta-free">✦ &nbsp; Free Consultation · No Fees, Ever · Supplier-Paid Commission</div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand">Styled Escapes by Vanessa</div>
+        <p class="footer-tagline">Dream Vacations certified travel consultant serving Portland, TN and clients nationwide. Let's plan something beautiful.</p>
+        <div class="footer-social">
+          <a href="https://www.facebook.com/styledescapesbyvanessa" target="_blank" title="Facebook">f</a>
+          <a href="https://www.instagram.com/vanessa_abundant_travel/" target="_blank" title="Instagram">i</a>
+          <a href="mailto:travel@myjacobs.com" title="Email">@</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Free Resources</h4>
+        <a href="allinclusive-resort-guide.html">All-Inclusive Resort Guide</a>
+        <a href="travel-style-quiz.html">Travel Style Quiz</a>
+        <a href="caribbean-island-quiz.html">Caribbean Island Quiz</a>
+        <a href="cruise-planner-landing.html">Free Cruise Planner PDF</a>
+      </div>
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <a href="vanessa-homepage.html">Back to Home</a>
+        <a href="vanessa-travel-chatbot.html">Plan My Trip</a>
+        <a href="https://vjacobs.dreamvacations.com" target="_blank">Dream Vacations</a>
+        <a href="mailto:travel@myjacobs.com">Contact Vanessa</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2025 Styled Escapes by Vanessa · All rights reserved</div>
+      <div>Affiliated with Abundant Travel by Dream Vacations</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+window.addEventListener('scroll', function() {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// Scroll reveal
+var reveals = document.querySelectorAll('.reveal');
+var observer = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+reveals.forEach(function(el) { observer.observe(el); });
+</script>
+</body>
+</html>

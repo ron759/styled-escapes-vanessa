@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Europe Vacations · Styled Escapes by Vanessa</title>
+<meta name="description" content="Planning a Europe trip? Explore river cruises, Mediterranean sailings, and the best cities and regions — with honest guidance from a certified travel consultant.">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --gold:        #C8852A;
+  --gold-lt:     #F5DFA8;
+  --coral:       #C4503A;
+  --teal:        #1A5C50;
+  --teal-lt:     #E0EFEC;
+  --ink:         #1C1A18;
+  --ink-muted:   #6B5E54;
+  --cream:       #FBF7F0;
+  --cream-2:     #F2EDE3;
+  --white:       #FFFFFF;
+
+  /* Per-region accent colors */
+  --med:    #1A4A7C;   /* Mediterranean — cobalt blue */
+  --river:  #7C3A1A;   /* River cruises — warm burgundy */
+  --north:  #2A4A2A;   /* Northern Europe — forest green */
+  --brit:   #3A2A5C;   /* British Isles — deep purple */
+  --east:   #5C3A1A;   /* Eastern Europe — amber brown */
+  --scan:   #1A3A5C;   /* Scandinavia — nordic blue */
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+  overflow-x: hidden;
+}
+
+/* ── NAV ── */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0;
+  padding: 18px 48px;
+  display: flex; align-items: center; justify-content: space-between;
+  z-index: 100;
+  background: rgba(13,18,30,0.92);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.06);
+}
+.nav-brand {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px; font-weight: 400;
+  color: #FBF7F0; text-decoration: none; letter-spacing: 0.04em;
+}
+.nav-cta {
+  font-size: 12px; font-weight: 500;
+  background: var(--coral); color: var(--cream);
+  text-decoration: none; padding: 8px 20px;
+  border-radius: 20px; letter-spacing: 0.04em;
+  transition: background 0.15s;
+}
+.nav-cta:hover { background: #D4604A; }
+
+/* ── HERO ── */
+.hero {
+  position: relative;
+  padding: 130px 40px 90px;
+  text-align: center; overflow: hidden;
+  min-height: 560px; display: flex; align-items: center; justify-content: center;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background: linear-gradient(
+    158deg,
+    #06050F 0%,
+    #0C0A20 10%,
+    #141030 20%,
+    #1C1848 32%,
+    #28205A 42%,
+    #3A2860 52%,
+    #5A3060 60%,
+    #7A3840 68%,
+    #A85828 78%,
+    #C87828 88%,
+    #A86018 100%
+  );
+}
+/* Silhouette of European rooftops / skyline */
+.hero-skyline {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  height: 160px; overflow: hidden;
+}
+.hero-skyline svg { width: 100%; height: 100%; }
+.hero-glow {
+  position: absolute; bottom: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 900px; height: 220px;
+  background: radial-gradient(ellipse, rgba(200,120,40,0.38) 0%, transparent 70%);
+  filter: blur(36px);
+}
+.hero-stars {
+  position: absolute; inset: 0; pointer-events: none;
+}
+.hero-content { position: relative; z-index: 2; }
+.hero-eyebrow {
+  font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--gold-lt); opacity: 0.85; margin-bottom: 14px;
+}
+.hero-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(36px, 6vw, 70px); font-weight: 300;
+  color: var(--cream); line-height: 1.06; margin-bottom: 20px;
+}
+.hero-title em { font-style: italic; color: var(--gold-lt); }
+.hero-sub {
+  font-size: 15px; color: rgba(251,247,240,0.72);
+  line-height: 1.75; max-width: 560px; margin: 0 auto 36px;
+}
+.hero-pills {
+  display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;
+}
+.hero-pill {
+  font-size: 12px; letter-spacing: 0.06em;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.18);
+  color: rgba(251,247,240,0.85);
+  padding: 6px 18px; border-radius: 20px;
+}
+
+/* ── JUMP NAV ── */
+.jump-nav {
+  background: var(--white);
+  border-bottom: 1px solid var(--cream-2);
+  padding: 0 40px;
+  display: flex; gap: 0;
+  overflow-x: auto; scrollbar-width: none;
+  position: sticky; top: 56px; z-index: 50;
+}
+.jump-nav::-webkit-scrollbar { display: none; }
+.jump-link {
+  font-size: 12px; font-weight: 500;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--ink-muted); text-decoration: none;
+  padding: 16px 20px; white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  transition: color 0.15s, border-color 0.15s;
+}
+.jump-link:hover { color: var(--ink); border-color: var(--coral); }
+
+/* ── SHARED SECTION ── */
+.section-inner { max-width: 960px; margin: 0 auto; }
+.section-eyebrow {
+  font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--coral); margin-bottom: 10px;
+}
+.section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(28px, 4vw, 46px); font-weight: 300;
+  line-height: 1.15; color: var(--ink); margin-bottom: 12px;
+}
+.section-title em { font-style: italic; color: var(--teal); }
+.section-sub {
+  font-size: 14px; color: var(--ink-muted);
+  line-height: 1.75; margin-bottom: 40px; max-width: 620px;
+}
+
+/* ── INTRO ── */
+.intro-section { padding: 64px 40px 0; background: var(--cream); }
+.why-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 40px;
+}
+.why-card {
+  background: var(--white); border-radius: 16px; padding: 28px 24px;
+  box-shadow: 0 2px 16px rgba(28,26,24,0.06);
+  border-top: 3px solid var(--gold);
+}
+.why-icon { font-size: 28px; margin-bottom: 14px; }
+.why-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px; font-weight: 500; color: var(--ink); margin-bottom: 8px;
+}
+.why-desc { font-size: 13px; color: var(--ink-muted); line-height: 1.7; }
+
+/* ── REGION CARDS ── */
+.regions-section { padding: 64px 40px; background: var(--cream-2); }
+
+.region-card {
+  background: var(--white); border-radius: 20px;
+  overflow: hidden; margin-bottom: 48px;
+  box-shadow: 0 2px 24px rgba(28,26,24,0.07);
+}
+.region-card:last-child { margin-bottom: 0; }
+
+.region-bar { height: 5px; }
+.bar-med    { background: linear-gradient(90deg, var(--med),   #5088C8); }
+.bar-river  { background: linear-gradient(90deg, var(--river), #C87840); }
+.bar-north  { background: linear-gradient(90deg, var(--north), #509050); }
+.bar-brit   { background: linear-gradient(90deg, var(--brit),  #7060A8); }
+
+.region-header {
+  padding: 36px 40px 28px;
+  display: grid; grid-template-columns: 1fr auto;
+  align-items: start; gap: 20px;
+}
+.region-eyebrow {
+  font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.region-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(28px, 4vw, 42px); font-weight: 400;
+  line-height: 1.08; margin-bottom: 10px;
+}
+.region-name em { font-style: italic; }
+.region-tagline { font-size: 14px; color: var(--ink-muted); line-height: 1.65; max-width: 520px; }
+.region-badge {
+  font-size: 12px; font-weight: 500;
+  padding: 7px 16px; border-radius: 20px; white-space: nowrap; flex-shrink: 0;
+}
+
+.region-body {
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  border-top: 1px solid var(--cream-2);
+}
+.region-col { padding: 24px 28px; }
+.region-col + .region-col { border-left: 1px solid var(--cream-2); }
+.col-title {
+  font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--ink-muted); margin-bottom: 14px;
+}
+.region-list { list-style: none; }
+.region-list li {
+  font-size: 13px; color: var(--ink);
+  padding: 6px 0; border-bottom: 1px solid var(--cream-2);
+  display: flex; gap: 10px; align-items: flex-start; line-height: 1.5;
+}
+.region-list li:last-child { border-bottom: none; }
+.li-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  flex-shrink: 0; margin-top: 6px;
+}
+
+.region-highlights {
+  display: flex; gap: 10px; flex-wrap: wrap;
+  padding: 16px 28px; border-top: 1px solid var(--cream-2);
+  background: var(--cream);
+}
+.highlight-chip {
+  font-size: 11px; padding: 5px 14px; border-radius: 14px;
+  font-weight: 500; letter-spacing: 0.04em;
+}
+
+.region-footer {
+  padding: 20px 40px;
+  background: var(--white); border-top: 1px solid var(--cream-2);
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 20px; flex-wrap: wrap;
+}
+.region-footer-tip { font-size: 13px; color: var(--ink-muted); line-height: 1.6; flex: 1; }
+.region-footer-tip strong { color: var(--ink); font-weight: 500; }
+.ask-btn {
+  font-size: 12px; font-weight: 500; letter-spacing: 0.04em;
+  background: var(--coral); color: var(--cream);
+  text-decoration: none; padding: 9px 20px;
+  border-radius: 20px; white-space: nowrap; transition: background 0.15s;
+}
+.ask-btn:hover { background: #D4604A; }
+
+/* Region-specific theming */
+.card-med   .region-eyebrow, .card-med   .region-name { color: var(--med);   }
+.card-med   .region-badge { background: #E0ECF8; color: var(--med);   border: 1px solid rgba(26,74,124,0.18); }
+.card-med   .li-dot { background: var(--med);   }
+.card-med   .highlight-chip { background: #E0ECF8; color: var(--med);   }
+
+.card-river .region-eyebrow, .card-river .region-name { color: var(--river); }
+.card-river .region-badge { background: #F8EDE4; color: var(--river); border: 1px solid rgba(124,58,26,0.18); }
+.card-river .li-dot { background: var(--river); }
+.card-river .highlight-chip { background: #F8EDE4; color: var(--river); }
+
+.card-north .region-eyebrow, .card-north .region-name { color: var(--north); }
+.card-north .region-badge { background: #E4F0E4; color: var(--north); border: 1px solid rgba(42,74,42,0.18); }
+.card-north .li-dot { background: var(--north); }
+.card-north .highlight-chip { background: #E4F0E4; color: var(--north); }
+
+.card-brit  .region-eyebrow, .card-brit  .region-name { color: var(--brit);  }
+.card-brit  .region-badge { background: #EDE8F8; color: var(--brit);  border: 1px solid rgba(58,42,92,0.18); }
+.card-brit  .li-dot { background: var(--brit);  }
+.card-brit  .highlight-chip { background: #EDE8F8; color: var(--brit);  }
+
+/* ── DESTINATION GRID — KEY CITIES ── */
+.cities-section { padding: 72px 40px; background: var(--cream); }
+.cities-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 40px;
+}
+.city-card {
+  border-radius: 14px; overflow: hidden; position: relative;
+  min-height: 200px; display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 20px 18px 18px;
+  transition: transform 0.2s;
+}
+.city-card:hover { transform: translateY(-3px); }
+.city-bg {
+  position: absolute; inset: 0;
+}
+.city-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(6,5,15,0.88) 0%, rgba(6,5,15,0.2) 55%, transparent 100%);
+}
+/* City background gradients */
+.bg-rome      { background: linear-gradient(135deg, #2A1A0A 0%, #6A3A10 35%, #C87828 65%, #E8B060 100%); }
+.bg-paris     { background: linear-gradient(135deg, #1A0A2A 0%, #3A1A5A 35%, #7858A8 65%, #C8A0E0 100%); }
+.bg-santorini { background: linear-gradient(135deg, #0A1A3A 0%, #1A3A7A 40%, #4090D8 70%, #F0D890 100%); }
+.bg-barcelona { background: linear-gradient(135deg, #2A1810 0%, #7A3A18 35%, #D87030 65%, #F0B060 100%); }
+.bg-amsterdam { background: linear-gradient(135deg, #0A1A2A 0%, #183A5A 40%, #3A7A9A 70%, #90C8D8 100%); }
+.bg-prague    { background: linear-gradient(135deg, #1A180A 0%, #4A3A10 35%, #987828 65%, #D8B848 100%); }
+.bg-amalfi    { background: linear-gradient(135deg, #0A2818 0%, #1A6038 40%, #48B070 70%, #B0E090 100%); }
+.bg-dubrovnik { background: linear-gradient(135deg, #0A1830 0%, #1A4A7A 40%, #3898C8 70%, #90D0F0 100%); }
+
+.city-name {
+  position: relative; z-index: 2;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px; font-weight: 400; color: var(--cream);
+  line-height: 1.2;
+}
+.city-region {
+  position: relative; z-index: 2;
+  font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: rgba(251,247,240,0.6); margin-bottom: 4px;
+}
+
+/* ── TRIP TYPES ── */
+.trips-section { padding: 72px 40px; background: var(--cream-2); }
+.trip-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 40px;
+}
+.trip-card {
+  background: var(--white); border-radius: 16px; padding: 28px 24px;
+  box-shadow: 0 2px 16px rgba(28,26,24,0.06);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.trip-card:hover { transform: translateY(-3px); box-shadow: 0 6px 28px rgba(28,26,24,0.1); }
+.trip-icon { font-size: 28px; margin-bottom: 14px; }
+.trip-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px; font-weight: 500; color: var(--ink); margin-bottom: 8px;
+}
+.trip-desc { font-size: 13px; color: var(--ink-muted); line-height: 1.7; margin-bottom: 14px; }
+.trip-tag { font-size: 12px; font-weight: 500; color: var(--teal); letter-spacing: 0.04em; }
+
+/* ── PRACTICAL TIPS ── */
+.tips-section { padding: 64px 40px; background: var(--cream); }
+.tips-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 40px;
+}
+.tip-card {
+  background: var(--white); border-radius: 16px; padding: 28px 26px;
+  box-shadow: 0 2px 16px rgba(28,26,24,0.06);
+  display: flex; gap: 18px;
+}
+.tip-icon-wrap {
+  width: 44px; height: 44px; border-radius: 12px;
+  background: #EDE8F8; color: var(--brit);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px; flex-shrink: 0;
+}
+.tip-title { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 6px; }
+.tip-text  { font-size: 13px; color: var(--ink-muted); line-height: 1.7; }
+
+/* ── CTA ── */
+.cta-section {
+  background: linear-gradient(155deg, #06050F 0%, #100C28 25%, #1C1848 50%, #5A3040 75%, #A86028 100%);
+  padding: 80px 40px; text-align: center; position: relative; overflow: hidden;
+}
+.cta-glow {
+  position: absolute; bottom: -40px; left: 50%; transform: translateX(-50%);
+  width: 600px; height: 200px;
+  background: radial-gradient(ellipse, rgba(200,120,42,0.3) 0%, transparent 70%);
+  filter: blur(30px);
+}
+.cta-eyebrow {
+  font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
+  color: rgba(245,223,168,0.7); margin-bottom: 14px; position: relative;
+}
+.cta-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(30px, 4.5vw, 52px); font-weight: 300;
+  color: var(--cream); line-height: 1.1; margin-bottom: 18px; position: relative;
+}
+.cta-title em { font-style: italic; color: var(--gold-lt); }
+.cta-sub {
+  font-size: 14px; color: rgba(251,247,240,0.65);
+  line-height: 1.75; max-width: 520px; margin: 0 auto 32px; position: relative;
+}
+.cta-btn {
+  display: inline-block;
+  background: var(--coral); color: var(--cream);
+  text-decoration: none; padding: 16px 40px;
+  border-radius: 32px; font-size: 14px; font-weight: 500;
+  letter-spacing: 0.04em; transition: background 0.15s; position: relative;
+}
+.cta-btn:hover { background: #D4604A; }
+.cta-free {
+  font-size: 12px; color: rgba(251,247,240,0.45);
+  letter-spacing: 0.12em; margin-top: 20px; position: relative;
+}
+
+/* ── FOOTER ── */
+footer {
+  background: #060F1C; padding: 56px 40px 32px;
+  color: rgba(251,247,240,0.6);
+}
+.footer-inner { max-width: 960px; margin: 0 auto; }
+.footer-top {
+  display: grid; grid-template-columns: 2fr 1fr 1fr;
+  gap: 40px; margin-bottom: 40px;
+}
+.footer-brand {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px; font-weight: 400; color: var(--cream); margin-bottom: 12px;
+}
+.footer-tagline { font-size: 13px; line-height: 1.7; margin-bottom: 20px; }
+.footer-social { display: flex; gap: 12px; }
+.footer-social a {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(251,247,240,0.7); text-decoration: none; font-size: 12px;
+  transition: background 0.15s;
+}
+.footer-social a:hover { background: rgba(255,255,255,0.16); }
+.footer-col h4 {
+  font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(251,247,240,0.4); margin-bottom: 16px;
+}
+.footer-col a {
+  display: block; color: rgba(251,247,240,0.65); text-decoration: none;
+  font-size: 13px; margin-bottom: 10px; transition: color 0.15s;
+}
+.footer-col a:hover { color: var(--cream); }
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.07);
+  padding-top: 24px; display: flex;
+  justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 8px;
+  font-size: 12px; color: rgba(251,247,240,0.3);
+}
+
+/* ── REVEAL ── */
+.reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s, transform 0.6s; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.12s; }
+.reveal-delay-2 { transition-delay: 0.22s; }
+.reveal-delay-3 { transition-delay: 0.32s; }
+
+/* ── MOBILE ── */
+@media (max-width: 680px) {
+  .nav { padding: 14px 20px; }
+  .hero { padding: 100px 20px 72px; min-height: 460px; }
+  .intro-section, .regions-section, .cities-section,
+  .trips-section, .tips-section { padding: 48px 20px; }
+  .why-grid, .trip-grid { grid-template-columns: 1fr; }
+  .tips-grid { grid-template-columns: 1fr; }
+  .cities-grid { grid-template-columns: 1fr 1fr; }
+  .region-header { grid-template-columns: 1fr; padding: 24px 20px; }
+  .region-body { grid-template-columns: 1fr; }
+  .region-col + .region-col { border-left: none; border-top: 1px solid var(--cream-2); }
+  .region-col { padding: 18px 20px; }
+  .region-highlights { padding: 14px 20px; }
+  .region-footer { padding: 16px 20px; }
+  .jump-nav { padding: 0 20px; }
+  .footer-top { grid-template-columns: 1fr; gap: 28px; }
+  .cta-section { padding: 56px 20px; }
+}
+@media (max-width: 420px) {
+  .cities-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav class="nav" id="nav">
+  <a class="nav-brand" href="vanessa-homepage.html">Styled Escapes by Vanessa</a>
+  <a class="nav-cta" href="vanessa-travel-chatbot.html">Plan My Trip →</a>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-glow"></div>
+
+  <!-- European rooftop / cathedral skyline silhouette -->
+  <div class="hero-skyline">
+    <svg viewBox="0 0 1440 160" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Background layer — distant buildings -->
+      <rect x="0"    y="90"  width="60"  height="70" fill="rgba(6,5,15,0.5)"/>
+      <rect x="55"   y="75"  width="45"  height="85" fill="rgba(6,5,15,0.5)"/>
+      <rect x="95"   y="85"  width="30"  height="75" fill="rgba(6,5,15,0.5)"/>
+      <rect x="140"  y="60"  width="50"  height="100" fill="rgba(6,5,15,0.5)"/>
+      <!-- Eiffel Tower rough shape center-left -->
+      <polygon points="320,10 332,80 308,80" fill="rgba(6,5,15,0.65)"/>
+      <rect x="314" y="80" width="12" height="80" fill="rgba(6,5,15,0.65)"/>
+      <rect x="308" y="50" width="24" height="4" fill="rgba(6,5,15,0.65)"/>
+      <rect x="310" y="65" width="20" height="3" fill="rgba(6,5,15,0.65)"/>
+      <!-- Dome (Pantheon / dome-like) -->
+      <ellipse cx="560" cy="72" rx="38" ry="18" fill="rgba(6,5,15,0.6)"/>
+      <rect x="527" y="72" width="66" height="88" fill="rgba(6,5,15,0.6)"/>
+      <rect x="515" y="100" width="90" height="60" fill="rgba(6,5,15,0.6)"/>
+      <!-- Bell tower / campanile -->
+      <rect x="680" y="30" width="24" height="130" fill="rgba(6,5,15,0.65)"/>
+      <rect x="676" y="28" width="32" height="12" rx="2" fill="rgba(6,5,15,0.65)"/>
+      <polygon points="692,10 700,28 684,28" fill="rgba(6,5,15,0.65)"/>
+      <!-- Row of houses right side -->
+      <rect x="800"  y="80" width="40"  height="80" fill="rgba(6,5,15,0.55)"/>
+      <polygon points="800,80 820,55 840,80" fill="rgba(6,5,15,0.55)"/>
+      <rect x="840"  y="70" width="50"  height="90" fill="rgba(6,5,15,0.55)"/>
+      <polygon points="840,70 865,45 890,70" fill="rgba(6,5,15,0.55)"/>
+      <rect x="890"  y="85" width="35"  height="75" fill="rgba(6,5,15,0.55)"/>
+      <polygon points="890,85 907,65 925,85" fill="rgba(6,5,15,0.55)"/>
+      <rect x="960"  y="75" width="55"  height="85" fill="rgba(6,5,15,0.5)"/>
+      <rect x="1050" y="65" width="45"  height="95" fill="rgba(6,5,15,0.5)"/>
+      <rect x="1120" y="80" width="60"  height="80" fill="rgba(6,5,15,0.5)"/>
+      <rect x="1200" y="70" width="40"  height="90" fill="rgba(6,5,15,0.5)"/>
+      <rect x="1270" y="85" width="50"  height="75" fill="rgba(6,5,15,0.5)"/>
+      <rect x="1350" y="75" width="90"  height="85" fill="rgba(6,5,15,0.5)"/>
+      <!-- Foreground ground fill -->
+      <rect x="0" y="140" width="1440" height="20" fill="rgba(6,5,15,0.8)"/>
+    </svg>
+  </div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">Europe vacations</div>
+    <h1 class="hero-title">Ancient streets.<br><em>Extraordinary stories.</em></h1>
+    <p class="hero-sub">Europe is the trip people dream about their whole lives — and it lives up to every dream. Whether it's a river cruise through the Rhine Valley, a week on the Amalfi Coast, or castles and cobblestones from Paris to Prague, Vanessa will get you there beautifully.</p>
+    <div class="hero-pills">
+      <span class="hero-pill">Mediterranean</span>
+      <span class="hero-pill">River Cruises</span>
+      <span class="hero-pill">Western Europe</span>
+      <span class="hero-pill">British Isles</span>
+      <span class="hero-pill">Eastern Europe</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── JUMP NAV ── -->
+<div class="jump-nav">
+  <a class="jump-link" href="#why-europe">Why Europe?</a>
+  <a class="jump-link" href="#mediterranean">Mediterranean</a>
+  <a class="jump-link" href="#river-cruises">River Cruises</a>
+  <a class="jump-link" href="#western">Western Europe</a>
+  <a class="jump-link" href="#british-isles">British Isles</a>
+  <a class="jump-link" href="#cities">Key Cities</a>
+  <a class="jump-link" href="#trip-types">Trip Types</a>
+  <a class="jump-link" href="#tips">Planning Tips</a>
+</div>
+
+<!-- ── WHY EUROPE ── -->
+<section class="intro-section" id="why-europe">
+  <div class="section-inner">
+    <div class="section-eyebrow reveal">Why Europe?</div>
+    <h2 class="section-title reveal reveal-delay-1">The trip that changes<br><em>how you see the world.</em></h2>
+    <p class="section-sub reveal reveal-delay-2">Europe isn't just a destination — it's a perspective shift. History you can touch, food you'll spend years trying to recreate at home, and a pace of life that reminds you what living is actually for.</p>
+    <div class="why-grid">
+      <div class="why-card reveal">
+        <div class="why-icon">🏛️</div>
+        <div class="why-title">Living History</div>
+        <div class="why-desc">Walk streets that have been walked for two thousand years. Stand in the Colosseum, cross Charles Bridge, watch the sun set over the Acropolis. History here isn't in a museum — it's the city itself.</div>
+      </div>
+      <div class="why-card reveal reveal-delay-1">
+        <div class="why-icon">🍷</div>
+        <div class="why-title">Extraordinary Food &amp; Wine</div>
+        <div class="why-desc">Every region of Europe has a distinct culinary identity — pasta in Bologna, tapas in San Sebastián, pastries in Vienna, seafood in Lisbon. Food is how Europe tells its story, and it's a remarkable one.</div>
+      </div>
+      <div class="why-card reveal reveal-delay-2">
+        <div class="why-icon">🚂</div>
+        <div class="why-title">Multiple Countries, One Trip</div>
+        <div class="why-desc">A 10-day river cruise can move you through four countries. A rail pass can take you from Paris to Rome to Barcelona without an airport in sight. Europe rewards the traveler who wants more than one story.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── REGION CARDS ── -->
+<section class="regions-section" id="regions">
+  <div class="section-inner">
+    <div class="section-eyebrow reveal">Region by region</div>
+    <h2 class="section-title reveal reveal-delay-1">Where in Europe<br><em>is calling you?</em></h2>
+    <p class="section-sub reveal reveal-delay-2">Europe is enormous and endlessly varied. Here's how the major regions break down — what they offer, who they're for, and what Vanessa thinks you need to know.</p>
+
+    <!-- MEDITERRANEAN -->
+    <div class="region-card card-med reveal" id="mediterranean">
+      <div class="region-bar bar-med"></div>
+      <div class="region-header">
+        <div>
+          <div class="region-eyebrow">Sun, sea, and 3,000 years of history</div>
+          <div class="region-name">The <em>Mediterranean</em></div>
+          <p class="region-tagline">The Mediterranean is Europe at its most intoxicating — ancient ruins, terraced hillside villages, turquoise water, and food that will ruin you for anything else. This is the region most people picture when they close their eyes and think "Europe."</p>
+        </div>
+        <span class="region-badge">Most Popular</span>
+      </div>
+      <div class="region-body">
+        <div class="region-col">
+          <div class="col-title">What draws people here</div>
+          <ul class="region-list">
+            <li><span class="li-dot"></span>Italy — Rome, Florence, Venice, the Amalfi Coast, Sicily. Every city is a masterpiece</li>
+            <li><span class="li-dot"></span>Greece — Athens, Santorini, Mykonos, island-hopping through the Aegean</li>
+            <li><span class="li-dot"></span>Spain — Barcelona, Seville, the Balearic Islands, Costa del Sol</li>
+            <li><span class="li-dot"></span>Croatia — Dubrovnik, Split, the Dalmatian Coast — one of Europe's best-kept secrets</li>
+            <li><span class="li-dot"></span>Turkey — Istanbul bridges East and West in one extraordinary city</li>
+          </ul>
+        </div>
+        <div class="region-col">
+          <div class="col-title">Best for</div>
+          <ul class="region-list">
+            <li><span class="li-dot"></span>First-time Europe visitors who want iconic, visual, and food-forward experiences</li>
+            <li><span class="li-dot"></span>Couples and honeymooners — Santorini and the Amalfi Coast are among the most romantic places on Earth</li>
+            <li><span class="li-dot"></span>History and culture lovers — the concentration of ancient sites is unmatched</li>
+            <li><span class="li-dot"></span>Ocean lovers who want warm, swimmable water and stunning coastlines</li>
+          </ul>
+        </div>
+        <div class="region-col">
+          <div class="col-title">How to do it</div>
+          <ul class="region-list">
+            <li><span class="li-dot"></span>Mediterranean cruise — the most efficient way to see multiple countries; Celebrity, Viking, and MSC do this exceptionally well</li>
+            <li><span class="li-dot"></span>Land itinerary — fly into one city, train or fly between stops, out through another</li>
+            <li><span class="li-dot"></span>Island hopping — Greece and Croatia both reward a slow multi-island approach by ferry</li>
+            <li><span class="li-dot"></span>Best months: May–June and September–October avoid the peak summer crowds</li>
+          </ul>
+        </div>
+      </div>
+      <div class="region-highlights">
+        <span class="highlight-chip">Rome &amp; the Colosseum</span>
+        <span class="highlight-chip">Santorini sunsets</span>
+        <span class="highlight-chip">Amalfi Coast</span>
+        <span class="highlight-chip">Barcelona</span>
+        <span class="highlight-chip">Dubrovnik</span>
+        <span class="highlight-chip">Venice canals</span>
+        <span class="highlight-chip">Tuscan countryside</span>
+        <span class="highlight-chip">Greek island hopping</span>
+      </div>
+      <div class="region-footer">
+        <p class="region-footer-tip"><strong>Vanessa's take:</strong> If it's your first time in Europe, the Mediterranean is where I'd start. Italy alone could fill a lifetime of trips. A Mediterranean cruise is one of the most efficient and beautiful ways I know to see multiple countries without the hassle of coordinating transport and hotels between each stop. Let me build this for you — it's one of my favorites to plan.</p>
+        <a href="vanessa-travel-chatbot.html" class="ask-btn">Ask Vanessa →</a>
+      </div>
+    </div>
+
+    <!-- RIVER CRUISES -->
+    <div class="region-card card-river reveal" id="river-cruises">
+      <div class="region-bar bar-river"></div>
+      <div class="region-header">
+        <div>
+          <div class="region-eyebrow">Europe's most elegant way to travel</div>
+          <div class="region-name">European <em>River Cruises</em></div>
+          <p class="region-tagline">River cruising is fundamentally different from ocean cruising — smaller ships, intimate atmosphere, every port a UNESCO-listed town or a vineyard on a hillside. You dock in the heart of every city, step off and explore, then return to your floating hotel for dinner as the scenery drifts by.</p>
+        </div>
+        <span class="region-badge">Most Unique Experience</span>
+      </div>
+      <div class="region-body">
+        <div class="region-col">
+          <div class="col-title">The great river routes</div>
+          <ul class="region-list">
+            <li><span class="li-dot"></span>Danube — Budapest to Vienna to Bratislava to Passau. Imperial capitals, fairytale castles, Christmas markets in December</li>
+            <li><span class="li-dot"></span>Rhine — Amsterdam to Basel through the vineyard-covered Rhine Gorge. Medieval castles at every bend</li>
+            <li><span class="li-dot"></span>Seine — Paris to Normandy. The Eiffel Tower at night, Monet's garden, the D-Day beaches of Normandy</li>
+            <li><span class="li-dot"></span>Douro — Porto through the wine country of Portugal's Douro Valley — terraced vineyards and quintas</li>
+            <li><span class="li-dot"></span>Rhône &amp; Saône — Lyon to Provence. Lavender fields, Roman amphitheaters, Burgundy wine country</li>
+          </ul>
+        </div>
+        <div class="region-col">
+          <div class="col-title">Why river cruising is different</div>
+          <ul class="region-list">
+            <li><span class="li-dot"></span>Smaller ships (100–200 passengers) mean a personal, unhurried experience — no crowds, no megaship chaos</li>
+            <li><span class="li-dot"></span>Dock in town centers — walk off the ship directly into the market square</li>
+            <li><span class="li-dot"></span>Shore excursions typically included — especially with Viking and AmaWaterways</li>
+            <li><span class="li-dot"></span>Exceptional food — river ships consistently outperform ocean ships in dining quality</li>
+          </ul>
+        </div>
+        <div class="region-col">
+          <div class="col-title">Best lines for river cruises</div>
+          <ul class="region-list">
+            <li><span class="li-dot"></span>Viking River — the gold standard. Beautiful ships, superb itineraries, excellent included excursions</li>
+            <li><span class="li-dot"></span>AmaWaterways — exceptional food and wine program, strong value, highly rated</li>
+            <li><span class="li-dot"></span>Avalon Waterways — open-air panoramic suites on newer ships; good value</li>
+            <li><span class="li-dot"></span>Uniworld — most luxurious river product; each ship decorated like a boutique hotel</li>
+          </ul>
+        </div>
+      </div>
+      <div class="region-highlights">
+        <span class="highlight-chip">Danube — Budapest to Vienna</span>
+        <span class="highlight-chip">Rhine Valley castles</span>
+        <span class="highlight-chip">Paris &amp; the Seine</span>
+        <span class="highlight-chip">Douro Valley wine</span>
+        <span class="highlight-chip">Christmas markets</span>
+        <span class="highlight-chip">Normandy beaches</span>
+        <span class="highlight-chip">Provençal lavender</span>
+      </div>
+      <div class="region-footer">
+        <p class="region-footer-tip"><strong>Vanessa's take:</strong> River cruising is where I see the most repeat clients — people who do it once and come back every year on a different route. It's the most relaxed, most beautiful, most culturally rich way to see Europe. If you've never done it, the Danube in December (Christmas markets) or the Rhine in fall (harvest season) will change your life. This is one of my absolute specialties.</p>
+        <a href="vanessa-travel-chatbot.html" class="ask-btn">Ask Vanessa →</a>
+      </div>
+    </div>
+
+    <!-- WESTERN EUROPE -->
+    <div class="region-card card-north reveal" id="western">
+      <div class="region-bar bar-north"></div>
+      <div class="region-header">
+        <div>
+          <div class="region-eyebrow">Iconic cities &amp; countryside escapes</div>
+          <div class="region-name">Western <em>Europe</em></div>
+          <p class="region-tagline">France, Germany, Austria, Switzerland, the Netherlands, Portugal. Western Europe is the classic European grand tour — and every country is worth a dedicated trip. It's where the great food, the great art, and the great cities all converge.</p>
+        </div>
+        <span class="region-badge">Classic Europe</span>
+      </div>
+      <div class="region-body">
+        <div class="region-col">
+          <div class="col-title">What draws people here</div>
+          <ul class="region-list">
+            <li><span class="li-dot"></span>Paris — the Eiffel Tower is a cliché for a reason. The museums, food, and energy are incomparable</li>
+            <li><span class="li-dot"></span>Amsterdam — canals, world-class museums (Rijksmuseum, Van Gogh), cycling culture</li>
+            <li><span class="li-dot"></span>Switzerland — the Alps in every direction; Geneva, Zurich, Lucerne, Interlaken</li>
+            <li><span class="li-dot"></span>Portugal — Lisbon and Porto are two of Europe's most underrated and most livable cities</li>
+            <li><span class="li-dot"></span>Germany &amp; Austria — Bavaria, the Black Forest, Vienna's coffee houses, Salzburg</li>
+          </ul>
+        </div>
+        <div class="region-col">
+          <div class="col-title">Best for</div>
+          <ul class="region-list">
+            <li><span class="li-dot"></span>Art and museum lovers — Paris, Amsterdam, Vienna, and Florence are in a class of their own</li>
+            <li><span class="li-dot"></span>Foodies — France, Portugal, and Spain each have distinct and extraordinary culinary cultures</li>
+            <li><span class="li-dot"></span>Couples who want a romantic, walkable city trip</li>
+            <li><span class="li-dot"></span>Travelers who want to mix city energy with countryside escapes (Loire Valley, Bavarian Alps, Swiss villages)</li>
+          </ul>
+        </div>
+        <div class="region-col">
+          <div class="col-title">How to do it</div>
+          <ul class="region-list">
+            <li><span class="li-dot"></span>Multi-city rail itinerary — Paris to Amsterdam to Brussels, or Paris to Nice to Rome</li>
+            <li><span class="li-dot"></span>River cruise — the Rhine and Danube are the most efficient way to see Central Europe</li>
+            <li><span class="li-dot"></span>Single-country deep dive — 10 days in France or Portugal rewards slow travel</li>
+            <li><span class="li-dot"></span>Best months: April–June and September–October for weather and thinner crowds</li>
+          </ul>
+        </div>
+      </div>
+      <div class="region-highlights">
+        <span class="highlight-chip">Paris</span>
+        <span class="highlight-chip">Amsterdam canals</span>
+        <span class="highlight-chip">Swiss Alps</span>
+        <span class="highlight-chip">Lisbon &amp; Porto</span>
+        <span class="highlight-chip">Vienna &amp; Salzburg</span>
+        <span class="highlight-chip">Loire Valley châteaux</span>
+        <span class="highlight-chip">Bavarian castles</span>
+      </div>
+      <div class="region-footer">
+        <p class="region-footer-tip"><strong>Vanessa's take:</strong> Western Europe is where most first-time European trips land, and the classics exist for good reason — Paris really is that beautiful. But I love pointing clients toward Portugal, which is every bit as stunning as France or Italy at significantly lower prices. If you're flexible, I can stretch your budget much further here than almost anywhere else in Europe.</p>
+        <a href="vanessa-travel-chatbot.html" class="ask-btn">Ask Vanessa →</a>
+      </div>
+    </div>
+
+    <!-- BRITISH ISLES -->
+    <div class="region-card card-brit reveal" id="british-isles">
+      <div class="region-bar bar-brit"></div>
+      <div class="region-header">
+        <div>
+          <div class="region-eyebrow">History, drama &amp; a certain kind of magic</div>
+          <div class="region-name">The <em>British Isles</em></div>
+          <p class="region-tagline">England, Scotland, Ireland, and Wales offer something no other European destination can match — the combination of the familiar and the utterly extraordinary. No language barrier, extraordinary countryside, and a literary and cultural heritage that shaped the English-speaking world.</p>
+        </div>
+        <span class="region-badge">No Language Barrier</span>
+      </div>
+      <div class="region-body">
+        <div class="region-col">
+          <div class="col-title">What draws people here</div>
+          <ul class="region-list">
+            <li><span class="li-dot"></span>London — one of the great world cities: history, theater, food, culture, and the royals</li>
+            <li><span class="li-dot"></span>Scotland — the Highlands, castles, whisky distilleries, Edinburgh's Old Town</li>
+            <li><span class="li-dot"></span>Ireland — the Wild Atlantic Way, the Cliffs of Moher, Dublin's pubs, the Ring of Kerry</li>
+            <li><span class="li-dot"></span>The Cotswolds — storybook English villages that look like they haven't changed in 500 years</li>
+            <li><span class="li-dot"></span>Wales — Snowdonia, medieval castles, and one of Europe's most overlooked coastlines</li>
+          </ul>
+        </div>
+        <div class="region-col">
+          <div class="col-title">Best for</div>
+          <ul class="region-list">
+            <li><span class="li-dot"></span>Families who want history and ease — no language issues, excellent infrastructure</li>
+            <li><span class="li-dot"></span>History and literature lovers — everywhere you turn is a story you already know</li>
+            <li><span class="li-dot"></span>First-time international travelers — the familiarity makes it a gentler entry point to overseas travel</li>
+            <li><span class="li-dot"></span>Travelers with Irish or Scottish heritage looking to connect with their roots</li>
+          </ul>
+        </div>
+        <div class="region-col">
+          <div class="col-title">How to do it</div>
+          <ul class="region-list">
+            <li><span class="li-dot"></span>London base with day trips — Windsor, Bath, Stonehenge, Oxford all within 2 hours</li>
+            <li><span class="li-dot"></span>England + Scotland + Ireland — a 14-day itinerary covering all three is very doable</li>
+            <li><span class="li-dot"></span>British Isles cruise — a scenic way to see the coastline; several cruise lines offer this itinerary</li>
+            <li><span class="li-dot"></span>Self-drive Ireland — the best way to see the countryside; roads are manageable, scenery is extraordinary</li>
+          </ul>
+        </div>
+      </div>
+      <div class="region-highlights">
+        <span class="highlight-chip">London</span>
+        <span class="highlight-chip">Scottish Highlands</span>
+        <span class="highlight-chip">Irish Cliffs of Moher</span>
+        <span class="highlight-chip">The Cotswolds</span>
+        <span class="highlight-chip">Edinburgh Castle</span>
+        <span class="highlight-chip">Ring of Kerry</span>
+        <span class="highlight-chip">Stonehenge</span>
+      </div>
+      <div class="region-footer">
+        <p class="region-footer-tip"><strong>Vanessa's take:</strong> The British Isles are criminally underrated as a travel destination by Americans who think they already "know" them. Scotland especially will stop you in your tracks — the Highlands are as dramatic as anything in New Zealand or Norway. Ireland is pure magic. And London remains one of the top five cities in the world to spend a week. No matter what your ancestry is, this region has something for you.</p>
+        <a href="vanessa-travel-chatbot.html" class="ask-btn">Ask Vanessa →</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── KEY CITIES ── -->
+<section class="cities-section" id="cities">
+  <div class="section-inner">
+    <div class="section-eyebrow reveal">Cities worth knowing</div>
+    <h2 class="section-title reveal reveal-delay-1">A few places that<br><em>earn every superlative.</em></h2>
+    <p class="section-sub reveal reveal-delay-2">Every European city has its advocates — but these eight are the ones clients talk about for years after they come home.</p>
+    <div class="cities-grid">
+      <div class="city-card reveal">
+        <div class="city-bg bg-rome"></div>
+        <div class="city-overlay"></div>
+        <div class="city-region">Italy · Mediterranean</div>
+        <div class="city-name">Rome</div>
+      </div>
+      <div class="city-card reveal reveal-delay-1">
+        <div class="city-bg bg-paris"></div>
+        <div class="city-overlay"></div>
+        <div class="city-region">France · Western Europe</div>
+        <div class="city-name">Paris</div>
+      </div>
+      <div class="city-card reveal reveal-delay-2">
+        <div class="city-bg bg-santorini"></div>
+        <div class="city-overlay"></div>
+        <div class="city-region">Greece · Mediterranean</div>
+        <div class="city-name">Santorini</div>
+      </div>
+      <div class="city-card reveal reveal-delay-3">
+        <div class="city-bg bg-barcelona"></div>
+        <div class="city-overlay"></div>
+        <div class="city-region">Spain · Mediterranean</div>
+        <div class="city-name">Barcelona</div>
+      </div>
+      <div class="city-card reveal">
+        <div class="city-bg bg-amsterdam"></div>
+        <div class="city-overlay"></div>
+        <div class="city-region">Netherlands · Western</div>
+        <div class="city-name">Amsterdam</div>
+      </div>
+      <div class="city-card reveal reveal-delay-1">
+        <div class="city-bg bg-prague"></div>
+        <div class="city-overlay"></div>
+        <div class="city-region">Czech Republic · Eastern</div>
+        <div class="city-name">Prague</div>
+      </div>
+      <div class="city-card reveal reveal-delay-2">
+        <div class="city-bg bg-amalfi"></div>
+        <div class="city-overlay"></div>
+        <div class="city-region">Italy · Mediterranean</div>
+        <div class="city-name">Amalfi Coast</div>
+      </div>
+      <div class="city-card reveal reveal-delay-3">
+        <div class="city-bg bg-dubrovnik"></div>
+        <div class="city-overlay"></div>
+        <div class="city-region">Croatia · Mediterranean</div>
+        <div class="city-name">Dubrovnik</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TRIP TYPES ── -->
+<section class="trips-section" id="trip-types">
+  <div class="section-inner">
+    <div class="section-eyebrow reveal">Who's this trip for?</div>
+    <h2 class="section-title reveal reveal-delay-1">Every kind of traveler.<br><em>Every kind of Europe.</em></h2>
+    <p class="section-sub reveal reveal-delay-2">The right European itinerary looks very different depending on who's traveling and what you're after. Here's how to match the trip to the traveler.</p>
+    <div class="trip-grid">
+      <div class="trip-card reveal">
+        <div class="trip-icon">💍</div>
+        <div class="trip-title">Honeymoon &amp; Romance</div>
+        <div class="trip-desc">Sunsets over the Aegean from a Santorini caldera, slow dinners in Tuscany, a private gondola through Venice at dusk. Europe invented romantic travel.</div>
+        <div class="trip-tag">→ Italy · Greece · French Riviera · Portugal</div>
+      </div>
+      <div class="trip-card reveal reveal-delay-1">
+        <div class="trip-icon">🛳️</div>
+        <div class="trip-title">River Cruise</div>
+        <div class="trip-desc">Unpack once, drift through history. Wake up in a new UNESCO town every morning. The most elegant and effortless way to see the continent.</div>
+        <div class="trip-tag">→ Danube · Rhine · Seine · Douro</div>
+      </div>
+      <div class="trip-card reveal reveal-delay-2">
+        <div class="trip-icon">🏛️</div>
+        <div class="trip-title">History &amp; Culture</div>
+        <div class="trip-desc">The Colosseum, the Parthenon, Versailles, Auschwitz, the D-Day beaches. Europe is an open-air museum of human civilization. Come ready to feel things.</div>
+        <div class="trip-tag">→ Rome · Athens · Paris · Normandy · Kraków</div>
+      </div>
+      <div class="trip-card reveal">
+        <div class="trip-icon">👨‍👩‍👧‍👦</div>
+        <div class="trip-title">Family Trip</div>
+        <div class="trip-desc">Medieval castles, ancient gladiator arenas, Harry Potter filming locations, and the most efficient rail system in the world. Europe is extraordinary for families who plan thoughtfully.</div>
+        <div class="trip-tag">→ London · Rome · Edinburgh · Amsterdam</div>
+      </div>
+      <div class="trip-card reveal reveal-delay-1">
+        <div class="trip-icon">🍽️</div>
+        <div class="trip-title">Food &amp; Wine</div>
+        <div class="trip-desc">Douro Valley quintas, Burgundy vineyards, San Sebastián pintxos bars, a cooking class in Bologna. Europe's food culture is the world's best, and every region is completely distinct.</div>
+        <div class="trip-tag">→ Italy · France · Spain · Portugal</div>
+      </div>
+      <div class="trip-card reveal reveal-delay-2">
+        <div class="trip-icon">🎭</div>
+        <div class="trip-title">Grand Tour</div>
+        <div class="trip-desc">Two weeks or more, multiple countries, a mix of cities and countryside. The classic European grand tour is one of the great travel experiences — and Vanessa is exceptionally good at building them.</div>
+        <div class="trip-tag">→ London · Paris · Rome · Barcelona · more</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PLANNING TIPS ── -->
+<section class="tips-section" id="tips">
+  <div class="section-inner">
+    <div class="section-eyebrow reveal">Before you go</div>
+    <h2 class="section-title reveal reveal-delay-1">What Vanessa tells<br><em>every client.</em></h2>
+    <p class="section-sub reveal reveal-delay-2">Europe rewards the traveler who plans well. Here are the things that make the biggest difference.</p>
+    <div class="tips-grid">
+      <div class="tip-card reveal">
+        <div class="tip-icon-wrap">📅</div>
+        <div>
+          <div class="tip-title">Timing Is Everything</div>
+          <div class="tip-text">May–June and September–October are the sweet spots — good weather, manageable crowds, lower prices than July and August. Peak summer in Santorini or Venice can be overwhelming. Shoulder season is where the real Europe lives.</div>
+        </div>
+      </div>
+      <div class="tip-card reveal reveal-delay-1">
+        <div class="tip-icon-wrap">🗺️</div>
+        <div>
+          <div class="tip-title">Don't Try to See Everything</div>
+          <div class="tip-text">A 10-day trip to Europe that tries to hit 7 cities means spending most of your time in airports and train stations. Two or three countries done slowly beats a sprint through six. Vanessa will build you an itinerary with room to breathe.</div>
+        </div>
+      </div>
+      <div class="tip-card reveal">
+        <div class="tip-icon-wrap">🚂</div>
+        <div>
+          <div class="tip-title">Trains Beat Planes (Usually)</div>
+          <div class="tip-text">City center to city center in 2–3 hours, no security theater, no checked baggage fees. The Eurostar, the TGV, and the Thalys are faster than flying between most European capitals when you factor in airport time.</div>
+        </div>
+      </div>
+      <div class="tip-card reveal reveal-delay-1">
+        <div class="tip-icon-wrap">🏨</div>
+        <div>
+          <div class="tip-title">Location Within the City Matters</div>
+          <div class="tip-text">Staying in the historic center versus a suburb is a completely different trip. In Rome, Paris, or London, being walkable to the major sights transforms the daily experience. Vanessa always puts clients in the right neighborhood.</div>
+        </div>
+      </div>
+      <div class="tip-card reveal">
+        <div class="tip-icon-wrap">🎟️</div>
+        <div>
+          <div class="tip-title">Book Attractions in Advance</div>
+          <div class="tip-text">The Vatican, the Colosseum, the Uffizi, and many other top European attractions require timed entry tickets — often weeks or months in advance. Walk-up visitors frequently can't get in at all during peak season.</div>
+        </div>
+      </div>
+      <div class="tip-card reveal reveal-delay-1">
+        <div class="tip-icon-wrap">💳</div>
+        <div>
+          <div class="tip-title">Notify Your Bank — and Get a Travel Card</div>
+          <div class="tip-text">Most European countries use the Euro; the UK uses pounds. A travel credit card with no foreign transaction fees (Chase Sapphire, Capital One Venture) saves you hundreds in fees. Notify your bank before departure to avoid card freezes.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+<section class="cta-section">
+  <div class="cta-glow"></div>
+  <div class="cta-eyebrow">Europe is closer than you think</div>
+  <h2 class="cta-title">Let's plan the trip<br><em>you've always imagined.</em></h2>
+  <p class="cta-sub">Whether it's a river cruise through the Rhine Valley, a honeymoon on the Amalfi Coast, or a family adventure through London and Rome — Vanessa will build it beautifully, handle every detail, and make sure you arrive knowing exactly what to expect. Free consultation, always.</p>
+  <a href="vanessa-travel-chatbot.html" class="cta-btn">Talk to Vanessa About Europe →</a>
+  <div class="cta-free">✦ &nbsp; Free Consultation · No Fees, Ever · Your Europe Story Starts Here</div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div>
+        <div class="footer-brand">Styled Escapes by Vanessa</div>
+        <p class="footer-tagline">Dream Vacations certified travel consultant serving Portland, TN and clients nationwide. Let's plan something beautiful.</p>
+        <div class="footer-social">
+          <a href="https://www.facebook.com/styledescapesbyvanessa" target="_blank" title="Facebook">f</a>
+          <a href="https://www.instagram.com/vanessa_abundant_travel/" target="_blank" title="Instagram">i</a>
+          <a href="mailto:travel@myjacobs.com" title="Email">@</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Free Resources</h4>
+        <a href="allinclusive-resort-guide.html">All-Inclusive Resort Guide</a>
+        <a href="travel-style-quiz.html">Travel Style Quiz</a>
+        <a href="caribbean-island-quiz.html">Caribbean Island Quiz</a>
+        <a href="cruise-planner-landing.html">Free Cruise Planner PDF</a>
+      </div>
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <a href="vanessa-homepage.html">Back to Home</a>
+        <a href="vanessa-travel-chatbot.html">Plan My Trip</a>
+        <a href="https://vjacobs.dreamvacations.com" target="_blank">Dream Vacations</a>
+        <a href="mailto:travel@myjacobs.com">Contact Vanessa</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2025 Styled Escapes by Vanessa · All rights reserved</div>
+      <div>Affiliated with Abundant Travel by Dream Vacations</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+var reveals = document.querySelectorAll('.reveal');
+var observer = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+reveals.forEach(function(el) { observer.observe(el); });
+</script>
+</body>
+</html>
