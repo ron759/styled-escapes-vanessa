@@ -896,7 +896,7 @@ var selectedTag = null;
 
 // ── CRM config (same GAS proxy as the CRM tool) ───────────────────
 var CRM_GAS_URL  = 'https://script.google.com/macros/s/AKfycbzwpKU33T2fYOOE1a6RPTAtysw-lGEQM7YdV2GHqm5WBI9XxBoC3zCQDbLSOxP4qb8a/exec';
-var PROXY_SECRET = 'xqcjRE-smroFvVFZHNw';  // Must match PROXY_SECRET in GAS Script Properties
+var PROXY_SECRET = '2xqcjRE-smroFvVFZHNw';  // Must match PROXY_SECRET in GAS Script Properties
 var CRM_LOCAL_KEY = 'vnCRM_v2_dev';
 
 function crmGenId() { return Date.now().toString(36) + Math.random().toString(36).slice(2,6); }
@@ -905,7 +905,7 @@ function crmNowLabel() {
 }
 
 function crmGasPost(payload) {
-  if (!CRM_GAS_URL || CRM_GAS_URL === 'https://script.google.com/macros/s/AKfycbzwpKU33T2fYOOE1a6RPTAtysw-lGEQM7YdV2GHqm5WBI9XxBoC3zCQDbLSOxP4qb8a/exec') return Promise.resolve(null);
+  if (!CRM_GAS_URL || CRM_GAS_URL === 'YOUR_GAS_WEB_APP_URL') return Promise.resolve(null);
   return fetch(CRM_GAS_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'text/plain' },
