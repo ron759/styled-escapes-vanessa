@@ -905,7 +905,7 @@ function crmNowLabel() {
 }
 
 function crmGasPost(payload) {
-  if (!CRM_GAS_URL || CRM_GAS_URL === 'YOUR_GAS_WEB_APP_URL') return Promise.resolve(null);
+  if (!CRM_GAS_URL || CRM_GAS_URL === 'https://script.google.com/macros/s/AKfycbzwpKU33T2fYOOE1a6RPTAtysw-lGEQM7YdV2GHqm5WBI9XxBoC3zCQDbLSOxP4qb8a/exec') return Promise.resolve(null);
   return fetch(CRM_GAS_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'text/plain' },
@@ -919,7 +919,7 @@ function saveToCRM(firstName, lastName, email, quizNote, onDone) {
 
   function writeNoteAndClient(clientId, isNew, clientPayload) {
     var note = { id: crmGenId(), clientId: clientId, text: quizNote, date: crmNowLabel() };
-    if (CRM_GAS_URL && CRM_GAS_URL !== 'YOUR_GAS_WEB_APP_URL') {
+    if (CRM_GAS_URL && CRM_GAS_URL !== 'https://script.google.com/macros/s/AKfycbzwpKU33T2fYOOE1a6RPTAtysw-lGEQM7YdV2GHqm5WBI9XxBoC3zCQDbLSOxP4qb8a/exec') {
       var chain = isNew
         ? crmGasPost({ type: 'crm', action: 'addClient', client: clientPayload })
         : Promise.resolve();
@@ -959,7 +959,7 @@ function saveToCRM(firstName, lastName, email, quizNote, onDone) {
     }
   }
 
-  if (CRM_GAS_URL && CRM_GAS_URL !== 'YOUR_GAS_WEB_APP_URL') {
+  if (CRM_GAS_URL && CRM_GAS_URL !== 'https://script.google.com/macros/s/AKfycbzwpKU33T2fYOOE1a6RPTAtysw-lGEQM7YdV2GHqm5WBI9XxBoC3zCQDbLSOxP4qb8a/exec') {
     // Always fetch the live sheet first so the email check is accurate
     crmGasPost({ type: 'crm', action: 'getAll' })
       .then(function(res) { checkAndWrite((res && res.clients) || []); })
