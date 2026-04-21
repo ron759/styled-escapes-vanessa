@@ -374,8 +374,8 @@ async function loadPost(slug) {
     excerpt,
     body,
     "tags": tags[]->{ title, slug },
-    "coverImage": mainImage.asset->url,
-    "coverImageAlt": mainImage.alt,
+    "coverImage": coverPhoto.asset->url,
+    "coverImageAlt": coverPhoto.alt,
     "readTime": round(length(pt::text(body)) / 200)
   }`);
 
@@ -480,8 +480,14 @@ function renderPortableText(blocks) {
 }
 
 function refToUrl(ref) {
-  // Convert Sanity image ref like image-abc123-800x600-jpg to CDN URL
-  const [, id, dims, fmt] = ref.replace('image-', '').split('-');
+  // ref format: image-{id}-{dims}-{fmt}  e.g. image-2cc04a3f7503512adf3ebbeb142f77bc271977ed-350x350-jpg
+  const withoutPrefix = ref.replace(/^image-/, '');
+  const lastDash = withoutPrefix.lastIndexOf('-');
+  const fmt = withoutPrefix.slice(lastDash + 1);
+  const withoutFmt = withoutPrefix.slice(0, lastDash);
+  const secondLastDash = withoutFmt.lastIndexOf('-');
+  const dims = withoutFmt.slice(secondLastDash + 1);
+  const id = withoutFmt.slice(0, secondLastDash);
   return `https://cdn.sanity.io/images/${SANITY_PROJECT_ID}/${SANITY_DATASET}/${id}-${dims}.${fmt}`;
 }
 

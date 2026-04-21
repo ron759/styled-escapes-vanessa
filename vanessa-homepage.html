@@ -1772,7 +1772,7 @@ reveals.forEach(function(el) { observer.observe(el); });
 (function() {
   var PROJECT_ID = 'yw9842i2';
   var DATASET    = 'production';
-  var query = encodeURIComponent('*[_type == "post"] | order(publishedAt desc) [0...3] { _id, title, slug, publishedAt, excerpt, "tags": tags[]->{ title }, "coverImage": mainImage.asset->url }');
+  var query = encodeURIComponent('*[_type == "post"] | order(publishedAt desc) [0...3] { _id, title, slug, publishedAt, excerpt, "tags": tags[]->{ title }, "coverImage": coverPhoto.asset->url }');
   var url = 'https://' + PROJECT_ID + '.api.sanity.io/v2021-10-21/data/query/' + DATASET + '?query=' + query;
 
   fetch(url).then(function(r) { return r.json(); }).then(function(data) {

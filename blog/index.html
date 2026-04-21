@@ -401,7 +401,7 @@ async function loadPosts() {
     publishedAt,
     excerpt,
     "tags": tags[]->{ title, slug },
-    "coverImage": mainImage.asset->url,
+    "coverImage": coverPhoto.asset->url,
     "readTime": round(length(pt::text(body)) / 200)
   }`);
 
