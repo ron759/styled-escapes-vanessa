@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Travel Blog · Styled Escapes by Vanessa</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --gold:       #C8852A;
+  --gold-lt:    #F5DFA8;
+  --coral:      #C4503A;
+  --coral-lt:   #F2A88A;
+  --rose:       #C4607A;
+  --teal:       #1A5C50;
+  --ink:        #1C1A18;
+  --ink-muted:  #6B5E54;
+  --cream:      #FBF7F0;
+  --cream-2:    #F5EEE2;
+  --ocean:      #060F1C;
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--cream);
+  color: var(--ink);
+  overflow-x: hidden;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 18px 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(13,24,37,0.92);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.06);
+}
+.nav-brand {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+  font-weight: 400;
+  color: #FBF7F0;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+}
+.nav-links { display: flex; gap: 32px; align-items: center; }
+.nav-links a {
+  font-size: 13px;
+  color: rgba(251,247,240,0.8);
+  text-decoration: none;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: color 0.15s;
+}
+.nav-links a:hover { color: var(--gold-lt); }
+.nav-links a.active { color: var(--gold-lt); }
+.nav-cta {
+  font-size: 12px !important;
+  background: var(--coral) !important;
+  color: #FBF7F0 !important;
+  padding: 8px 20px;
+  border-radius: 24px;
+  letter-spacing: 0.06em !important;
+}
+.nav-cta:hover { background: #D4604A !important; }
+
+/* ── HERO BANNER ── */
+.blog-hero {
+  padding: 140px 48px 80px;
+  background: linear-gradient(160deg, #0A1822 0%, #0F2030 40%, #1A1210 100%);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.blog-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 70% 60% at 50% 80%, rgba(200,133,42,0.18) 0%, transparent 70%),
+              radial-gradient(ellipse 50% 40% at 30% 60%, rgba(196,80,58,0.12) 0%, transparent 60%);
+}
+.blog-hero-eyebrow {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold-lt);
+  margin-bottom: 16px;
+  position: relative;
+}
+.blog-hero h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(42px, 6vw, 72px);
+  font-weight: 400;
+  color: #FBF7F0;
+  line-height: 1.1;
+  position: relative;
+}
+.blog-hero h1 em { font-style: italic; color: var(--coral-lt); }
+.blog-hero-sub {
+  margin-top: 20px;
+  font-size: 16px;
+  color: rgba(251,247,240,0.6);
+  max-width: 480px;
+  margin-left: auto;
+  margin-right: auto;
+  position: relative;
+}
+
+/* ── TAG FILTER ── */
+.tag-bar {
+  padding: 32px 48px 0;
+  max-width: 1160px;
+  margin: 0 auto;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.tag-pill {
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 6px 16px;
+  border-radius: 20px;
+  border: 1px solid rgba(28,26,24,0.18);
+  background: transparent;
+  color: var(--ink-muted);
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: 'DM Sans', sans-serif;
+}
+.tag-pill:hover { border-color: var(--coral); color: var(--coral); }
+.tag-pill.active {
+  background: var(--coral);
+  border-color: var(--coral);
+  color: #fff;
+}
+
+/* ── GRID ── */
+.blog-grid-wrap {
+  padding: 48px 48px 100px;
+  max-width: 1160px;
+  margin: 0 auto;
+}
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 36px;
+}
+
+/* ── CARD ── */
+.post-card {
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(28,26,24,0.07);
+  transition: transform 0.25s, box-shadow 0.25s;
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+}
+.post-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 32px rgba(28,26,24,0.13);
+}
+.post-card-img {
+  width: 100%;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+  background: var(--cream-2);
+  display: block;
+}
+.post-card-img-placeholder {
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: linear-gradient(135deg, #1A4A5C 0%, #C4503A 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  color: rgba(255,255,255,0.3);
+}
+.post-card-body {
+  padding: 24px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.post-card-tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+.post-card-tag {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--coral);
+  font-weight: 500;
+}
+.post-card-tag + .post-card-tag::before {
+  content: '·';
+  margin-right: 6px;
+  color: var(--ink-muted);
+}
+.post-card-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.3;
+  margin-bottom: 10px;
+  color: var(--ink);
+}
+.post-card-excerpt {
+  font-size: 14px;
+  color: var(--ink-muted);
+  line-height: 1.65;
+  flex: 1;
+}
+.post-card-meta {
+  margin-top: 18px;
+  font-size: 12px;
+  color: rgba(107,94,84,0.7);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.post-card-meta-dot { width: 3px; height: 3px; border-radius: 50%; background: currentColor; }
+.post-card-read {
+  margin-top: 16px;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--coral);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.post-card-read::after { content: '→'; transition: transform 0.15s; }
+.post-card:hover .post-card-read::after { transform: translateX(4px); }
+
+/* Featured card */
+.post-card.featured {
+  grid-column: span 2;
+  flex-direction: row;
+}
+.post-card.featured .post-card-img,
+.post-card.featured .post-card-img-placeholder {
+  width: 50%;
+  aspect-ratio: auto;
+  min-height: 280px;
+  flex-shrink: 0;
+}
+.post-card.featured .post-card-body { padding: 36px; }
+.post-card.featured .post-card-title { font-size: 28px; }
+
+/* ── EMPTY / LOADING ── */
+.blog-state {
+  text-align: center;
+  padding: 80px 24px;
+  color: var(--ink-muted);
+}
+.blog-state-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px;
+  color: var(--ink);
+  margin-bottom: 10px;
+}
+.spinner {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  border: 2px solid rgba(196,80,58,0.2);
+  border-top-color: var(--coral);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  margin-bottom: 16px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── FOOTER ── */
+footer {
+  background: #0D1820;
+  padding: 60px 48px 28px;
+  color: rgba(251,247,240,0.7);
+}
+.footer-inner { max-width: 1160px; margin: 0 auto; }
+.footer-brand {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  color: #FBF7F0;
+  margin-bottom: 8px;
+}
+.footer-tag { font-size: 13px; margin-bottom: 28px; max-width: 400px; line-height: 1.6; }
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.08);
+  margin-top: 40px;
+  padding-top: 20px;
+  font-size: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.footer-bottom a { color: rgba(251,247,240,0.5); text-decoration: none; }
+.footer-bottom a:hover { color: var(--gold-lt); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .blog-grid { grid-template-columns: repeat(2, 1fr); }
+  .post-card.featured { grid-column: span 2; flex-direction: column; }
+  .post-card.featured .post-card-img,
+  .post-card.featured .post-card-img-placeholder { width: 100%; min-height: auto; aspect-ratio: 16/9; }
+  nav { padding: 16px 24px; }
+  .blog-hero, .blog-grid-wrap, .tag-bar { padding-left: 24px; padding-right: 24px; }
+}
+@media (max-width: 600px) {
+  .blog-grid { grid-template-columns: 1fr; }
+  .post-card.featured { grid-column: span 1; }
+  .nav-links { display: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-brand" href="/">Styled Escapes by Vanessa</a>
+  <div class="nav-links">
+    <a href="/#destinations">Destinations</a>
+    <a href="/#about">About</a>
+    <a href="/blog" class="active">Blog</a>
+    <a href="/#resources">Guides</a>
+    <a href="/#plan" class="nav-cta">Plan My Trip</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="blog-hero">
+  <div class="blog-hero-eyebrow">Travel Inspiration &amp; Insider Tips</div>
+  <h1>The <em>Journey</em> Begins Here</h1>
+  <p class="blog-hero-sub">Stories, guides, and expert tips from a travel consultant who lives for the perfect trip.</p>
+</div>
+
+<!-- TAG FILTER -->
+<div class="tag-bar" id="tagBar">
+  <button class="tag-pill active" data-tag="all" onclick="filterByTag('all', this)">All Posts</button>
+</div>
+
+<!-- GRID -->
+<div class="blog-grid-wrap">
+  <div id="blogGrid" class="blog-grid">
+    <div class="blog-state">
+      <div class="spinner"></div>
+      <div class="blog-state-title">Loading posts…</div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">Styled Escapes by Vanessa</div>
+    <p class="footer-tag">Abundant Travel by Dream Vacations certified travel consultant · Portland, TN · Serving clients nationwide.</p>
+    <div class="footer-bottom">
+      <span>&copy; <script>document.write(new Date().getFullYear())</script> Styled Escapes by Vanessa. All rights reserved.</span>
+      <span><a href="https://vjacobs.dreamvacations.com" target="_blank">Dream Vacations Partner</a></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── CONFIG ──────────────────────────────────────────────────────
+const SANITY_PROJECT_ID = 'yw9842i2';
+const SANITY_DATASET    = 'production';
+const SANITY_API_URL    = `https://${SANITY_PROJECT_ID}.api.sanity.io/v2021-10-21/data/query/${SANITY_DATASET}`;
+
+// ── STATE ───────────────────────────────────────────────────────
+let allPosts = [];
+let activeTag = 'all';
+
+// ── FETCH ───────────────────────────────────────────────────────
+async function loadPosts() {
+  const query = encodeURIComponent(`*[_type == "post"] | order(publishedAt desc) {
+    _id,
+    title,
+    slug,
+    publishedAt,
+    excerpt,
+    "tags": tags[]->{ title, slug },
+    "coverImage": mainImage.asset->url,
+    "readTime": round(length(pt::text(body)) / 200)
+  }`);
+
+  try {
+    const res = await fetch(`${SANITY_API_URL}?query=${query}`);
+    const data = await res.json();
+    allPosts = data.result || [];
+    buildTagBar();
+    renderGrid(allPosts);
+  } catch (err) {
+    document.getElementById('blogGrid').innerHTML = `
+      <div class="blog-state">
+        <div class="blog-state-title">Couldn't load posts</div>
+        <p>Check back soon or <a href="/#plan" style="color:var(--coral)">reach out to Vanessa</a> directly.</p>
+      </div>`;
+  }
+}
+
+// ── TAG BAR ─────────────────────────────────────────────────────
+function buildTagBar() {
+  const tagMap = {};
+  allPosts.forEach(p => {
+    (p.tags || []).forEach(t => {
+      if (t && t.title) tagMap[t.slug?.current || t.title] = t.title;
+    });
+  });
+
+  const bar = document.getElementById('tagBar');
+  Object.entries(tagMap).forEach(([slug, title]) => {
+    const btn = document.createElement('button');
+    btn.className = 'tag-pill';
+    btn.dataset.tag = slug;
+    btn.textContent = title;
+    btn.onclick = () => filterByTag(slug, btn);
+    bar.appendChild(btn);
+  });
+}
+
+function filterByTag(tag, btn) {
+  activeTag = tag;
+  document.querySelectorAll('.tag-pill').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  const filtered = tag === 'all'
+    ? allPosts
+    : allPosts.filter(p => (p.tags || []).some(t => (t.slug?.current || t.title) === tag));
+  renderGrid(filtered);
+}
+
+// ── RENDER ──────────────────────────────────────────────────────
+function renderGrid(posts) {
+  const grid = document.getElementById('blogGrid');
+
+  if (!posts.length) {
+    grid.innerHTML = `
+      <div class="blog-state" style="grid-column:1/-1">
+        <div class="blog-state-title">No posts yet</div>
+        <p>Check back soon for travel inspiration.</p>
+      </div>`;
+    return;
+  }
+
+  grid.innerHTML = posts.map((post, i) => {
+    const slug    = post.slug?.current || '';
+    const date    = post.publishedAt ? new Date(post.publishedAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : '';
+    const read    = post.readTime ? `${post.readTime} min read` : '';
+    const tags    = (post.tags || []).map(t => `<span class="post-card-tag">${esc(t.title)}</span>`).join('');
+    const excerpt = post.excerpt || '';
+    const isFeatured = i === 0 && posts.length > 2;
+
+    const imgHtml = post.coverImage
+      ? `<img class="post-card-img" src="${post.coverImage}?w=800&auto=format" alt="${esc(post.title)}" loading="${i === 0 ? 'eager' : 'lazy'}">`
+      : `<div class="post-card-img-placeholder">✦</div>`;
+
+    return `
+      <a href="/blog/post.html?slug=${encodeURIComponent(slug)}" class="post-card${isFeatured ? ' featured' : ''}">
+        ${imgHtml}
+        <div class="post-card-body">
+          ${tags ? `<div class="post-card-tags">${tags}</div>` : ''}
+          <div class="post-card-title">${esc(post.title)}</div>
+          ${excerpt ? `<p class="post-card-excerpt">${esc(excerpt)}</p>` : ''}
+          <div class="post-card-meta">
+            ${date}${date && read ? '<span class="post-card-meta-dot"></span>' : ''}${read}
+          </div>
+          <div class="post-card-read">Read more</div>
+        </div>
+      </a>`;
+  }).join('');
+}
+
+function esc(s) {
+  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── INIT ────────────────────────────────────────────────────────
+loadPosts();
+</script>
+</body>
+</html>
