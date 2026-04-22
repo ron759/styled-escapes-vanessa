@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deal Formatter — Styled Escapes by Vanessa</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --teal:      #1A4A5C;
+    --teal-dark: #0d2e3a;
+    --coral:     #C4503A;
+    --gold:      #C8852A;
+    --cream:     #FBF7F0;
+    --cream-dark:#F2EBE0;
+    --ink:       #1C1C1C;
+    --muted:     #6B7280;
+    --border:    #E2D9CE;
+    --success:   #2D6A4F;
+    --success-bg:#E8F5EF;
+    --font-head: 'Cormorant Garamond', Georgia, serif;
+    --font-body: 'DM Sans', system-ui, sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--cream);
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  /* ── Header ── */
+  .site-header {
+    background: var(--teal);
+    padding: 18px 32px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .site-header .wordmark {
+    font-family: var(--font-head);
+    font-size: 22px;
+    color: var(--cream);
+    letter-spacing: 0.01em;
+  }
+  .site-header .tool-badge {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #9FE1CB;
+    border: 0.5px solid #9FE1CB;
+    padding: 3px 10px;
+    border-radius: 99px;
+  }
+
+  /* ── Layout ── */
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  .page-title {
+    font-family: var(--font-head);
+    font-size: 38px;
+    color: var(--teal);
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
+  .page-subtitle {
+    font-size: 15px;
+    color: var(--muted);
+    margin-bottom: 36px;
+    line-height: 1.6;
+  }
+
+  /* ── Steps ── */
+  .step {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px 32px;
+    margin-bottom: 20px;
+  }
+  .step-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 18px;
+  }
+  .step-num {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--teal);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .step-title {
+    font-family: var(--font-head);
+    font-size: 22px;
+    color: var(--teal);
+    font-weight: 500;
+  }
+  .step-hint {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  /* ── Form elements ── */
+  label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--teal);
+    margin-bottom: 6px;
+    letter-spacing: 0.02em;
+  }
+  textarea, input[type="text"], select {
+    width: 100%;
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--ink);
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+    resize: vertical;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  textarea:focus, input[type="text"]:focus, select:focus {
+    border-color: var(--teal);
+    background: #fff;
+  }
+  textarea { min-height: 160px; line-height: 1.6; }
+
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  @media (max-width: 600px) {
+    .field-row { grid-template-columns: 1fr; }
+  }
+  .field { margin-bottom: 16px; }
+  .field:last-child { margin-bottom: 0; }
+
+  .char-hint {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 5px;
+  }
+
+  /* ── Buttons ── */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    transition: opacity 0.15s, transform 0.1s;
+  }
+  .btn:hover { opacity: 0.9; }
+  .btn:active { transform: scale(0.98); }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+  .btn-primary {
+    background: var(--coral);
+    color: #fff;
+    font-size: 15px;
+    padding: 14px 32px;
+  }
+  .btn-secondary {
+    background: var(--teal);
+    color: #fff;
+  }
+  .btn-ghost {
+    background: transparent;
+    color: var(--teal);
+    border: 1px solid var(--teal);
+    font-size: 13px;
+    padding: 8px 16px;
+  }
+  .btn-ghost:hover { background: var(--cream); }
+
+  /* ── Spinner ── */
+  .spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255,255,255,0.35);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    display: none;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .loading .spinner { display: block; }
+  .loading .btn-label { display: none; }
+
+  /* ── Output section ── */
+  #output-section { display: none; }
+  #output-section.visible { display: block; }
+
+  .output-step {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+  .output-step-header {
+    background: var(--teal);
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .output-step-title {
+    font-family: var(--font-head);
+    font-size: 20px;
+    color: var(--cream);
+    font-weight: 500;
+  }
+  .output-step-body { padding: 24px; }
+
+  /* ── Deal preview card ── */
+  .deal-preview {
+    background: var(--cream);
+    border-left: 4px solid var(--coral);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin-bottom: 20px;
+  }
+  .deal-preview-eyebrow {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 6px;
+  }
+  .deal-preview-title {
+    font-family: var(--font-head);
+    font-size: 26px;
+    color: var(--teal);
+    font-weight: 500;
+    margin-bottom: 4px;
+    line-height: 1.2;
+  }
+  .deal-preview-tagline {
+    font-size: 14px;
+    color: var(--coral);
+    font-style: italic;
+    margin-bottom: 14px;
+  }
+  .deal-preview-price {
+    font-size: 28px;
+    color: var(--gold);
+    font-weight: 600;
+    font-family: var(--font-head);
+    margin-bottom: 4px;
+  }
+  .deal-preview-meta {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 14px;
+  }
+  .deal-preview-highlights {
+    list-style: none;
+    margin-bottom: 14px;
+  }
+  .deal-preview-highlights li {
+    font-size: 13px;
+    color: var(--ink);
+    padding: 3px 0 3px 18px;
+    position: relative;
+    line-height: 1.55;
+  }
+  .deal-preview-highlights li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 10px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--coral);
+  }
+  .deal-preview-urgency {
+    font-size: 12px;
+    color: var(--coral);
+    font-weight: 500;
+    margin-bottom: 14px;
+  }
+  .deal-preview-cta {
+    display: inline-block;
+    background: var(--coral);
+    color: #fff;
+    padding: 9px 20px;
+    border-radius: 6px;
+    font-size: 13px;
+    text-decoration: none;
+    font-family: var(--font-body);
+  }
+
+  /* ── Editable text areas ── */
+  .edit-area {
+    width: 100%;
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--ink);
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px;
+    resize: vertical;
+    outline: none;
+    line-height: 1.65;
+    transition: border-color 0.15s;
+  }
+  .edit-area:focus { border-color: var(--teal); background: #fff; }
+
+  /* ── Action row ── */
+  .action-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 14px;
+    align-items: center;
+  }
+  .copy-feedback {
+    font-size: 12px;
+    color: var(--success);
+    font-weight: 500;
+    display: none;
+  }
+  .copy-feedback.show { display: block; }
+
+  /* ── HTML output ── */
+  .html-output-wrap {
+    position: relative;
+  }
+  .html-code {
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    background: #1C2A35;
+    color: #9FE1CB;
+    border-radius: 8px;
+    padding: 16px;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-break: break-word;
+    line-height: 1.6;
+    max-height: 280px;
+    overflow-y: auto;
+    margin-top: 12px;
+  }
+
+  /* ── Download section ── */
+  .download-box {
+    background: var(--teal);
+    border-radius: 12px;
+    padding: 28px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+  .download-box-text .title {
+    font-family: var(--font-head);
+    font-size: 22px;
+    color: var(--cream);
+    font-weight: 500;
+    margin-bottom: 4px;
+  }
+  .download-box-text .sub {
+    font-size: 13px;
+    color: #9FE1CB;
+    line-height: 1.5;
+  }
+  .btn-download {
+    background: var(--gold);
+    color: #fff;
+    padding: 14px 28px;
+    border-radius: 8px;
+    font-family: var(--font-body);
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    white-space: nowrap;
+    transition: opacity 0.15s;
+  }
+  .btn-download:hover { opacity: 0.9; }
+
+  /* ── Reset ── */
+  .reset-row {
+    text-align: center;
+    padding-top: 8px;
+  }
+
+  /* ── Error ── */
+  .error-box {
+    background: #FEF2F2;
+    border: 1px solid #FCA5A5;
+    border-radius: 8px;
+    padding: 14px 18px;
+    font-size: 14px;
+    color: #991B1B;
+    display: none;
+    margin-top: 14px;
+  }
+  .error-box.show { display: block; }
+
+  /* ── Status bar ── */
+  .status-bar {
+    background: var(--cream-dark);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 20px;
+    display: none;
+  }
+  .status-bar.show { display: flex; align-items: center; gap: 10px; }
+  .status-spinner {
+    width: 14px; height: 14px;
+    border: 2px solid var(--border);
+    border-top-color: var(--teal);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    flex-shrink: 0;
+  }
+
+  /* ── Config note ── */
+  .config-note {
+    background: #FFF8EC;
+    border: 1px solid #E8C87A;
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: #7A4F00;
+    margin-bottom: 24px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .config-note strong { font-weight: 600; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <span class="wordmark">Styled Escapes by Vanessa</span>
+  <span class="tool-badge">Deal Formatter</span>
+</header>
+
+<div class="container">
+
+  <h1 class="page-title">Deal Formatter</h1>
+  <p class="page-subtitle">Paste a supplier deal email, fill in a few details, and get a ready-to-publish deal page and Facebook post.</p>
+
+  <div class="config-note">
+    <span>⚙️</span>
+    <span><strong>Setup required:</strong> Replace <code>YOUR_GAS_WEB_APP_URL</code> and <code>YOUR_PROXY_SECRET</code> in this file before use.</span>
+  </div>
+
+  <!-- Step 1: Paste email -->
+  <div class="step">
+    <div class="step-header">
+      <div class="step-num">1</div>
+      <div>
+        <div class="step-title">Paste the deal email</div>
+        <div class="step-hint">Copy the full text of the supplier email and paste it below. Don't worry about extra links or formatting — just paste it all.</div>
+      </div>
+    </div>
+    <div class="field">
+      <label for="email-text">Email content</label>
+      <textarea id="email-text" placeholder="Paste the full email text here…"></textarea>
+    </div>
+  </div>
+
+  <!-- Step 2: Optional overrides -->
+  <div class="step">
+    <div class="step-header">
+      <div class="step-num">2</div>
+      <div>
+        <div class="step-title">Optional: Steer the output</div>
+        <div class="step-hint">If the email has multiple deals, name the one you want. Add any notes for tone or focus. Leave blank to let Claude decide.</div>
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label for="deal-focus">Which deal to feature (optional)</label>
+        <input type="text" id="deal-focus" placeholder="e.g. Norway fjords, or leave blank for best pick">
+      </div>
+      <div class="field">
+        <label for="supplier-name">Cruise line / supplier (optional)</label>
+        <input type="text" id="supplier-name" placeholder="e.g. Windstar Cruises">
+      </div>
+    </div>
+    <div class="field">
+      <label for="extra-notes">Extra notes for Claude (optional)</label>
+      <input type="text" id="extra-notes" placeholder="e.g. Emphasize the wine angle, or mention it's great for couples">
+    </div>
+  </div>
+
+  <!-- Generate button -->
+  <div style="margin-bottom: 20px;">
+    <button class="btn btn-primary" id="generate-btn" onclick="generateDeal()">
+      <span class="btn-label">✦ Generate deal content</span>
+      <span class="spinner"></span>
+    </button>
+    <div class="error-box" id="error-box"></div>
+  </div>
+
+  <div class="status-bar" id="status-bar">
+    <div class="status-spinner"></div>
+    <span id="status-text">Sending to Claude…</span>
+  </div>
+
+  <!-- Output -->
+  <div id="output-section">
+
+    <!-- Deal preview -->
+    <div class="output-step">
+      <div class="output-step-header">
+        <span class="output-step-title">Deal card preview</span>
+        <span style="font-size:12px;color:#9FE1CB;">Edit any field below before downloading</span>
+      </div>
+      <div class="output-step-body">
+        <div class="deal-preview" id="deal-preview-render"></div>
+
+        <div class="field-row" style="margin-top:20px">
+          <div class="field">
+            <label>Destination / title</label>
+            <input type="text" id="edit-destination" oninput="updatePreview()">
+          </div>
+          <div class="field">
+            <label>Tagline</label>
+            <input type="text" id="edit-tagline" oninput="updatePreview()">
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Price</label>
+            <input type="text" id="edit-price" oninput="updatePreview()">
+          </div>
+          <div class="field">
+            <label>Departure &amp; duration</label>
+            <input type="text" id="edit-departure" oninput="updatePreview()">
+          </div>
+        </div>
+        <div class="field">
+          <label>Highlights (one per line, max 3)</label>
+          <textarea id="edit-highlights" rows="4" style="min-height:90px" oninput="updatePreview()"></textarea>
+        </div>
+        <div class="field">
+          <label>Urgency note (optional)</label>
+          <input type="text" id="edit-urgency" placeholder="e.g. Departing soon — limited availability" oninput="updatePreview()">
+        </div>
+      </div>
+    </div>
+
+    <!-- Facebook post -->
+    <div class="output-step">
+      <div class="output-step-header">
+        <span class="output-step-title">Facebook post draft</span>
+      </div>
+      <div class="output-step-body">
+        <textarea class="edit-area" id="edit-fb" rows="7"></textarea>
+        <div class="action-row">
+          <button class="btn btn-ghost" onclick="copyFB()">Copy post</button>
+          <span class="copy-feedback" id="fb-copied">Copied!</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Download -->
+    <div class="download-box">
+      <div class="download-box-text">
+        <div class="title">Ready to publish</div>
+        <div class="sub">Download both files below. Add the deal page to Vercel, then paste the card entry into <code style="color:#9FE1CB;font-size:12px">deals.html</code>.</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px;align-items:flex-end">
+        <button class="btn-download" onclick="downloadPage()">⬇ Download deal page</button>
+        <button class="btn-download" onclick="downloadCardEntry()" style="background:#C8852A">⬇ Download deals.html card</button>
+      </div>
+    </div>
+
+    <!-- HTML preview (for power users) -->
+    <div class="output-step">
+      <div class="output-step-header" style="cursor:pointer" onclick="toggleHTMLPreview()">
+        <span class="output-step-title">HTML snippet</span>
+        <span style="font-size:12px;color:#9FE1CB;" id="html-toggle-label">show ▾</span>
+      </div>
+      <div id="html-preview-wrap" style="display:none">
+        <div class="output-step-body">
+          <p style="font-size:13px;color:var(--muted);margin-bottom:10px">This is the deal card snippet — also embedded in the downloaded page file.</p>
+          <div class="html-code" id="html-snippet-display"></div>
+          <div class="action-row">
+            <button class="btn btn-ghost" onclick="copySnippet()">Copy snippet</button>
+            <span class="copy-feedback" id="snippet-copied">Copied!</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="reset-row">
+      <button class="btn btn-ghost" onclick="resetForm()">← Format another deal</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+// ── Config ───────────────────────────────────────────────────────
+const GAS_URL      = 'YOUR_GAS_WEB_APP_URL';
+const PROXY_SECRET = 'YOUR_PROXY_SECRET';
+
+// ── State ────────────────────────────────────────────────────────
+let dealData = {};
+
+// ── Generate ─────────────────────────────────────────────────────
+async function generateDeal() {
+  const emailText = document.getElementById('email-text').value.trim();
+  if (!emailText) {
+    showError('Please paste the deal email text first.');
+    return;
+  }
+
+  const focus    = document.getElementById('deal-focus').value.trim();
+  const supplier = document.getElementById('supplier-name').value.trim();
+  const notes    = document.getElementById('extra-notes').value.trim();
+
+  setLoading(true);
+  hideError();
+  setStatus('Sending to Claude…');
+
+  const systemContext = `You are a travel deal content creator for Styled Escapes by Vanessa, a Dream Vacations travel consultant based in Portland, TN. Vanessa specializes in cruises and all-inclusive resorts. Her service is always free to the traveler (she earns supplier commissions). Her booking site is vjacobs.dreamvacations.com.
+
+Brand voice: warm, personal, conversational — like a close friend who knows everything about travel. Not corporate.
+Brand colors: deep teal #1A4A5C, coral #C4503A, warm gold #C8852A, cream #FBF7F0.
+
+Respond ONLY with valid JSON, no markdown fences, no preamble. Schema:
+{
+  "destination": "string — concise destination or voyage name",
+  "supplier": "string — cruise line or supplier name",
+  "tagline": "string — one punchy evocative line, max 12 words",
+  "price": "string — e.g. 'From $2,879 per guest' — use 'Contact for pricing' if unclear",
+  "departure": "string — e.g. 'June 3, 2026 · 7 nights'",
+  "highlights": ["string", "string", "string"],
+  "urgency": "string or null — e.g. 'Departing soon — limited availability' or null if no urgency",
+  "fb_post": "string — Facebook post in Vanessa's warm first-person voice, 3–5 sentences, relevant emoji, hashtags. End with: DM me or visit vjacobs.dreamvacations.com to book — and remember, my service is always free!"
+}`;
+
+  let userMsg = `Supplier deal email:\n\n${emailText}`;
+  if (supplier) userMsg += `\n\nSupplier/cruise line: ${supplier}`;
+  if (focus)    userMsg += `\n\nFocus on this deal specifically: ${focus}`;
+  if (notes)    userMsg += `\n\nExtra notes: ${notes}`;
+
+  const prompt = systemContext + '\n\nUser request:\n' + userMsg;
+
+  try {
+    const resp = await fetch(GAS_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify({ type: 'content', prompt, secret: PROXY_SECRET })
+    });
+
+    const result = await resp.json();
+    if (!result.success) throw new Error(result.error || 'GAS proxy returned an error.');
+
+    let parsed;
+    try {
+      parsed = JSON.parse(result.text.replace(/```json|```/g, '').trim());
+    } catch(e) {
+      throw new Error('Claude returned unexpected output. Try again, or simplify the email text.');
+    }
+
+    dealData = parsed;
+    populateOutputs(parsed);
+    setStatus('');
+    document.getElementById('output-section').classList.add('visible');
+    document.getElementById('output-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  } catch(err) {
+    setStatus('');
+    showError('Error: ' + err.message);
+  } finally {
+    setLoading(false);
+  }
+}
+
+// ── Populate outputs ──────────────────────────────────────────────
+function populateOutputs(d) {
+  document.getElementById('edit-destination').value = d.destination || '';
+  document.getElementById('edit-tagline').value     = d.tagline     || '';
+  document.getElementById('edit-price').value       = d.price       || '';
+  document.getElementById('edit-departure').value   = d.departure   || '';
+  document.getElementById('edit-highlights').value  = (d.highlights || []).join('\n');
+  document.getElementById('edit-urgency').value     = d.urgency     || '';
+  document.getElementById('edit-fb').value          = d.fb_post     || '';
+
+  updatePreview();
+  updateHTMLSnippet();
+}
+
+// ── Live preview ──────────────────────────────────────────────────
+function updatePreview() {
+  const dest       = document.getElementById('edit-destination').value;
+  const tagline    = document.getElementById('edit-tagline').value;
+  const price      = document.getElementById('edit-price').value;
+  const departure  = document.getElementById('edit-departure').value;
+  const highlights = document.getElementById('edit-highlights').value
+                       .split('\n').map(s => s.trim()).filter(Boolean).slice(0, 3);
+  const urgency    = document.getElementById('edit-urgency').value;
+  const supplier   = dealData.supplier || document.getElementById('supplier-name').value || 'Travel Deal';
+
+  const liItems = highlights.map(h => `<li class="deal-preview-highlights-item">${esc(h)}</li>`).join('');
+
+  document.getElementById('deal-preview-render').innerHTML = `
+    <div class="deal-preview-eyebrow">${esc(supplier)}</div>
+    <div class="deal-preview-title">${esc(dest)}</div>
+    <div class="deal-preview-tagline">${esc(tagline)}</div>
+    <div class="deal-preview-price">${esc(price)}</div>
+    <div class="deal-preview-meta">${esc(departure)}</div>
+    <ul class="deal-preview-highlights">${liItems}</ul>
+    ${urgency ? `<div class="deal-preview-urgency">⚠ ${esc(urgency)}</div>` : ''}
+    <a class="deal-preview-cta" href="https://vjacobs.dreamvacations.com">Book with Vanessa — it's free →</a>
+  `;
+
+  updateHTMLSnippet();
+}
+
+// ── HTML snippet ──────────────────────────────────────────────────
+function buildHTMLSnippet() {
+  const dest       = document.getElementById('edit-destination').value;
+  const tagline    = document.getElementById('edit-tagline').value;
+  const price      = document.getElementById('edit-price').value;
+  const departure  = document.getElementById('edit-departure').value;
+  const highlights = document.getElementById('edit-highlights').value
+                       .split('\n').map(s => s.trim()).filter(Boolean).slice(0, 3);
+  const urgency    = document.getElementById('edit-urgency').value;
+  const supplier   = dealData.supplier || document.getElementById('supplier-name').value || 'Travel Deal';
+
+  const liItems = highlights.map(h => `    <li style="font-size:14px;color:#333;font-family:sans-serif;padding:3px 0 3px 18px;position:relative;line-height:1.55">${esc(h)}</li>`).join('\n');
+  const urgLine  = urgency ? `\n  <p style="font-size:12px;color:#C4503A;font-weight:500;font-family:sans-serif;margin:0 0 14px">⚠ ${esc(urgency)}</p>` : '';
+
+  return `<div style="background:#FBF7F0;border-left:4px solid #C4503A;border-radius:10px;padding:24px 28px;font-family:Georgia,serif;max-width:460px">
+  <p style="font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:#1A4A5C;font-family:sans-serif;margin:0 0 6px;font-weight:500">${esc(supplier)}</p>
+  <h3 style="font-size:26px;color:#1A4A5C;margin:0 0 5px;font-weight:500;line-height:1.2">${esc(dest)}</h3>
+  <p style="font-size:14px;color:#C4503A;font-style:italic;margin:0 0 14px;font-family:sans-serif">${esc(tagline)}</p>
+  <p style="font-size:28px;color:#C8852A;font-weight:600;margin:0 0 3px">${esc(price)}</p>
+  <p style="font-size:12px;color:#888;font-family:sans-serif;margin:0 0 14px">${esc(departure)}</p>
+  <ul style="padding-left:18px;margin:0 0 14px;list-style:disc">
+${liItems}
+  </ul>${urgLine}
+  <a href="https://vjacobs.dreamvacations.com" style="display:inline-block;background:#C4503A;color:#fff;padding:10px 22px;border-radius:6px;text-decoration:none;font-size:14px;font-family:sans-serif;font-weight:500">Book with Vanessa — it's free →</a>
+</div>`;
+}
+
+function updateHTMLSnippet() {
+  document.getElementById('html-snippet-display').textContent = buildHTMLSnippet();
+}
+
+// ── Build full page ───────────────────────────────────────────────
+function buildFullPage() {
+  const dest      = document.getElementById('edit-destination').value;
+  const tagline   = document.getElementById('edit-tagline').value;
+  const fbPost    = document.getElementById('edit-fb').value;
+  const snippet   = buildHTMLSnippet();
+  const today     = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>${esc(dest)} — Styled Escapes by Vanessa</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'DM Sans',system-ui,sans-serif;background:#FBF7F0;color:#1C1C1C;min-height:100vh}
+  .site-nav{background:#1A4A5C;padding:16px 32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+  .nav-brand{font-family:'Cormorant Garamond',Georgia,serif;font-size:22px;color:#FBF7F0;text-decoration:none}
+  .nav-links{display:flex;gap:24px}
+  .nav-links a{font-size:13px;color:#9FE1CB;text-decoration:none;letter-spacing:.04em}
+  .nav-links a:hover{color:#fff}
+  .hero{background:#1A4A5C;padding:60px 32px 52px;text-align:center}
+  .hero-eyebrow{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:#9FE1CB;font-weight:500;margin-bottom:12px}
+  .hero-title{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(36px,6vw,58px);color:#FBF7F0;font-weight:500;line-height:1.1;margin-bottom:14px}
+  .hero-tagline{font-size:17px;color:#C4503A;font-style:italic;font-family:'Cormorant Garamond',Georgia,serif}
+  .main{max-width:760px;margin:0 auto;padding:48px 24px 80px}
+  .deal-wrap{margin-bottom:40px}
+  .section-title{font-family:'Cormorant Garamond',Georgia,serif;font-size:28px;color:#1A4A5C;font-weight:500;margin-bottom:16px}
+  .cta-box{background:#1A4A5C;border-radius:12px;padding:32px;text-align:center;margin:40px 0}
+  .cta-box h2{font-family:'Cormorant Garamond',Georgia,serif;font-size:28px;color:#FBF7F0;font-weight:500;margin-bottom:8px}
+  .cta-box p{font-size:14px;color:#9FE1CB;margin-bottom:20px;line-height:1.6}
+  .cta-btn{display:inline-block;background:#C4503A;color:#fff;padding:13px 32px;border-radius:8px;text-decoration:none;font-size:15px;font-weight:500;font-family:'DM Sans',sans-serif}
+  .free-note{font-size:12px;color:#9FE1CB;margin-top:10px}
+  .contact-strip{background:#F2EBE0;border-top:1px solid #E2D9CE;padding:24px 32px;text-align:center;font-size:13px;color:#6B7280}
+  .contact-strip a{color:#1A4A5C;text-decoration:none;font-weight:500}
+  .contact-strip a:hover{text-decoration:underline}
+  .footer{background:#1A4A5C;padding:20px 32px;text-align:center;font-size:12px;color:#9FE1CB;line-height:1.8}
+  .footer a{color:#9FE1CB}
+  .date-posted{font-size:12px;color:#6B7280;margin-bottom:24px}
+</style>
+</head>
+<body>
+
+<nav class="site-nav">
+  <a class="nav-brand" href="/">Styled Escapes by Vanessa</a>
+  <div class="nav-links">
+    <a href="/index.html">Home</a>
+    <a href="/deals.html">Deals</a>
+    <a href="/vanessa-travel-chatbot.html">Plan My Trip</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-eyebrow">Featured Deal</div>
+  <h1 class="hero-title">${esc(dest)}</h1>
+  <p class="hero-tagline">${esc(tagline)}</p>
+</div>
+
+<div class="main">
+  <p class="date-posted">Posted ${today}</p>
+
+  <div class="deal-wrap">
+    ${snippet}
+  </div>
+
+  <div class="cta-box">
+    <h2>Ready to make this trip yours?</h2>
+    <p>I'd love to help you book this — and as always, my service is completely free.<br>Just reach out and I'll take care of everything.</p>
+    <a class="cta-btn" href="https://vjacobs.dreamvacations.com">Book with Vanessa →</a>
+    <div class="free-note">No fees, ever. I'm paid by the supplier, not you.</div>
+  </div>
+
+</div>
+
+<div class="contact-strip">
+  Questions? Call <a href="tel:6159243157">(615) 924-3157</a> · Email <a href="mailto:v.jacobs@dreamvacations.com">v.jacobs@dreamvacations.com</a> · <a href="https://facebook.com/styledescapesbyvanessa">Facebook</a>
+</div>
+
+<footer class="footer">
+  <div>© 2026 Styled Escapes by Vanessa · Dream Vacations Franchise · Portland, TN</div>
+  <div><a href="/index.html">Home</a> · <a href="/vanessa-travel-chatbot.html">Plan My Trip</a> · <a href="https://vjacobs.dreamvacations.com">Book Now</a></div>
+</footer>
+
+</body>
+</html>`;
+}
+
+// ── Download deal page ────────────────────────────────────────────
+function downloadPage() {
+  const dest     = document.getElementById('edit-destination').value || 'travel-deal';
+  const slug     = dest.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  const filename = 'deal-' + slug + '.html';
+  triggerDownload(buildFullPage(), filename, 'text/html');
+}
+
+// ── Download deals.html card entry ───────────────────────────────
+function downloadCardEntry() {
+  const dest     = document.getElementById('edit-destination').value || 'travel-deal';
+  const slug     = dest.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  const filename = 'deal-' + slug + '-card.html';
+  triggerDownload(buildCardEntry(slug), filename, 'text/html');
+}
+
+function buildCardEntry(slug) {
+  const dest      = document.getElementById('edit-destination').value;
+  const tagline   = document.getElementById('edit-tagline').value;
+  const price     = document.getElementById('edit-price').value;
+  const departure = document.getElementById('edit-departure').value;
+  const urgency   = document.getElementById('edit-urgency').value;
+  const supplier  = dealData.supplier || document.getElementById('supplier-name').value || '';
+  const today     = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+  const pageFile  = 'deal-' + slug + '.html';
+
+  return `<!-- DEAL CARD: ${esc(dest)} · Posted ${today} -->
+<!-- Paste this block inside the .deals-grid div in deals.html -->
+<a class="deal-card" href="${pageFile}">
+  <div class="deal-card-inner">
+    <div class="deal-card-eyebrow">${esc(supplier)}</div>
+    <h3 class="deal-card-title">${esc(dest)}</h3>
+    <p class="deal-card-tagline">${esc(tagline)}</p>
+    <div class="deal-card-price">${esc(price)}</div>
+    <div class="deal-card-meta">${esc(departure)}</div>
+    ${urgency ? `<div class="deal-card-urgency">⚠ ${esc(urgency)}</div>` : ''}
+    <div class="deal-card-cta">View deal →</div>
+  </div>
+</a>
+<!-- END DEAL CARD: ${esc(dest)} -->`;
+}
+
+function triggerDownload(content, filename, mime) {
+  const blob = new Blob([content], { type: mime });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href     = url;
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ── Copy helpers ──────────────────────────────────────────────────
+function copyFB() {
+  const text = document.getElementById('edit-fb').value;
+  navigator.clipboard.writeText(text).then(() => {
+    const el = document.getElementById('fb-copied');
+    el.classList.add('show');
+    setTimeout(() => el.classList.remove('show'), 2000);
+  });
+}
+
+function copySnippet() {
+  const text = document.getElementById('html-snippet-display').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const el = document.getElementById('snippet-copied');
+    el.classList.add('show');
+    setTimeout(() => el.classList.remove('show'), 2000);
+  });
+}
+
+function toggleHTMLPreview() {
+  const wrap  = document.getElementById('html-preview-wrap');
+  const label = document.getElementById('html-toggle-label');
+  if (wrap.style.display === 'none') {
+    wrap.style.display = 'block';
+    label.textContent  = 'hide ▴';
+  } else {
+    wrap.style.display = 'none';
+    label.textContent  = 'show ▾';
+  }
+}
+
+// ── UI helpers ────────────────────────────────────────────────────
+function setLoading(on) {
+  const btn = document.getElementById('generate-btn');
+  btn.disabled = on;
+  btn.classList.toggle('loading', on);
+}
+
+function setStatus(msg) {
+  const bar = document.getElementById('status-bar');
+  if (msg) {
+    document.getElementById('status-text').textContent = msg;
+    bar.classList.add('show');
+  } else {
+    bar.classList.remove('show');
+  }
+}
+
+function showError(msg) {
+  const el = document.getElementById('error-box');
+  el.textContent = msg;
+  el.classList.add('show');
+}
+
+function hideError() {
+  document.getElementById('error-box').classList.remove('show');
+}
+
+function resetForm() {
+  document.getElementById('email-text').value    = '';
+  document.getElementById('deal-focus').value    = '';
+  document.getElementById('supplier-name').value = '';
+  document.getElementById('extra-notes').value   = '';
+  document.getElementById('output-section').classList.remove('visible');
+  dealData = {};
+  hideError();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function esc(s) {
+  return String(s || '')
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;');
+}
+</script>
+</body>
+</html>
