@@ -2,79 +2,90 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Plan Your Dream Trip · Styled Escapes by Vanessa</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<title>Plan My Trip · Styled Escapes by Vanessa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  :root {
-    --sand: #F5F0E8;
-    --sand-dark: #E8E0D0;
-    --ocean: #1A4A5C;
-    --ocean-light: #2A6A82;
-    --coral: #C4613A;
-    --text: #1C1C1A;
-    --text-muted: #6B6558;
-    --white: #FEFDFB;
-    --radius: 16px;
-  }
+:root {
+  --gold:          #B8922A;
+  --gold-mid:      #C9A84C;
+  --gold-light:    #D4AF37;
+  --gold-pale:     #E8D48A;
+  --gold-border:   rgba(184,146,42,0.3);
+  --gold-dim:      rgba(184,146,42,0.12);
+  --ink:           #2A2318;
+  --ink-soft:      #3D3326;
+  --brown-mid:     #5C4A32;
+  --warm-gray:     #7A6E5E;
+  --parchment:     #F5EDD8;
+  --parchment-mid: #EDE0C4;
+  --parchment-deep:#E0CEAA;
+  --cream:         #FAF6EE;
+  --linen:         #FDFAF4;
+  --white:         #FFFFFF;
+  --font-display:  'Cinzel', 'Georgia', serif;
+  --font-serif:    'Cormorant Garamond', 'Georgia', serif;
+  --font-sans:     'Montserrat', sans-serif;
+}
 
-  html, body {
-    height: 100%;
-    font-family: 'DM Sans', sans-serif;
-    background: var(--sand);
-    color: var(--text);
-  }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-sans);
+  background: var(--parchment-mid);
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-  body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 100vh;
-    padding: 0;
-  }
+/* ── TOP NAV ── */
+.top-nav {
+  position: fixed; top: 0; left: 0; right: 0; width: 100%; z-index: 200;
+  height: 72px; display: flex; align-items: center;
+  justify-content: space-between; padding: 0 40px;
+  background: rgba(253,250,244,0.96);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--gold-border);
+  flex-shrink: 0;
+}
+.top-nav-logo img { height: 60px; width: auto; display: block; }
+.top-nav-right { display: flex; align-items: center; gap: 20px; }
+.top-nav-link {
+  font-size: 9.5px; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--warm-gray); text-decoration: none; font-weight: 500; transition: color 0.2s;
+}
+.top-nav-link:hover { color: var(--gold); }
+.top-nav-badge {
+  font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--gold); font-weight: 600;
+  border: 1px solid var(--gold-border);
+  padding: 7px 16px; background: var(--gold-dim);
+}
 
-  .page-header {
-    width: 100%;
-    background: var(--ocean);
-    padding: 18px 32px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  .brand { display: flex; flex-direction: column; }
-  .brand-name {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 22px;
-    font-weight: 400;
-    color: #F5F0E8;
-    letter-spacing: 0.02em;
-  }
-  .brand-sub {
-    font-size: 11px;
-    color: rgba(245,240,232,0.6);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    margin-top: 2px;
-  }
-  .header-badge {
-    font-size: 11px;
-    color: rgba(245,240,232,0.7);
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.15);
-    border-radius: 20px;
-    padding: 5px 14px;
-    letter-spacing: 0.06em;
-  }
+/* ── PAGE STYLES FROM ORIGINAL ── */
+html, 
+
+  
+
+  
+  
+  
+  
+  
 
   .main {
     width: 100%;
     max-width: 680px;
     padding: 40px 20px 60px;
     flex: 1;
+    margin: 0 auto;
   }
 
   .intro {
@@ -86,7 +97,7 @@
     font-size: 11px;
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: var(--coral);
+    color: var(--gold);
     margin-bottom: 10px;
   }
   .intro h1 {
@@ -97,7 +108,7 @@
     color: var(--ocean);
     margin-bottom: 14px;
   }
-  .intro h1 em { font-style: italic; color: var(--coral); }
+  .intro h1 em { font-style: italic; color: var(--gold); }
   .intro p {
     font-size: 15px;
     color: var(--text-muted);
@@ -170,7 +181,7 @@
   .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
   .chip {
     font-size: 13px;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     background: var(--sand);
     color: var(--ocean);
     border: 1px solid var(--sand-dark);
@@ -184,7 +195,7 @@
   .input-row { display: flex; gap: 10px; align-items: flex-end; }
   .msg-input {
     flex: 1;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     font-size: 14px;
     border: 1.5px solid var(--sand-dark);
     border-radius: 12px;
@@ -227,7 +238,7 @@
     box-shadow: 0 2px 40px rgba(26,74,92,0.08);
   }
   .confirm-msg.visible { display: block; }
-  .confirm-icon { font-size: 28px; color: var(--coral); margin-bottom: 14px; }
+  .confirm-icon { font-size: 28px; color: var(--gold); margin-bottom: 14px; }
   .confirm-msg h2 {
     font-family: 'Cormorant Garamond', serif;
     font-size: 28px;
@@ -271,28 +282,191 @@
 
   @media (max-width: 500px) {
     .intro h1 { font-size: 32px; }
-    .page-header { padding: 14px 18px; }
-    .brand-name { font-size: 18px; }
-    .header-badge { display: none; }
+    
+    
+    
   }
+
+/* ── OVERRIDES to match brand ── */
+.main {
+  padding-top: 72px;
+  flex: 1;
+}
+.intro {
+  background: var(--parchment-mid);
+  border-bottom: 1px solid var(--parchment-deep);
+}
+.intro-eyebrow {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 600;
+}
+.intro h1 {
+  font-family: var(--font-display);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.intro h1 em {
+  font-style: italic;
+  color: var(--gold);
+}
+.intro p {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  font-weight: 300;
+  color: var(--brown-mid);
+}
+.free-tag {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 600;
+  border: 1px solid var(--gold-border);
+  padding: 8px 18px;
+  background: var(--gold-dim);
+  display: inline-block;
+  border-radius: 0;
+}
+.chat-wrap {
+  background: var(--linen);
+  border: 1px solid var(--parchment-deep);
+  border-radius: 0;
+  box-shadow: 0 4px 32px rgba(120,90,30,0.08);
+}
+.bubble.agent {
+  background: var(--parchment-mid);
+  color: var(--ink);
+  border: 1px solid var(--parchment-deep);
+  border-radius: 0 12px 12px 12px;
+  font-family: var(--font-serif);
+  font-size: 17px;
+  font-weight: 300;
+  line-height: 1.75;
+}
+.bubble.user {
+  background: var(--gold);
+  color: var(--linen);
+  border-radius: 12px 0 12px 12px;
+}
+.chip {
+  background: var(--linen);
+  border: 1px solid var(--gold-border);
+  color: var(--gold);
+  font-family: var(--font-sans);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  border-radius: 0;
+  font-weight: 500;
+  transition: background 0.15s, color 0.15s;
+}
+.chip:hover { background: var(--gold); color: var(--linen); }
+.msg-input {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  background: var(--linen);
+  border: 1px solid var(--parchment-deep);
+  color: var(--ink);
+  border-radius: 0;
+}
+.msg-input:focus { border-color: var(--gold); outline: none; }
+.send-btn {
+  background: var(--gold);
+  color: var(--linen);
+  border: none;
+  border-radius: 0;
+  transition: background 0.15s;
+}
+.send-btn:hover { background: var(--gold-light); }
+.avatar {
+  background: var(--parchment-mid);
+  border: 1px solid var(--gold-border);
+  color: var(--gold);
+  font-family: var(--font-display);
+  font-size: 14px;
+  border-radius: 50%;
+}
+.confirm-msg {
+  background: var(--linen);
+  border: 1px solid var(--gold-border);
+  border-radius: 0;
+}
+.confirm-icon {
+  color: var(--gold);
+  font-size: 32px;
+}
+.confirm-msg h2 {
+  font-family: var(--font-display);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.confirm-links a {
+  background: var(--gold);
+  color: var(--linen);
+  border-radius: 0;
+  font-family: var(--font-sans);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-weight: 600;
+  text-decoration: none;
+  padding: 10px 24px;
+  transition: background 0.15s;
+  display: inline-block;
+}
+.confirm-links a:hover { background: var(--gold-light); }
+
+/* ── FOOTER ── */
+.chat-footer {
+  background: var(--ink);
+  padding: 18px 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  border-top: 1px solid rgba(184,146,42,0.15);
+  flex-shrink: 0;
+  width: 100%;
+}
+.chat-footer span {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: rgba(184,146,42,0.45);
+}
+.chat-footer a {
+  color: rgba(184,146,42,0.6);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.chat-footer a:hover { color: var(--gold); }
 </style>
 </head>
 <body>
 
-<header class="page-header">
-  <a href="vanessa-homepage.html" class="brand" style="text-decoration:none;">
-    <div class="brand-name">Styled Escapes by Vanessa</div>
-    <div class="brand-sub">Dream Vacations · Travel Consultant</div>
+<!-- TOP NAV -->
+<nav class="top-nav">
+  <a href="vanessa-homepage.html" class="top-nav-logo">
+    <img src="embossed_gold_logo.png" alt="Styled Escapes by Vanessa">
   </a>
-  <div class="header-badge">Free Consultation · No Obligation</div>
-</header>
+  <div class="top-nav-right">
+    <a href="vanessa-homepage.html" class="top-nav-link">← Back to Home</a>
+    <span class="top-nav-badge">Free Consultation · No Obligation</span>
+  </div>
+</nav>
 
+<!-- MAIN CHATBOT CONTENT -->
 <main class="main">
   <div class="intro">
     <div class="intro-eyebrow">Let's get planning</div>
     <h1>Tell me about your<br><em>dream trip</em></h1>
     <p>Answer a few quick questions and I'll connect you with Vanessa — she'll handle everything from there.</p>
-    <span class="free-tag">✦ No booking fees — ever</span>
+    <span class="free-tag">✦ Free consultation — always</span>
   </div>
 
   <div class="chat-wrap">
@@ -324,7 +498,14 @@
   </div>
 </main>
 
+<!-- FOOTER -->
+<div class="chat-footer">
+  <span>&copy; 2025 Styled Escapes by Vanessa &middot; Affiliated with Abundant Travel by Dream Vacations</span>
+  <span><a href="mailto:travel@myjacobs.com">travel@myjacobs.com</a></span>
+</div>
+
 <script>
+
 // ── Config — fill these in before deploying ───────────────────────
 var EMAILJS_PUBLIC_KEY  = 'QvAERgBuGJwX1bMzh';
 var EMAILJS_SERVICE_ID  = 'service_l7auvsa';
@@ -631,6 +812,7 @@ function saveToCRM(data, followUpText) {
   inputEl.placeholder = first.placeholder;
   setChips(first.chips);
 })();
+
 </script>
 </body>
 </html>

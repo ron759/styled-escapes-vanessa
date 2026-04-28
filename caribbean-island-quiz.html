@@ -2,37 +2,118 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Which Caribbean Island Is Right for You? · Styled Escapes by Vanessa</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<title>Which Caribbean Island? · Styled Escapes by Vanessa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --gold:      #C8852A;
-  --gold-lt:   #F5DFA8;
-  --coral:     #C4503A;
-  --teal:      #1A5C78;
-  --teal-lt:   #D4EAF0;
-  --aqua:      #1A8A7A;
-  --ink:       #1A1C18;
-  --ink-muted: #5E6B5A;
-  --sand:      #F5F0E0;
-  --sand-2:    #EDE6D0;
-  --white:     #FFFFFF;
+  --gold:          #B8922A;
+  --gold-mid:      #C9A84C;
+  --gold-light:    #D4AF37;
+  --gold-pale:     #E8D48A;
+  --gold-border:   rgba(184,146,42,0.3);
+  --gold-dim:      rgba(184,146,42,0.12);
+  --ink:           #2A2318;
+  --ink-soft:      #3D3326;
+  --brown-mid:     #5C4A32;
+  --warm-gray:     #7A6E5E;
+  --parchment:     #F5EDD8;
+  --parchment-mid: #EDE0C4;
+  --parchment-deep:#E0CEAA;
+  --cream:         #FAF6EE;
+  --linen:         #FDFAF4;
+  --white:         #FFFFFF;
+  --font-display:  'Cinzel', 'Georgia', serif;
+  --font-serif:    'Cormorant Garamond', 'Georgia', serif;
+  --font-sans:     'Montserrat', sans-serif;
 }
 
 html { scroll-behavior: smooth; }
-
 body {
-  font-family: 'DM Sans', sans-serif;
-  background: var(--sand);
+  font-family: var(--font-sans);
+  background: var(--linen);
   color: var(--ink);
-  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+  min-height: 100vh;
 }
 
+/* ── TOP NAV ── */
+.top-nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  height: 80px; display: flex; align-items: center;
+  justify-content: space-between; padding: 0 48px;
+  background: rgba(253,250,244,0.96);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--gold-border);
+}
+.top-nav-logo img { height: 68px; width: auto; display: block; }
+.top-nav-right { display: flex; align-items: center; gap: 24px; }
+.top-nav-link {
+  font-size: 9.5px; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--warm-gray); text-decoration: none; font-weight: 500; transition: color 0.2s;
+}
+.top-nav-link:hover { color: var(--gold); }
+.top-nav-btn {
+  background: var(--gold); color: var(--linen); border: none;
+  font-family: var(--font-sans); font-size: 9.5px; letter-spacing: 0.18em;
+  text-transform: uppercase; padding: 10px 22px; cursor: pointer;
+  font-weight: 600; transition: background 0.2s; text-decoration: none; display: inline-block;
+}
+.top-nav-btn:hover { background: var(--gold-light); }
+
+/* ── QUIZ HERO ── */
+.quiz-hero {
+  background: var(--parchment-mid);
+  padding: 120px 48px 52px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid var(--parchment-deep);
+}
+.quiz-hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 70% 80% at 50% 60%, rgba(184,146,42,0.07) 0%, transparent 70%);
+  pointer-events: none;
+}
+.quiz-hero-ghost {
+  position: absolute; font-family: var(--font-display); font-size: 38vw; font-weight: 700;
+  color: transparent; -webkit-text-stroke: 1px rgba(184,146,42,0.05);
+  line-height: 1; top: 50%; left: 50%; transform: translate(-50%, -48%);
+  pointer-events: none; user-select: none; white-space: nowrap;
+}
+.quiz-hero-eyebrow {
+  display: block; font-size: 10px; letter-spacing: 0.32em; text-transform: uppercase;
+  color: var(--gold); font-weight: 600; margin-bottom: 16px; position: relative;
+}
+.quiz-hero-title {
+  font-family: var(--font-display); font-size: 40px; font-weight: 700;
+  letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink);
+  margin-bottom: 16px; line-height: 1.1; position: relative;
+}
+.quiz-hero-title em { font-style: italic; color: var(--gold); }
+.quiz-hero-sub {
+  font-family: var(--font-serif); font-size: 19px; font-weight: 300; font-style: italic;
+  color: var(--brown-mid); max-width: 540px; margin: 0 auto 24px; line-height: 1.7; position: relative;
+}
+.quiz-hero-meta {
+  display: flex; justify-content: center; gap: 36px; flex-wrap: wrap;
+  position: relative;
+}
+.hero-meta-item {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--warm-gray); font-weight: 500;
+}
+.hero-meta-item span { color: var(--gold); font-weight: 700; }
+
+/* ── PAGE STYLES FROM ORIGINAL ── */
 /* ── HEADER ── */
 .header {
   position: fixed;
@@ -57,101 +138,13 @@ body {
   text-decoration: none;
   letter-spacing: 0.04em;
 }
-.header-badge {
-  font-size: 11px;
-  background: rgba(255,255,255,0.1);
-  border: 1px solid rgba(255,255,255,0.18);
-  color: rgba(251,247,240,0.7);
-  padding: 5px 14px;
-  border-radius: 20px;
-  letter-spacing: 0.06em;
-}
 
 /* ── HERO ── */
-.hero {
-  position: relative;
-  padding: 116px 24px 44px;
-  text-align: center;
-  overflow: hidden;
-}
-.hero-bg {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    175deg,
-    #0A1E2A 0%,
-    #0E3040 12%,
-    #0A4A5A 28%,
-    #0E6A60 46%,
-    #1A9878 62%,
-    #38B898 75%,
-    #5AC8A8 86%,
-    #2AA888 100%
-  );
-}
+
 /* Ocean shimmer effect */
-.hero-shimmer {
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 55%;
-  background: linear-gradient(to top, rgba(10,40,50,0.6) 0%, transparent 100%);
-}
+
 /* Sun reflection on water */
-.hero-sun {
-  position: absolute;
-  top: 28%; left: 50%;
-  transform: translateX(-50%);
-  width: 56px; height: 56px;
-  border-radius: 50%;
-  background: radial-gradient(circle, #FFE88A 0%, #F5C040 40%, #E09020 100%);
-  box-shadow: 0 0 60px 20px rgba(245,192,64,0.55), 0 0 120px 50px rgba(230,140,30,0.25);
-}
-.hero-sun-reflection {
-  position: absolute;
-  top: 54%; left: 50%;
-  transform: translateX(-50%);
-  width: 60px;
-  height: 46%;
-  background: linear-gradient(to bottom, rgba(245,192,64,0.45) 0%, rgba(230,140,30,0.1) 50%, transparent 100%);
-  filter: blur(6px);
-}
-.hero-content {
-  position: relative;
-  z-index: 2;
-}
-.hero-eyebrow {
-  font-size: 11px;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: rgba(245,240,224,0.7);
-  margin-bottom: 14px;
-  animation: fadeUp 0.7s 0.2s ease both;
-}
-.hero-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(36px, 6vw, 62px);
-  font-weight: 300;
-  color: #F5F0E0;
-  line-height: 1.1;
-  margin-bottom: 14px;
-  animation: fadeUp 0.7s 0.35s ease both;
-}
-.hero-title em { font-style: italic; color: var(--gold-lt); }
-.hero-sub {
-  font-size: 15px;
-  color: rgba(245,240,224,0.72);
-  line-height: 1.65;
-  max-width: 480px;
-  margin: 0 auto 28px;
-  animation: fadeUp 0.7s 0.5s ease both;
-}
-.hero-islands {
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-  flex-wrap: wrap;
-  animation: fadeUp 0.7s 0.65s ease both;
-}
+
 .island-pill {
   font-size: 11px;
   background: rgba(255,255,255,0.12);
@@ -182,7 +175,7 @@ body {
 }
 .progress-label {
   font-size: 11px;
-  color: var(--ink-muted);
+  color: var(--warm-gray);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   margin-top: 8px;
@@ -247,7 +240,7 @@ body {
   width: 28px; height: 28px;
   border-radius: 50%;
   background: var(--sand-2);
-  color: var(--ink-muted);
+  color: var(--warm-gray);
   font-size: 12px;
   font-weight: 500;
   display: flex; align-items: center; justify-content: center;
@@ -260,7 +253,7 @@ body {
   color: var(--white);
 }
 .option-text { font-size: 14.5px; color: var(--ink); line-height: 1.5; padding-top: 4px; }
-.option-sub { font-size: 12px; color: var(--ink-muted); margin-top: 2px; }
+.option-sub { font-size: 12px; color: var(--warm-gray); margin-top: 2px; }
 
 .next-btn {
   margin-top: 28px;
@@ -268,8 +261,8 @@ body {
   font-family: 'DM Sans', sans-serif;
   font-size: 14px;
   font-weight: 500;
-  background: var(--teal);
-  color: var(--sand);
+  background: var(--gold);
+  color: var(--linen);
   border: none;
   border-radius: 12px;
   padding: 14px;
@@ -280,7 +273,7 @@ body {
   pointer-events: none;
 }
 .next-btn.active { opacity: 1; pointer-events: all; }
-.next-btn.active:hover { background: #216A88; transform: translateY(-1px); }
+.next-btn.active:hover { background: var(--gold-light); transform: translateY(-1px); }
 
 /* ── EMAIL GATE ── */
 .email-card {
@@ -300,10 +293,10 @@ body {
   color: var(--ink);
   margin-bottom: 10px;
 }
-.email-title em { font-style: italic; color: var(--teal); }
+.email-title em { font-style: italic; color: var(--ink); }
 .email-sub {
   font-size: 14px;
-  color: var(--ink-muted);
+  color: var(--warm-gray);
   line-height: 1.65;
   margin-bottom: 28px;
   max-width: 380px;
@@ -325,13 +318,13 @@ body {
   outline: none;
   transition: border-color 0.15s, background 0.15s;
 }
-.email-input:focus { border-color: var(--teal); background: var(--white); }
+.email-input:focus { border-color: var(--ink); background: var(--white); }
 .email-submit {
   width: 100%;
   font-family: 'DM Sans', sans-serif;
   font-size: 14px;
   font-weight: 500;
-  background: var(--teal);
+  background: var(--ink);
   color: var(--sand);
   border: none;
   border-radius: 10px;
@@ -341,7 +334,7 @@ body {
   letter-spacing: 0.02em;
 }
 .email-submit:hover { background: #216A88; transform: translateY(-1px); }
-.email-fine { font-size: 11px; color: var(--ink-muted); opacity: 0.6; margin-top: 10px; line-height: 1.5; }
+.email-fine { font-size: 11px; color: var(--warm-gray); opacity: 0.6; margin-top: 10px; line-height: 1.5; }
 
 /* ── RESULT ── */
 .result-card {
@@ -419,7 +412,7 @@ body {
   font-size: 10px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--ink-muted);
+  color: var(--warm-gray);
   margin-bottom: 4px;
 }
 .result-fact-value { font-size: 14px; font-weight: 500; color: var(--ink); }
@@ -428,7 +421,7 @@ body {
   font-size: 11px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--ink-muted);
+  color: var(--warm-gray);
   margin-bottom: 12px;
 }
 .result-why-list {
@@ -463,7 +456,7 @@ body {
   font-size: 11px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--ink-muted);
+  color: var(--warm-gray);
   margin-bottom: 10px;
 }
 .also-islands { display: flex; gap: 8px; flex-wrap: wrap; }
@@ -503,7 +496,7 @@ body {
   font-family: 'DM Sans', sans-serif;
   font-size: 13px;
   font-weight: 500;
-  background: var(--coral);
+  background: var(--gold);
   color: #F5F0E0;
   text-decoration: none;
   padding: 13px 28px;
@@ -511,7 +504,7 @@ body {
   letter-spacing: 0.04em;
   transition: background 0.15s, transform 0.1s;
 }
-.result-cta-btn:hover { background: #D4604A; transform: translateY(-1px); }
+.result-cta-btn:hover { background: var(--gold-light); transform: translateY(-1px); }
 .result-free { margin-top: 12px; font-size: 11px; color: rgba(245,240,224,0.4); }
 
 /* ── FOOTER ── */
@@ -555,7 +548,7 @@ body {
   text-decoration: none;
   transition: all 0.15s;
 }
-.footer-social a:hover { background: #C4503A; border-color: #C4503A; color: #FBF7F0; }
+.footer-social a:hover { background: var(--gold); border-color: var(--gold); color: #FBF7F0; }
 .footer-col { display: flex; flex-direction: column; gap: 10px; }
 .footer-col h4 {
   font-size: 11px;
@@ -596,36 +589,58 @@ body {
   .result-body { padding: 24px 20px; }
   .result-facts { grid-template-columns: 1fr; }
   .header { padding: 14px 18px; }
-  .header-badge { display: none; }
+  
 }
+
+/* ── SIMPLE FOOTER ── */
+.quiz-footer {
+  background: var(--ink); padding: 24px 48px;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 12px;
+  border-top: 1px solid rgba(184,146,42,0.2);
+  margin-top: 60px;
+}
+.quiz-footer span {
+  font-size: 10px; letter-spacing: 0.1em; color: rgba(184,146,42,0.5);
+}
+.quiz-footer a {
+  color: rgba(184,146,42,0.7); text-decoration: none; transition: color 0.2s;
+}
+.quiz-footer a:hover { color: var(--gold); }
 </style>
 </head>
 <body>
 
-<header class="header" id="header">
-  <a class="header-brand" href="vanessa-homepage.html">Styled Escapes by Vanessa</a>
-  <div class="header-badge">Free quiz · 2 minutes</div>
-</header>
+<!-- TOP NAV -->
+<nav class="top-nav">
+  <a href="vanessa-homepage.html" class="top-nav-logo">
+    <img src="embossed_gold_logo.png" alt="Styled Escapes by Vanessa">
+  </a>
+  <div class="top-nav-right">
+    <a href="vanessa-homepage.html#destinations" class="top-nav-link">Destinations</a>
+    <a href="vanessa-homepage.html#about" class="top-nav-link">About</a>
+    <a href="vanessa-travel-chatbot.html" class="top-nav-btn">Plan My Trip</a>
+  </div>
+</nav>
 
-<div class="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-shimmer"></div>
-  <div class="hero-sun"></div>
-  <div class="hero-sun-reflection"></div>
-  <div class="hero-content">
-    <div class="hero-eyebrow">6 questions · Find your perfect island</div>
-    <h1 class="hero-title">Which Caribbean Island<br>Is Right for <em>You?</em></h1>
-    <p class="hero-sub">From the nightlife of Aruba to the wilderness of St. Lucia — every island has a personality. Let's find yours.</p>
-    <div class="hero-islands">
-      <span class="island-pill">🌺 Jamaica</span>
-      <span class="island-pill">🌊 Aruba</span>
-      <span class="island-pill">🦜 St. Lucia</span>
-      <span class="island-pill">🐢 Grand Cayman</span>
-      <span class="island-pill">🌴 Turks &amp; Caicos</span>
-      <span class="island-pill">🍹 Barbados</span>
-    </div>
+<!-- QUIZ HERO -->
+<div class="quiz-hero">
+  <div class="quiz-hero-ghost">C</div>
+  <span class="quiz-hero-eyebrow">Free Quiz · 2 Minutes</span>
+  <h1 class="quiz-hero-title">Which Caribbean <em>Island?</em></h1>
+  <p class="quiz-hero-sub">Not all islands are the same. Find out which one perfectly matches your travel vibe.</p>
+  <div class="quiz-hero-meta">
+    <div class="hero-meta-item"><span>2 min</span>Quick quiz</div><div class="hero-meta-item"><span>8</span>Questions</div><div class="hero-meta-item"><span>Free</span>No catch</div>
   </div>
 </div>
+
+<!-- QUIZ CONTENT (original HTML preserved verbatim) -->
+<header class="header" id="header">
+  <a class="header-brand" href="vanessa-homepage.html">Styled Escapes by Vanessa</a>
+  
+</header>
+
+
 
 <div class="progress-wrap" id="progressWrap">
   <div class="progress-bar-bg">
@@ -710,13 +725,13 @@ body {
         <h4>Connect</h4>
         <a href="vanessa-homepage.html">Back to Home</a>
         <a href="vanessa-travel-chatbot.html">Plan My Trip</a>
-        <a href="https://vjacobs.dreamvacations.com" target="_blank">Dream Vacations</a>
+        <a href="https://vjacobs.dreamvacations.com" target="_blank">Abundant Travel by Dream Vacations</a>
         <a href="mailto:vanessa@example.com">Contact Vanessa</a>
       </div>
     </div>
     <div class="footer-bottom">
       <div class="footer-copy">© 2025 Styled Escapes by Vanessa · All rights reserved</div>
-      <div class="footer-dream">Affiliated with Dream Vacations</div>
+      <div class="footer-dream">Affiliated with Abundant Travel by Dream Vacations</div>
     </div>
   </div>
 </div>
@@ -1104,6 +1119,399 @@ renderQuestion();
 window.addEventListener('scroll', function() {
   document.getElementById('header').classList.toggle('scrolled', window.scrollY > 60);
 });
+</script>
+
+<!-- FOOTER -->
+<div class="quiz-footer">
+  <span>&copy; 2025 Styled Escapes by Vanessa &middot; Affiliated with Abundant Travel by Dream Vacations</span>
+  <span><a href="vanessa-homepage.html">← Back to Home</a></span>
+</div>
+
+<script>
+
+var questions = [
+  {
+    text: "Your ideal beach day looks like…",
+    options: [
+      { letter:'A', text:"Calm, crystal-clear water perfect for snorkeling", sub:"I want to see what's underneath.", tag:'cayman' },
+      { letter:'B', text:"Powdery white sand, total seclusion, no one around", sub:"Just me, the water, and silence.", tag:'turks' },
+      { letter:'C', text:"Lively beach bar, reggae in the background, rum punch", sub:"The beach should have a vibe.", tag:'jamaica' },
+      { letter:'D', text:"Pristine water, dramatic cliffs in the background", sub:"I want views as good as the swim.", tag:'lucia' }
+    ]
+  },
+  {
+    text: "After dinner, you're most likely to…",
+    options: [
+      { letter:'A', text:"Hit the casino or find a rooftop bar for cocktails", sub:"The night is young.", tag:'aruba' },
+      { letter:'B', text:"Stroll the harbor, maybe find a jazz bar", sub:"Relaxed, a little sophisticated.", tag:'barbados' },
+      { letter:'C', text:"Head back to the resort — I'm on vacation to rest", sub:"Bed by 9:30 is a victory.", tag:'turks' },
+      { letter:'D', text:"Find the best local spot with live music", sub:"I want to experience the culture.", tag:'jamaica' }
+    ]
+  },
+  {
+    text: "Your group is most likely to be…",
+    options: [
+      { letter:'A', text:"Couple on a romantic getaway", sub:"Just the two of us, fully unplugged.", tag:'lucia' },
+      { letter:'B', text:"Family with kids", sub:"We need beach, pool, and things to do.", tag:'cayman' },
+      { letter:'C', text:"Friends on a girls' or group trip", sub:"We want fun, food, and adventure.", tag:'aruba' },
+      { letter:'D', text:"Couple who loves exploring and being active", sub:"We'll swim, hike, eat, and repeat.", tag:'barbados' }
+    ]
+  },
+  {
+    text: "Which activity would you actually do on vacation?",
+    options: [
+      { letter:'A', text:"Swim with stingrays in a sandbar", sub:"Bucket list moment.", tag:'cayman' },
+      { letter:'B', text:"Hike to a waterfall or volcanic crater", sub:"Worth the effort.", tag:'lucia' },
+      { letter:'C', text:"Rent a jeep and drive around the island yourself", sub:"The best way to explore.", tag:'aruba' },
+      { letter:'D', text:"Take a catamaran party cruise", sub:"Champagne, sun, and the open sea.", tag:'barbados' }
+    ]
+  },
+  {
+    text: "Your travel budget for this trip is…",
+    options: [
+      { letter:'A', text:"We're being thoughtful but not cutting corners", sub:"Good value matters.", tag:'jamaica' },
+      { letter:'B', text:"We're comfortable — this is a real treat", sub:"Want quality across the board.", tag:'aruba' },
+      { letter:'C', text:"We're splurging — this trip is special", sub:"Price isn't the deciding factor.", tag:'turks' },
+      { letter:'D', text:"Mix of splurge and save — it depends on what it is", tag:'barbados' }
+    ]
+  },
+  {
+    text: "What matters most to you when choosing a destination?",
+    options: [
+      { letter:'A', text:"World-class beaches — the best water I've ever seen", tag:'turks' },
+      { letter:'B', text:"Natural beauty — scenery that takes your breath away", tag:'lucia' },
+      { letter:'C', text:"Nightlife and energy — somewhere that comes alive after dark", tag:'aruba' },
+      { letter:'D', text:"Rich culture and genuine local experiences", tag:'jamaica' }
+    ]
+  }
+];
+
+var islands = {
+  jamaica: {
+    name: "Jamaica",
+    country: "The Caribbean's Soul",
+    emoji: "🌺",
+    bg: "linear-gradient(160deg, #1A2A0A 0%, #2A5A18 25%, #3A8A28 50%, #C87820 75%, #E8A030 100%)",
+    vibe: "Bold, cultural, full of life",
+    bestFor: "Culture seekers & first-time Caribbean visitors",
+    bestMonth: "Dec – Apr",
+    topResort: "Sandals Montego Bay",
+    why: [
+      "The most vibrant food and music scene in the Caribbean",
+      "All-inclusive resorts with the best value for money",
+      "Iconic experiences: Dunn's River Falls, Blue Mountains, jerk chicken",
+      "Warm, incredibly welcoming local culture",
+      "Easy non-stop flights from most US cities"
+    ],
+    also: ["Barbados", "Aruba", "Grand Cayman"]
+  },
+  aruba: {
+    name: "Aruba",
+    country: "One Happy Island",
+    emoji: "🌊",
+    bg: "linear-gradient(160deg, #0A1E3A 0%, #0A3A6A 28%, #0A6AAA 52%, #38A8D0 72%, #70C8E8 100%)",
+    vibe: "Sunny, social, never rainy",
+    bestFor: "Sun-seekers, nightlife, couples, and groups",
+    bestMonth: "Year-round (outside hurricane zone)",
+    topResort: "Bucuti & Tara Beach Resort",
+    why: [
+      "Outside the hurricane belt — sun virtually 365 days a year",
+      "Eagle Beach is consistently rated a top 10 world beach",
+      "Excellent nightlife, casinos, and restaurant scene",
+      "Easy island to navigate — great for first-timers",
+      "Wide range of water sports and activities"
+    ],
+    also: ["Barbados", "Turks & Caicos", "Jamaica"]
+  },
+  lucia: {
+    name: "St. Lucia",
+    country: "The Helen of the West Indies",
+    emoji: "🌋",
+    bg: "linear-gradient(160deg, #0A1A1A 0%, #1A3A2A 22%, #2A6A3A 44%, #4A9A50 65%, #88B848 85%, #C89020 100%)",
+    vibe: "Dramatic, romantic, lush",
+    bestFor: "Romantic getaways, honeymooners, nature lovers",
+    bestMonth: "Jan – Apr",
+    topResort: "Jade Mountain / Ladera Resort",
+    why: [
+      "Most dramatic scenery in the Caribbean — the Piton mountains are iconic",
+      "Ideal for honeymoons and anniversary trips",
+      "Volcanic hot springs, rainforest hikes, and stunning viewpoints",
+      "Quieter and less crowded than many other islands",
+      "Outstanding boutique resort scene"
+    ],
+    also: ["Barbados", "Turks & Caicos", "Jamaica"]
+  },
+  cayman: {
+    name: "Grand Cayman",
+    country: "The Cayman Islands",
+    emoji: "🐢",
+    bg: "linear-gradient(160deg, #081828 0%, #0A3050 24%, #0A5A80 48%, #28A0C0 70%, #50C8D8 100%)",
+    vibe: "Pristine, family-friendly, upscale",
+    bestFor: "Families, snorkelers, and luxury travelers",
+    bestMonth: "Dec – Apr",
+    topResort: "The Ritz-Carlton Grand Cayman",
+    why: [
+      "Stingray City is one of the world's most unique wildlife encounters",
+      "Seven Mile Beach — arguably the best family beach in the Caribbean",
+      "Some of the clearest water in the world for snorkeling and diving",
+      "Very safe, easy to navigate, and consistently clean",
+      "Excellent dining scene for a small island"
+    ],
+    also: ["Turks & Caicos", "Barbados", "Aruba"]
+  },
+  turks: {
+    name: "Turks & Caicos",
+    country: "British Overseas Territory",
+    emoji: "🌴",
+    bg: "linear-gradient(160deg, #0A1828 0%, #0A3858 24%, #0870A0 50%, #28B8D8 70%, #70D8F0 100%)",
+    vibe: "Pristine, secluded, unhurried luxury",
+    bestFor: "Luxury travelers, couples, and those who want the best beaches on earth",
+    bestMonth: "Dec – Apr",
+    topResort: "COMO Parrot Cay / Grace Bay Club",
+    why: [
+      "Grace Bay Beach is consistently ranked the #1 beach in the world",
+      "The most turquoise, impossibly clear water you've ever seen",
+      "Quiet and uncrowded — feels exclusive even in peak season",
+      "World-class luxury resort options",
+      "Perfect for complete disconnection and reset"
+    ],
+    also: ["Aruba", "Grand Cayman", "Barbados"]
+  },
+  barbados: {
+    name: "Barbados",
+    country: "The Gem of the Caribbean",
+    emoji: "🍹",
+    bg: "linear-gradient(160deg, #1A0A28 0%, #3A1A50 24%, #8A3A70 48%, #C86060 68%, #E89030 100%)",
+    vibe: "Sophisticated, lively, beautifully balanced",
+    bestFor: "Couples, foodies, culture lovers, and active travelers",
+    bestMonth: "Dec – May",
+    topResort: "Sandy Lane / Sandals Barbados",
+    why: [
+      "The most well-rounded island in the Caribbean — beach, culture, food, nightlife",
+      "World-class food and rum scene (the birthplace of rum)",
+      "Vibrant Bridgetown offers real local flavor and great shopping",
+      "Both calm west coast and exciting east coast surf beaches",
+      "English-speaking with excellent infrastructure"
+    ],
+    also: ["St. Lucia", "Jamaica", "Aruba"]
+  }
+};
+
+var current = 0;
+var scores = { jamaica:0, aruba:0, lucia:0, cayman:0, turks:0, barbados:0 };
+var selectedTag = null;
+
+// ── CRM config (same GAS proxy as the CRM tool) ───────────────────
+var CRM_GAS_URL  = 'https://script.google.com/macros/s/AKfycbzwpKU33T2fYOOE1a6RPTAtysw-lGEQM7YdV2GHqm5WBI9XxBoC3zCQDbLSOxP4qb8a/exec';
+var PROXY_SECRET = '2xqcjRE-smroFvVFZHNw';  // Must match PROXY_SECRET in GAS Script Properties
+var CRM_LOCAL_KEY = 'vnCRM_v2_dev';
+
+function crmGenId() { return Date.now().toString(36) + Math.random().toString(36).slice(2,6); }
+function crmNowLabel() {
+  return new Date().toLocaleString('en-US', { month:'short', day:'numeric', year:'numeric', hour:'numeric', minute:'2-digit' });
+}
+
+function crmGasPost(payload) {
+  if (!CRM_GAS_URL || CRM_GAS_URL === 'YOUR_GAS_WEB_APP_URL') return Promise.resolve(null);
+  return fetch(CRM_GAS_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain' },
+    body: JSON.stringify(Object.assign({ secret: PROXY_SECRET }, payload))
+  }).then(function(r) { return r.json(); }).catch(function() { return null; });
+}
+
+function saveToCRM(firstName, lastName, email, quizNote, onDone) {
+  var fullName   = (firstName + ' ' + lastName).trim();
+  var emailLower = email.toLowerCase();
+
+  function writeNoteAndClient(clientId, isNew, clientPayload) {
+    var note = { id: crmGenId(), clientId: clientId, text: quizNote, date: crmNowLabel() };
+    if (CRM_GAS_URL && CRM_GAS_URL !== 'https://script.google.com/macros/s/AKfycbzwpKU33T2fYOOE1a6RPTAtysw-lGEQM7YdV2GHqm5WBI9XxBoC3zCQDbLSOxP4qb8a/exec') {
+      var chain = isNew
+        ? crmGasPost({ type: 'crm', action: 'addClient', client: clientPayload })
+        : Promise.resolve();
+      chain.then(function() {
+        return crmGasPost({ type: 'crm', action: 'addNote', note: note });
+      }).finally(function() { if (onDone) onDone(); });
+    } else {
+      // Dev / localStorage fallback
+      var stored = null;
+      try { stored = JSON.parse(localStorage.getItem(CRM_LOCAL_KEY) || 'null'); } catch(e) {}
+      var cls = (stored && stored.clients) || [];
+      var nts = (stored && stored.notes)   || [];
+      var tds = (stored && stored.todos)   || [];
+      if (isNew) cls.push(clientPayload);
+      nts.push(note);
+      localStorage.setItem(CRM_LOCAL_KEY, JSON.stringify({ clients: cls, todos: tds, notes: nts }));
+      if (onDone) onDone();
+    }
+  }
+
+  function checkAndWrite(clientList) {
+    var existing = null;
+    for (var i = 0; i < clientList.length; i++) {
+      if ((clientList[i].email || '').toLowerCase() === emailLower) { existing = clientList[i]; break; }
+    }
+    if (existing) {
+      writeNoteAndClient(existing.id, false, null);
+    } else {
+      var newId = crmGenId();
+      var newClient = {
+        id: newId, name: fullName, email: email,
+        phone: '', address: '', bday: '',
+        source: 'Quiz — Caribbean Island',
+        interests: [], general_notes: ''
+      };
+      writeNoteAndClient(newId, true, newClient);
+    }
+  }
+
+  if (CRM_GAS_URL && CRM_GAS_URL !== 'https://script.google.com/macros/s/AKfycbzwpKU33T2fYOOE1a6RPTAtysw-lGEQM7YdV2GHqm5WBI9XxBoC3zCQDbLSOxP4qb8a/exec') {
+    // Always fetch the live sheet first so the email check is accurate
+    crmGasPost({ type: 'crm', action: 'getAll' })
+      .then(function(res) { checkAndWrite((res && res.clients) || []); })
+      .catch(function() { if (onDone) onDone(); });
+  } else {
+    var stored = null;
+    try { stored = JSON.parse(localStorage.getItem(CRM_LOCAL_KEY) || 'null'); } catch(e) {}
+    checkAndWrite((stored && stored.clients) || []);
+  }
+}
+
+function renderQuestion() {
+  var q = questions[current];
+  var total = questions.length;
+  document.getElementById('qNumber').textContent = 'Question ' + (current+1) + ' of ' + total;
+  document.getElementById('qText').textContent = q.text;
+  document.getElementById('progressLabel').textContent = 'Question ' + (current+1) + ' of ' + total;
+  document.getElementById('progressFill').style.width = (current / total * 100) + '%';
+
+  var opts = document.getElementById('optionsEl');
+  opts.innerHTML = '';
+  q.options.forEach(function(o) {
+    var btn = document.createElement('button');
+    btn.className = 'option';
+    btn.innerHTML =
+      '<div class="option-letter">' + o.letter + '</div>' +
+      '<div>' +
+        '<div class="option-text">' + o.text + '</div>' +
+        (o.sub ? '<div class="option-sub">' + o.sub + '</div>' : '') +
+      '</div>';
+    btn.onclick = function() { selectOption(btn, o.tag); };
+    opts.appendChild(btn);
+  });
+
+  selectedTag = null;
+  var nb = document.getElementById('nextBtn');
+  nb.classList.remove('active');
+  nb.textContent = current === questions.length - 1 ? 'See My Island →' : 'Next Question →';
+
+  var card = document.getElementById('questionCard');
+  card.style.animation = 'none';
+  card.offsetHeight;
+  card.style.animation = 'slideIn 0.4s ease both';
+}
+
+function selectOption(btn, tag) {
+  document.querySelectorAll('.option').forEach(function(o) { o.classList.remove('selected'); });
+  btn.classList.add('selected');
+  selectedTag = tag;
+  document.getElementById('nextBtn').classList.add('active');
+}
+
+function nextQuestion() {
+  if (!selectedTag) return;
+  scores[selectedTag]++;
+  current++;
+  if (current >= questions.length) {
+    showEmailGate();
+  } else {
+    renderQuestion();
+  }
+}
+
+function showEmailGate() {
+  document.getElementById('questionCard').style.display = 'none';
+  document.getElementById('progressWrap').style.display = 'none';
+  document.getElementById('emailCard').style.display = 'block';
+}
+
+function revealResult() {
+  var firstName = document.getElementById('gateFirstName').value.trim();
+  var lastName  = document.getElementById('gateLastName').value.trim();
+  var email     = document.getElementById('gateEmail').value.trim();
+
+  if (!firstName) { document.getElementById('gateFirstName').focus(); return; }
+  if (!email)     { document.getElementById('gateEmail').focus(); return; }
+
+  // Determine winning island for the note
+  var winner = Object.keys(scores).reduce(function(a, b) { return scores[a] >= scores[b] ? a : b; });
+  var islandLabels = { jamaica:'Jamaica', aruba:'Aruba', lucia:'St. Lucia', cayman:'Grand Cayman', turks:'Turks & Caicos', barbados:'Barbados' };
+  var quizNote = 'Completed the Caribbean Island Quiz. Result: ' + (islandLabels[winner] || winner) + '.';
+
+  var btn = document.querySelector('.email-submit');
+  if (btn) { btn.disabled = true; btn.textContent = 'One moment…'; }
+
+  saveToCRM(firstName, lastName, email, quizNote, function() {
+    showResult(firstName);
+  });
+}
+
+function showResult(name) {
+  var winner = Object.keys(scores).reduce(function(a,b) {
+    return scores[a] >= scores[b] ? a : b;
+  });
+  var r = islands[winner];
+
+  document.getElementById('emailCard').style.display = 'none';
+  var card = document.getElementById('resultCard');
+  card.style.display = 'block';
+
+  document.getElementById('resultEmoji').textContent = r.emoji;
+  document.getElementById('resultIsland').textContent = r.name;
+  document.getElementById('resultCountry').textContent = r.country;
+  document.getElementById('resultTagline').textContent = r.vibe;
+  document.getElementById('resultBannerBg').style.background = r.bg;
+
+  // Facts grid
+  var factsEl = document.getElementById('resultFacts');
+  factsEl.innerHTML = [
+    { label:'Best For',      value: r.bestFor },
+    { label:'Best Months',   value: r.bestMonth },
+    { label:'Top Resort',    value: r.topResort },
+    { label:'Vibe',          value: r.vibe }
+  ].map(function(f) {
+    return '<div class="result-fact">' +
+      '<div class="result-fact-label">' + f.label + '</div>' +
+      '<div class="result-fact-value">' + f.value + '</div>' +
+    '</div>';
+  }).join('');
+
+  // Why list
+  var whyEl = document.getElementById('resultWhyList');
+  whyEl.innerHTML = r.why.map(function(w) {
+    return '<li><span class="why-check">✓</span>' + w + '</li>';
+  }).join('');
+
+  // Also consider
+  var alsoEl = document.getElementById('alsoIslands');
+  alsoEl.innerHTML = r.also.map(function(a) {
+    return '<span class="also-pill">' + a + '</span>';
+  }).join('');
+
+  document.getElementById('resultCtaSub').textContent =
+    (name ? name + ', ' : '') +
+    r.name + ' is calling — and Vanessa can put together the perfect package for you. Tell her about your trip and she\'ll handle everything from there.';
+
+  card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+renderQuestion();
+
+window.addEventListener('scroll', function() {
+  document.getElementById('header').classList.toggle('scrolled', window.scrollY > 60);
+});
+
 </script>
 </body>
 </html>

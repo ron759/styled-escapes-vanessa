@@ -2,151 +2,130 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>All-Inclusive Resort Guide: Sandals vs. Secrets vs. Beaches vs. Club Med · Styled Escapes by Vanessa</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<title>All-Inclusive Resorts · Styled Escapes by Vanessa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
+
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
 :root {
-  --gold:       #C8852A;
-  --gold-lt:    #F5DFA8;
-  --coral:      #C4503A;
-  --coral-lt:   #FAE8E4;
-  --ocean:      #1A3A5C;
-  --teal:       #1A5C50;
-  --teal-lt:    #E0EFEC;
-  --ink:        #1C1A18;
-  --ink-muted:  #6B5E54;
-  --cream:      #FBF7F0;
-  --cream-2:    #F2EDE3;
-  --white:      #FFFFFF;
-
-  /* Brand colors per resort */
-  --sandals-c:  #C8852A;
-  --secrets-c:  #6A3A7A;
-  --beaches-c:  #1A5C78;
-  --clubmed-c:  #C4503A;
+  --gold:          #B8922A;
+  --gold-mid:      #C9A84C;
+  --gold-light:    #D4AF37;
+  --gold-pale:     #E8D48A;
+  --gold-border:   rgba(184,146,42,0.3);
+  --gold-dim:      rgba(184,146,42,0.12);
+  --ink:           #2A2318;
+  --ink-soft:      #3D3326;
+  --brown-mid:     #5C4A32;
+  --warm-gray:     #7A6E5E;
+  --parchment:     #F5EDD8;
+  --parchment-mid: #EDE0C4;
+  --parchment-deep:#E0CEAA;
+  --cream:         #FAF6EE;
+  --linen:         #FDFAF4;
+  --font-display:  'Cinzel', 'Georgia', serif;
+  --font-serif:    'Cormorant Garamond', 'Georgia', serif;
+  --font-sans:     'Montserrat', sans-serif;
 }
-
 html { scroll-behavior: smooth; }
+body { font-family: var(--font-sans); background: var(--linen); color: var(--ink); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
 
-body {
-  font-family: 'DM Sans', sans-serif;
-  background: var(--cream);
-  color: var(--ink);
-  overflow-x: hidden;
+
+.nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; height: 100px; display: flex; align-items: center; justify-content: space-between; padding: 0 48px; background: rgba(253,250,244,0.96); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border-bottom: 1px solid var(--gold-border); }
+.nav-logo img { height: 92px; width: auto; display: block; }
+.nav-links { display: flex; gap: 28px; list-style: none; align-items: center; }
+.nav-links a { font-size: 9.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--warm-gray); text-decoration: none; font-weight: 500; transition: color 0.25s; white-space: nowrap; }
+.nav-links a:hover { color: var(--gold); }
+.nav-links a.active { color: var(--gold); }
+.nav-btn { background: var(--gold); color: var(--linen); border: none; font-family: var(--font-sans); font-size: 9.5px; letter-spacing: 0.18em; text-transform: uppercase; padding: 10px 22px; cursor: pointer; font-weight: 600; transition: background 0.2s; text-decoration: none; display: inline-block; white-space: nowrap; }
+.nav-btn:hover { background: var(--gold-light); }
+/* Restyle inline nav-cta buttons used inside resort cards */
+.nav-cta { background: var(--gold) !important; color: var(--linen) !important; border: none !important; border-radius: 0 !important; font-family: var(--font-sans) !important; font-size: 10px !important; letter-spacing: 0.14em !important; text-transform: uppercase !important; padding: 10px 20px !important; font-weight: 600 !important; text-decoration: none !important; display: inline-block !important; transition: background 0.2s !important; }
+.nav-cta:hover { background: var(--gold-light) !important; }
+
+
+footer { background: var(--ink); padding: 60px 52px 32px; text-align: center; border-top: 1px solid rgba(184,146,42,0.2); }
+.footer-logo { height: 80px; width: auto; display: block; margin: 0 auto 8px; }
+.footer-tagline { font-size: 10px; letter-spacing: 0.26em; text-transform: uppercase; color: rgba(184,146,42,0.6); margin-bottom: 32px; font-family: var(--font-sans); }
+.footer-social { display: flex; justify-content: center; gap: 12px; margin-bottom: 32px; }
+.footer-social a { width: 36px; height: 36px; border: 1px solid rgba(184,146,42,0.2); display: flex; align-items: center; justify-content: center; font-size: 11px; color: rgba(184,146,42,0.7); font-weight: 600; transition: border-color 0.2s, color 0.2s; text-decoration: none; font-family: var(--font-sans); }
+.footer-social a:hover { border-color: var(--gold); color: var(--gold); }
+.footer-cols { display: grid; grid-template-columns: repeat(3,1fr); gap: 40px; max-width: 700px; margin: 0 auto 36px; text-align: left; }
+.footer-col h4 { font-family: var(--font-display); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold-mid); font-weight: 600; margin-bottom: 16px; }
+.footer-col a { display: block; font-size: 11px; letter-spacing: 0.1em; color: rgba(184,146,42,0.80); text-decoration: none; font-weight: 400; margin-bottom: 8px; font-family: var(--font-sans); transition: color 0.2s; }
+.footer-col a:hover { color: var(--gold); }
+.footer-hr { width: 100%; height: 1px; background: rgba(184,146,42,0.08); margin-bottom: 20px; }
+.footer-legal { font-size: 10px; color: rgba(184,146,42,0.70); letter-spacing: 0.06em; font-family: var(--font-sans); }
+
+
+.btn-primary {
+  background: var(--gold); color: var(--linen); border: none;
+  font-family: var(--font-sans); font-size: 10px; letter-spacing: 0.22em;
+  text-transform: uppercase; padding: 15px 40px; cursor: pointer;
+  font-weight: 600; transition: background 0.2s, transform 0.15s;
+  text-decoration: none; display: inline-block;
+  box-shadow: 0 4px 16px rgba(184,146,42,0.25);
 }
+.btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+.btn-ghost {
+  background: transparent; color: var(--gold); border: 1px solid var(--gold-border);
+  font-family: var(--font-sans); font-size: 10px; letter-spacing: 0.22em;
+  text-transform: uppercase; padding: 15px 40px; cursor: pointer;
+  font-weight: 500; transition: border-color 0.2s, color 0.2s, transform 0.15s;
+  text-decoration: none; display: inline-block;
+}
+.btn-ghost:hover { border-color: var(--gold); color: var(--gold-light); transform: translateY(-2px); }
+.btn-dark {
+  background: var(--ink); color: var(--parchment); border: none;
+  font-family: var(--font-sans); font-size: 10px; letter-spacing: 0.22em;
+  text-transform: uppercase; padding: 15px 40px; cursor: pointer;
+  font-weight: 600; transition: background 0.2s, transform 0.15s;
+  text-decoration: none; display: inline-block;
+}
+.btn-dark:hover { background: var(--ink-soft); transform: translateY(-2px); }
 
+
+.eyebrow { display: block; font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); font-weight: 600; margin-bottom: 14px; }
+.section-heading { font-family: var(--font-display); font-size: 30px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink); margin-bottom: 16px; }
+.section-heading.light { color: var(--parchment); }
+.section-rule { display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 48px; }
+.rule-line { flex: 0 0 56px; height: 1px; background: var(--gold); opacity: 0.4; }
+.rule-gem  { width: 5px; height: 5px; background: var(--gold); transform: rotate(45deg); }
+
+
+.marquee-strip { background: var(--gold); padding: 12px 0; overflow: hidden; white-space: nowrap; }
+.marquee-track { display: inline-flex; animation: marqueeScroll 30s linear infinite; }
+@keyframes marqueeScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.marquee-item { display: inline-flex; align-items: center; gap: 18px; margin-right: 18px; font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--linen); font-weight: 600; }
+.m-gem { width: 4px; height: 4px; background: rgba(253,250,244,0.5); transform: rotate(45deg); }
+
+
+.page-hero { background: var(--parchment-mid); padding: 140px 52px 80px; text-align: center; position: relative; overflow: hidden; border-bottom: 1px solid var(--parchment-deep); }
+.page-hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 70% 80% at 50% 60%, rgba(184,146,42,0.07) 0%, transparent 70%); pointer-events: none; }
+.page-hero-ghost { position: absolute; font-family: var(--font-display); font-size: 38vw; font-weight: 700; color: transparent; -webkit-text-stroke: 1px rgba(184,146,42,0.05); line-height: 1; top: 50%; left: 50%; transform: translate(-50%, -48%); pointer-events: none; user-select: none; white-space: nowrap; }
+.page-hero-eyebrow { display: block; font-size: 10px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--gold); font-weight: 600; margin-bottom: 18px; position: relative; }
+.page-hero-title { font-family: var(--font-display); font-size: 44px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); margin-bottom: 18px; line-height: 1.08; position: relative; }
+.page-hero-sub { font-family: var(--font-serif); font-size: 20px; font-weight: 300; font-style: italic; color: var(--brown-mid); max-width: 580px; margin: 0 auto 36px; line-height: 1.7; position: relative; }
+.page-hero-rule { display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 32px; position: relative; }
+.page-hero-rule-line { flex: 0 0 60px; height: 1px; background: var(--gold); opacity: 0.4; }
+.page-hero-rule-gem  { width: 5px; height: 5px; background: var(--gold); transform: rotate(45deg); }
+.page-hero-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; position: relative; }
+
+/* ── PAGE STYLES ── */
 /* ── NAV ── */
-.nav {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  padding: 18px 48px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  z-index: 100;
-  transition: background 0.4s, backdrop-filter 0.4s, box-shadow 0.4s;
-}
-.nav.scrolled {
-  background: rgba(28,26,24,0.88);
-  backdrop-filter: blur(12px);
-  box-shadow: 0 1px 0 rgba(255,255,255,0.06);
-}
-.nav-brand {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 20px;
-  font-weight: 400;
-  color: #FBF7F0;
-  text-decoration: none;
-  letter-spacing: 0.04em;
-}
-.nav-cta {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 12px;
-  font-weight: 500;
-  background: var(--coral);
-  color: var(--cream);
-  text-decoration: none;
-  padding: 8px 20px;
-  border-radius: 20px;
-  letter-spacing: 0.04em;
-  transition: background 0.15s;
-}
-.nav-cta:hover { background: #D4604A; }
+.
+.
 
 /* ── HERO ── */
-.hero {
-  position: relative;
-  padding: 120px 40px 60px;
-  text-align: center;
-  overflow: hidden;
-}
-.hero-bg {
-  position: absolute; inset: 0;
-  background: linear-gradient(
-    155deg,
-    #0D1825 0%, #1A2E44 15%,
-    #2C3A60 30%, #4A3060 45%,
-    #8A3858 58%, #C86040 72%,
-    #D49030 85%, #A06020 100%
-  );
-}
-.hero-glow {
-  position: absolute;
-  bottom: -20px; left: 50%;
-  transform: translateX(-50%);
-  width: 700px; height: 180px;
-  background: radial-gradient(ellipse, rgba(220,148,52,0.45) 0%, transparent 70%);
-  filter: blur(24px);
-}
-.hero-content { position: relative; z-index: 2; }
-.hero-eyebrow {
-  font-size: 11px;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--gold-lt);
-  opacity: 0.85;
-  margin-bottom: 14px;
-}
-.hero-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(32px, 5.5vw, 62px);
-  font-weight: 300;
-  color: var(--cream);
-  line-height: 1.08;
-  margin-bottom: 18px;
-}
-.hero-title em { font-style: italic; color: var(--gold-lt); }
-.hero-sub {
-  font-size: 15px;
-  color: rgba(251,247,240,0.7);
-  line-height: 1.7;
-  max-width: 580px;
-  margin: 0 auto 32px;
-}
-.hero-brands {
-  display: flex;
-  gap: 12px;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-.hero-brand-pill {
-  font-size: 12px;
-  background: rgba(255,255,255,0.1);
-  border: 1px solid rgba(255,255,255,0.18);
-  color: rgba(251,247,240,0.8);
-  padding: 6px 18px;
-  border-radius: 20px;
-  letter-spacing: 0.06em;
-}
 
 /* ── STICKY JUMP NAV ── */
 .jump-nav {
   background: var(--white);
-  border-bottom: 1px solid var(--cream-2);
+  border-bottom: 1px solid var(--parchment-deep);
   padding: 0 40px;
   display: flex;
   gap: 0;
@@ -159,7 +138,7 @@ body {
   font-weight: 500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--ink-muted);
+  color: var(--warm-gray);
   text-decoration: none;
   padding: 14px 20px;
   border-bottom: 2px solid transparent;
@@ -173,7 +152,7 @@ body {
 .jump-link.secrets:hover, .jump-link.secrets.active { color: var(--secrets-c); border-color: var(--secrets-c); }
 .jump-link.beaches:hover, .jump-link.beaches.active { color: var(--beaches-c); border-color: var(--beaches-c); }
 .jump-link.clubmed:hover, .jump-link.clubmed.active { color: var(--clubmed-c); border-color: var(--clubmed-c); }
-.jump-link.compare:hover, .jump-link.compare.active { color: var(--teal); border-color: var(--teal); }
+.jump-link.compare:hover, .jump-link.compare.active { color: var(--ink); border-color: var(--ink); }
 
 /* ── QUICK COMPARE TABLE ── */
 .compare-section {
@@ -185,7 +164,7 @@ body {
   font-size: 11px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--coral);
+  color: var(--gold);
   margin-bottom: 10px;
 }
 .section-title {
@@ -196,10 +175,10 @@ body {
   color: var(--ink);
   margin-bottom: 12px;
 }
-.section-title em { font-style: italic; color: var(--teal); }
+.section-title em { font-style: italic; color: var(--ink); }
 .section-sub {
   font-size: 14px;
-  color: var(--ink-muted);
+  color: var(--warm-gray);
   line-height: 1.7;
   margin-bottom: 40px;
   max-width: 600px;
@@ -223,9 +202,9 @@ body {
   font-weight: 500;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  border-bottom: 2px solid var(--cream-2);
+  border-bottom: 2px solid var(--parchment-deep);
 }
-.compare-table th:first-child { text-align: left; color: var(--ink-muted); font-size: 11px; }
+.compare-table th:first-child { text-align: left; color: var(--warm-gray); font-size: 11px; }
 .th-sandals { color: var(--sandals-c); border-top: 3px solid var(--sandals-c); }
 .th-secrets { color: var(--secrets-c); border-top: 3px solid var(--secrets-c); }
 .th-beaches { color: var(--beaches-c); border-top: 3px solid var(--beaches-c); }
@@ -235,7 +214,7 @@ body {
   padding: 14px 20px;
   font-size: 13px;
   color: var(--ink);
-  border-bottom: 1px solid var(--cream-2);
+  border-bottom: 1px solid var(--parchment-deep);
   text-align: center;
   vertical-align: top;
   line-height: 1.5;
@@ -243,7 +222,7 @@ body {
 .compare-table td:first-child {
   text-align: left;
   font-weight: 500;
-  color: var(--ink-muted);
+  color: var(--warm-gray);
   font-size: 12px;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -252,14 +231,14 @@ body {
 .compare-table tr:last-child td { border-bottom: none; }
 .compare-table tr:hover td { background: var(--cream); }
 
-.check  { color: var(--teal);   font-size: 15px; }
+.check  { color: var(--ink);   font-size: 15px; }
 .cross  { color: #CCC;          font-size: 13px; }
 .dollar { font-size: 12px; color: var(--gold); font-weight: 500; }
 .star   { color: var(--gold); }
 
 /* ── RESORT DEEP-DIVES ── */
 .resorts-section {
-  background: var(--cream-2);
+  background: var(--parchment-deep);
   padding: 72px 40px;
 }
 
@@ -296,7 +275,7 @@ body {
 .resort-name em { font-style: italic; }
 .resort-tagline {
   font-size: 14px;
-  color: var(--ink-muted);
+  color: var(--warm-gray);
   line-height: 1.6;
   max-width: 480px;
 }
@@ -313,16 +292,16 @@ body {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0;
-  border-top: 1px solid var(--cream-2);
+  border-top: 1px solid var(--parchment-deep);
 }
 .resort-col { padding: 28px 40px; }
-.resort-col:first-child { border-right: 1px solid var(--cream-2); }
+.resort-col:first-child { border-right: 1px solid var(--parchment-deep); }
 
 .col-title {
   font-size: 11px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--ink-muted);
+  color: var(--warm-gray);
   margin-bottom: 14px;
 }
 .resort-list { list-style: none; }
@@ -330,7 +309,7 @@ body {
   font-size: 13.5px;
   color: var(--ink);
   padding: 7px 0;
-  border-bottom: 1px solid var(--cream-2);
+  border-bottom: 1px solid var(--parchment-deep);
   display: flex;
   gap: 10px;
   align-items: flex-start;
@@ -347,7 +326,7 @@ body {
 .resort-footer {
   padding: 20px 40px;
   background: var(--cream);
-  border-top: 1px solid var(--cream-2);
+  border-top: 1px solid var(--parchment-deep);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -356,7 +335,7 @@ body {
 }
 .resort-footer-tip {
   font-size: 13px;
-  color: var(--ink-muted);
+  color: var(--warm-gray);
   line-height: 1.6;
   flex: 1;
 }
@@ -380,7 +359,7 @@ body {
 
 .card-clubmed .resort-eyebrow { color: var(--clubmed-c); }
 .card-clubmed .resort-name    { color: var(--clubmed-c); }
-.card-clubmed .resort-badge   { background: var(--coral-lt); color: var(--clubmed-c); border: 1px solid rgba(196,80,58,0.2); }
+.card-clubmed .resort-badge   { background: var(--gold-pale); color: var(--clubmed-c); border: 1px solid rgba(196,80,58,0.2); }
 .card-clubmed .li-dot         { background: var(--clubmed-c); }
 
 /* ── WHICH IS RIGHT FOR YOU ── */
@@ -409,7 +388,7 @@ body {
   font-size: 10px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--ink-muted);
+  color: var(--warm-gray);
   margin-bottom: 6px;
 }
 .picker-title {
@@ -425,11 +404,11 @@ body {
 .picker-list {
   list-style: none;
   font-size: 13px;
-  color: var(--ink-muted);
+  color: var(--warm-gray);
   line-height: 1.65;
 }
 .picker-list li { margin-bottom: 5px; padding-left: 14px; position: relative; }
-.picker-list li::before { content:'✦'; position:absolute; left:0; font-size:8px; top:4px; color:var(--ink-muted); }
+.picker-list li::before { content:'✦'; position:absolute; left:0; font-size:8px; top:4px; color:var(--warm-gray); }
 
 /* ── VANESSA CTA ── */
 .cta-section {
@@ -457,7 +436,7 @@ body {
   font-size: 11px;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--gold-lt);
+  color: var(--gold-pale);
   margin-bottom: 14px;
   opacity: 0.85;
   position: relative;
@@ -471,7 +450,7 @@ body {
   margin-bottom: 14px;
   position: relative;
 }
-.cta-title em { font-style: italic; color: var(--gold-lt); }
+.cta-title em { font-style: italic; color: var(--gold-pale); }
 .cta-sub {
   font-size: 15px;
   color: rgba(251,247,240,0.65);
@@ -485,7 +464,7 @@ body {
   font-family: 'DM Sans', sans-serif;
   font-size: 14px;
   font-weight: 500;
-  background: var(--coral);
+  background: var(--gold);
   color: var(--cream);
   text-decoration: none;
   padding: 16px 40px;
@@ -494,7 +473,7 @@ body {
   transition: background 0.15s, transform 0.1s;
   position: relative;
 }
-.cta-btn:hover { background: #D4604A; transform: translateY(-1px); }
+.cta-btn:hover { background: var(--gold-light); transform: translateY(-1px); }
 .cta-free {
   font-size: 12px;
   color: rgba(251,247,240,0.4);
@@ -504,35 +483,7 @@ body {
 }
 
 /* ── FOOTER ── */
-footer {
-  background: #060F1C;
-  padding: 48px 48px 28px;
-}
-.footer-inner { max-width: 1160px; margin: 0 auto; }
-.footer-top {
-  display: flex;
-  gap: 48px;
-  flex-wrap: wrap;
-  padding-bottom: 36px;
-  border-bottom: 1px solid rgba(255,255,255,0.07);
-  margin-bottom: 24px;
-}
-.footer-brand {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 22px;
-  font-weight: 400;
-  color: #FBF7F0;
-  letter-spacing: 0.03em;
-  margin-bottom: 8px;
-}
-.footer-tagline {
-  font-size: 13px;
-  color: rgba(251,247,240,0.45);
-  line-height: 1.65;
-  max-width: 280px;
-  margin-bottom: 20px;
-}
-.footer-social { display: flex; gap: 10px; }
+
 .footer-social a {
   width: 34px; height: 34px;
   border-radius: 50%;
@@ -544,70 +495,74 @@ footer {
   text-decoration: none;
   transition: all 0.15s;
 }
-.footer-social a:hover { background: #C4503A; border-color: #C4503A; color: #FBF7F0; }
-.footer-col { display: flex; flex-direction: column; gap: 10px; }
-.footer-col h4 {
-  font-size: 11px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: #F5DFA8;
-  margin-bottom: 4px;
-}
-.footer-col a {
-  font-size: 13px;
-  color: rgba(251,247,240,0.5);
-  text-decoration: none;
-  transition: color 0.15s;
-}
+.footer-social a:hover { background: var(--gold); border-color: var(--gold); color: #FBF7F0; }
+
 .footer-col a:hover { color: #FBF7F0; }
-.footer-bottom {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-.footer-copy { font-size: 12px; color: rgba(251,247,240,0.25); }
-.footer-dream { font-size: 12px; color: rgba(251,247,240,0.25); }
 
 /* ── RESPONSIVE ── */
 @media (max-width: 768px) {
-  .nav { padding: 14px 20px; }
+  .
   .hero, .compare-section, .resorts-section, .picker-section, .cta-section { padding-left: 20px; padding-right: 20px; }
   .resort-header { grid-template-columns: 1fr; }
   .resort-body { grid-template-columns: 1fr; }
-  .resort-col:first-child { border-right: none; border-bottom: 1px solid var(--cream-2); }
+  .resort-col:first-child { border-right: none; border-bottom: 1px solid var(--parchment-deep); }
   .resort-header, .resort-col, .resort-footer { padding-left: 24px; padding-right: 24px; }
   .picker-grid { grid-template-columns: 1fr; }
-  footer { justify-content: center; text-align: center; }
+  
 }
+body { padding-top: 100px; }
+.nav.scrolled { background: rgba(253,250,244,0.99); box-shadow: 0 2px 20px rgba(184,146,42,0.1); }
 </style>
 </head>
 <body>
-
-<!-- Nav -->
 <nav class="nav" id="nav">
-  <a class="nav-brand" href="vanessa-homepage.html">Styled Escapes by Vanessa</a>
-  <a class="nav-cta" href="vanessa-travel-chatbot.html">Plan My Trip →</a>
+  <a href="vanessa-homepage.html" class="nav-logo">
+    <img src="embossed_gold_logo.png" alt="Styled Escapes by Vanessa">
+  </a>
+  <ul class="nav-links">
+    <li><a href="vanessa-homepage.html#destinations" class="active">Destinations</a></li>
+    <li><a href="vanessa-homepage.html#about">About</a></li>
+    <li><a href="deals.html">Deals</a></li>
+    <li><a href="blog-index.html">Blog</a></li>
+    <li><a href="cruise-planner-landing.html">Free Guide</a></li>
+    <li><a href="vanessa-travel-chatbot.html" class="nav-btn">Plan My Trip</a></li>
+  </ul>
 </nav>
-
-<!-- Hero -->
-<div class="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-glow"></div>
-  <div class="hero-content">
-    <div class="hero-eyebrow">The honest guide · From a travel pro</div>
-    <h1 class="hero-title">All-Inclusive Resorts:<br><em>Which Brand Is Right for You?</em></h1>
-    <p class="hero-sub">Sandals, Secrets, Beaches, Club Med — each brand promises paradise, but they're built for very different travelers. Here's the honest breakdown so you can stop guessing.</p>
-    <div class="hero-brands">
-      <span class="hero-brand-pill">Sandals</span>
-      <span class="hero-brand-pill">Secrets</span>
-      <span class="hero-brand-pill">Beaches</span>
-      <span class="hero-brand-pill">Club Med</span>
-    </div>
+<section class="page-hero">
+  <div class="page-hero-ghost">A</div>
+  <span class="page-hero-eyebrow">Mexico · Dominican Republic · Caribbean</span>
+  <h1 class="page-hero-title">All-Inclusive Resorts</h1>
+  <div class="page-hero-rule">
+    <div class="page-hero-rule-line"></div>
+    <div class="page-hero-rule-gem"></div>
+    <div class="page-hero-rule-gem" style="opacity:0.4;margin:0 -6px;width:3px;height:3px;"></div>
+    <div class="page-hero-rule-gem"></div>
+    <div class="page-hero-rule-line"></div>
+  </div>
+  <p class="page-hero-sub">Everything included, nothing to worry about. Let Vanessa find your perfect resort.</p>
+  <div class="page-hero-actions">
+    <a href="vanessa-travel-chatbot.html" class="btn-primary">Find My Resort</a>
+    <a href="vanessa-homepage.html#about" class="btn-ghost">Meet Vanessa</a>
+  </div>
+</section>
+<div class="marquee-strip" aria-hidden="true">
+  <div class="marquee-track">
+    <span class="marquee-item">Free Consultation <span class="m-gem"></span></span>
+    <span class="marquee-item">Abundant Travel by Dream Vacations <span class="m-gem"></span></span>
+    <span class="marquee-item">Caribbean Cruises <span class="m-gem"></span></span>
+    <span class="marquee-item">Hawaii Specialists <span class="m-gem"></span></span>
+    <span class="marquee-item">All-Inclusive Resorts <span class="m-gem"></span></span>
+    <span class="marquee-item">Group Travel Experts <span class="m-gem"></span></span>
+    <span class="marquee-item">Mediterranean Sailings <span class="m-gem"></span></span>
+    <span class="marquee-item">Free Consultation <span class="m-gem"></span></span>
+    <span class="marquee-item">Abundant Travel by Dream Vacations <span class="m-gem"></span></span>
+    <span class="marquee-item">Caribbean Cruises <span class="m-gem"></span></span>
+    <span class="marquee-item">Hawaii Specialists <span class="m-gem"></span></span>
+    <span class="marquee-item">All-Inclusive Resorts <span class="m-gem"></span></span>
+    <span class="marquee-item">Group Travel Experts <span class="m-gem"></span></span>
+    <span class="marquee-item">Mediterranean Sailings <span class="m-gem"></span></span>
   </div>
 </div>
-
 <!-- Jump Nav -->
 <div class="jump-nav">
   <a class="jump-link sandals" href="#sandals">Sandals</a>
@@ -983,42 +938,55 @@ footer {
   <a href="vanessa-travel-chatbot.html" class="cta-btn">Talk to Vanessa About My Trip →</a>
   <div class="cta-free">✦ &nbsp; Free Consultation · No Obligation · No Pressure</div>
 </section>
-
 <footer>
-  <div class="footer-inner">
-    <div class="footer-top">
-      <div>
-        <div class="footer-brand">Styled Escapes by Vanessa</div>
-        <p class="footer-tagline">Dream Vacations certified travel consultant serving Portland, TN and clients nationwide. Let's plan something beautiful.</p>
-        <div class="footer-social">
-          <a href="https://www.facebook.com/styledescapesbyvanessa" target="_blank" title="Facebook">f</a>
-          <a href="https://www.instagram.com/vanessa_abundant_travel/" target="_blank" title="Instagram">&#9642;</a>
-          <a href="mailto:travel@myjacobs.com" title="Email">@</a>
-        </div>
-      </div>
-      <div class="footer-col">
-        <h4>Free Resources</h4>
-        <a href="allinclusive-resort-guide.html">All-Inclusive Resort Guide</a>
-        <a href="travel-style-quiz.html">Travel Style Quiz</a>
-        <a href="caribbean-island-quiz.html">Caribbean Island Quiz</a>
-        <a href="cruise-planner-landing.html">Free Cruise Planner</a>
-      </div>
-      <div class="footer-col">
-        <h4>Connect</h4>
-        <a href="vanessa-homepage.html">Back to Home</a>
-        <a href="vanessa-travel-chatbot.html">Plan My Trip</a>
-        <a href="https://vjacobs.dreamvacations.com" target="_blank">Dream Vacations</a>
-        <a href="mailto:Travel@myjacobs.com">Contact Vanessa</a>
-      </div>
+  <img class="footer-logo" src="embossed_gold_logo.png" alt="Styled Escapes by Vanessa">
+  <p class="footer-tagline">Curated Journeys. Timeless Memories.</p>
+  <div class="footer-social">
+    <a href="https://www.facebook.com/styledescapesbyvanessa" target="_blank" rel="noopener" title="Facebook">f</a>
+    <a href="https://www.instagram.com/vanessa_abundant_travel/" target="_blank" rel="noopener" title="Instagram">ig</a>
+    <a href="mailto:travel@myjacobs.com" title="Email">@</a>
+  </div>
+  <div class="footer-cols">
+    <div class="footer-col">
+      <h4>Explore</h4>
+      <a href="destinations-cruises.html">Cruises</a>
+      <a href="destinations-hawaii.html">Hawaii</a>
+      <a href="allinclusive-resort-guide.html">All-Inclusive</a>
+      <a href="destinations-europe.html">Europe &amp; Beyond</a>
     </div>
-    <div class="footer-bottom">
-      <div class="footer-copy">© 2025 Styled Escapes by Vanessa · All rights reserved</div>
-      <div class="footer-dream">Affiliated with Dream Vacations</div>
+    <div class="footer-col">
+      <h4>Plan</h4>
+      <a href="vanessa-travel-chatbot.html">Plan My Trip</a>
+      <a href="cruise-planner-landing.html">Free Cruise Guide</a>
+      <a href="travel-style-quiz.html">Travel Style Quiz</a>
+      <a href="caribbean-island-quiz.html">Caribbean Quiz</a>
+    </div>
+    <div class="footer-col">
+      <h4>Connect</h4>
+      <a href="vanessa-homepage.html#about">About Vanessa</a>
+      <a href="https://vjacobs.dreamvacations.com" target="_blank" rel="noopener">Abundant Travel by Dream Vacations</a>
+      <a href="deals.html">Current Deals</a>
+      <a href="mailto:travel@myjacobs.com">Contact</a>
     </div>
   </div>
+  <div class="footer-hr"></div>
+  <p class="footer-legal">© 2025 Styled Escapes by Vanessa &nbsp;·&nbsp; Affiliated with Abundant Travel by Dream Vacations &nbsp;·&nbsp; Portland, TN 37148</p>
 </footer>
-
 <script>
+window.addEventListener('scroll', function() {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 60);
+});
+
+var reveals = document.querySelectorAll('.reveal');
+if (reveals.length > 0) {
+  var revealObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) { e.target.classList.add('visible'); revealObserver.unobserve(e.target); }
+    });
+  }, { threshold: 0.08 });
+  reveals.forEach(function(el) { revealObserver.observe(el); });
+}
+
 window.addEventListener('scroll', function() {
   document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 60);
 });

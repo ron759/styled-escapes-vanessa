@@ -4,135 +4,136 @@
 <meta charset="UTF-8">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Europe Vacations · Styled Escapes by Vanessa</title>
-<meta name="description" content="Planning a Europe trip? Explore river cruises, Mediterranean sailings, and the best cities and regions — with honest guidance from a certified travel consultant.">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<title>Europe & Beyond · Styled Escapes by Vanessa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
+
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
 :root {
-  --gold:        #C8852A;
-  --gold-lt:     #F5DFA8;
-  --coral:       #C4503A;
-  --teal:        #1A5C50;
-  --teal-lt:     #E0EFEC;
-  --ink:         #1C1A18;
-  --ink-muted:   #6B5E54;
-  --cream:       #FBF7F0;
-  --cream-2:     #F2EDE3;
-  --white:       #FFFFFF;
-
-  /* Per-region accent colors */
-  --med:    #1A4A7C;   /* Mediterranean — cobalt blue */
-  --river:  #7C3A1A;   /* River cruises — warm burgundy */
-  --north:  #2A4A2A;   /* Northern Europe — forest green */
-  --brit:   #3A2A5C;   /* British Isles — deep purple */
-  --east:   #5C3A1A;   /* Eastern Europe — amber brown */
-  --scan:   #1A3A5C;   /* Scandinavia — nordic blue */
+  --gold:          #B8922A;
+  --gold-mid:      #C9A84C;
+  --gold-light:    #D4AF37;
+  --gold-pale:     #E8D48A;
+  --gold-border:   rgba(184,146,42,0.3);
+  --gold-dim:      rgba(184,146,42,0.12);
+  --ink:           #2A2318;
+  --ink-soft:      #3D3326;
+  --brown-mid:     #5C4A32;
+  --warm-gray:     #7A6E5E;
+  --parchment:     #F5EDD8;
+  --parchment-mid: #EDE0C4;
+  --parchment-deep:#E0CEAA;
+  --cream:         #FAF6EE;
+  --linen:         #FDFAF4;
+  --font-display:  'Cinzel', 'Georgia', serif;
+  --font-serif:    'Cormorant Garamond', 'Georgia', serif;
+  --font-sans:     'Montserrat', sans-serif;
 }
-
 html { scroll-behavior: smooth; }
-body {
-  font-family: 'DM Sans', sans-serif;
-  background: var(--cream);
-  color: var(--ink);
-  overflow-x: hidden;
-}
+body { font-family: var(--font-sans); background: var(--linen); color: var(--ink); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
 
-/* ── NAV ── */
+
 .nav {
-  position: fixed; top: 0; left: 0; right: 0;
-  padding: 18px 48px;
-  display: flex; align-items: center; justify-content: space-between;
-  z-index: 100;
-  background: rgba(13,18,30,0.92);
-  backdrop-filter: blur(12px);
-  box-shadow: 0 1px 0 rgba(255,255,255,0.06);
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  height: 100px; display: flex; align-items: center;
+  justify-content: space-between; padding: 0 48px;
+  background: rgba(253,250,244,0.96);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--gold-border);
 }
-.nav-brand {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 20px; font-weight: 400;
-  color: #FBF7F0; text-decoration: none; letter-spacing: 0.04em;
+.nav-logo img { height: 92px; width: auto; display: block; }
+.nav-links { display: flex; gap: 28px; list-style: none; align-items: center; }
+.nav-links a { font-size: 9.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--warm-gray); text-decoration: none; font-weight: 500; transition: color 0.25s; white-space: nowrap; }
+.nav-links a:hover { color: var(--gold); }
+.nav-links a.active { color: var(--gold); }
+.nav-btn { background: var(--gold); color: var(--linen); border: none; font-family: var(--font-sans); font-size: 9.5px; letter-spacing: 0.18em; text-transform: uppercase; padding: 10px 22px; cursor: pointer; font-weight: 600; transition: background 0.2s; text-decoration: none; display: inline-block; white-space: nowrap; }
+.nav-btn:hover { background: var(--gold-light); }
+
+
+footer { background: var(--ink); padding: 60px 52px 32px; text-align: center; border-top: 1px solid rgba(184,146,42,0.2); }
+.footer-logo { height: 80px; width: auto; display: block; margin: 0 auto 8px; }
+.footer-tagline { font-size: 10px; letter-spacing: 0.26em; text-transform: uppercase; color: rgba(184,146,42,0.6); margin-bottom: 32px; font-family: var(--font-sans); }
+.footer-social { display: flex; justify-content: center; gap: 12px; margin-bottom: 32px; }
+.footer-social a { width: 36px; height: 36px; border: 1px solid rgba(184,146,42,0.2); display: flex; align-items: center; justify-content: center; font-size: 11px; color: rgba(184,146,42,0.7); font-weight: 600; transition: border-color 0.2s, color 0.2s; text-decoration: none; font-family: var(--font-sans); }
+.footer-social a:hover { border-color: var(--gold); color: var(--gold); }
+.footer-cols { display: grid; grid-template-columns: repeat(3,1fr); gap: 40px; max-width: 700px; margin: 0 auto 36px; text-align: left; }
+.footer-col h4 { font-family: var(--font-display); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold-mid); font-weight: 600; margin-bottom: 16px; }
+.footer-col a { display: block; font-size: 11px; letter-spacing: 0.1em; color: rgba(184,146,42,0.80); text-decoration: none; font-weight: 400; margin-bottom: 8px; font-family: var(--font-sans); transition: color 0.2s; }
+.footer-col a:hover { color: var(--gold); }
+.footer-hr { width: 100%; height: 1px; background: rgba(184,146,42,0.08); margin-bottom: 20px; }
+.footer-legal { font-size: 10px; color: rgba(184,146,42,0.70); letter-spacing: 0.06em; font-family: var(--font-sans); }
+
+
+.btn-primary {
+  background: var(--gold); color: var(--linen); border: none;
+  font-family: var(--font-sans); font-size: 10px; letter-spacing: 0.22em;
+  text-transform: uppercase; padding: 15px 40px; cursor: pointer;
+  font-weight: 600; transition: background 0.2s, transform 0.15s;
+  text-decoration: none; display: inline-block;
+  box-shadow: 0 4px 16px rgba(184,146,42,0.25);
 }
-.nav-cta {
-  font-size: 12px; font-weight: 500;
-  background: var(--coral); color: var(--cream);
-  text-decoration: none; padding: 8px 20px;
-  border-radius: 20px; letter-spacing: 0.04em;
-  transition: background 0.15s;
+.btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+.btn-ghost {
+  background: transparent; color: var(--gold); border: 1px solid var(--gold-border);
+  font-family: var(--font-sans); font-size: 10px; letter-spacing: 0.22em;
+  text-transform: uppercase; padding: 15px 40px; cursor: pointer;
+  font-weight: 500; transition: border-color 0.2s, color 0.2s, transform 0.15s;
+  text-decoration: none; display: inline-block;
 }
-.nav-cta:hover { background: #D4604A; }
+.btn-ghost:hover { border-color: var(--gold); color: var(--gold-light); transform: translateY(-2px); }
+.btn-dark {
+  background: var(--ink); color: var(--parchment); border: none;
+  font-family: var(--font-sans); font-size: 10px; letter-spacing: 0.22em;
+  text-transform: uppercase; padding: 15px 40px; cursor: pointer;
+  font-weight: 600; transition: background 0.2s, transform 0.15s;
+  text-decoration: none; display: inline-block;
+}
+.btn-dark:hover { background: var(--ink-soft); transform: translateY(-2px); }
+
+
+.eyebrow { display: block; font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); font-weight: 600; margin-bottom: 14px; }
+.section-heading { font-family: var(--font-display); font-size: 30px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink); margin-bottom: 16px; }
+.section-heading.light { color: var(--parchment); }
+.section-rule { display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 48px; }
+.rule-line { flex: 0 0 56px; height: 1px; background: var(--gold); opacity: 0.4; }
+.rule-gem  { width: 5px; height: 5px; background: var(--gold); transform: rotate(45deg); }
+
+
+.marquee-strip { background: var(--gold); padding: 12px 0; overflow: hidden; white-space: nowrap; }
+.marquee-track { display: inline-flex; animation: marqueeScroll 30s linear infinite; }
+@keyframes marqueeScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.marquee-item { display: inline-flex; align-items: center; gap: 18px; margin-right: 18px; font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--linen); font-weight: 600; }
+.m-gem { width: 4px; height: 4px; background: rgba(253,250,244,0.5); transform: rotate(45deg); }
+
+
+.page-hero { background: var(--parchment-mid); padding: 140px 52px 80px; text-align: center; position: relative; overflow: hidden; border-bottom: 1px solid var(--parchment-deep); }
+.page-hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 70% 80% at 50% 60%, rgba(184,146,42,0.07) 0%, transparent 70%); pointer-events: none; }
+.page-hero-ghost { position: absolute; font-family: var(--font-display); font-size: 38vw; font-weight: 700; color: transparent; -webkit-text-stroke: 1px rgba(184,146,42,0.05); line-height: 1; top: 50%; left: 50%; transform: translate(-50%, -48%); pointer-events: none; user-select: none; white-space: nowrap; }
+.page-hero-eyebrow { display: block; font-size: 10px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--gold); font-weight: 600; margin-bottom: 18px; position: relative; }
+.page-hero-title { font-family: var(--font-display); font-size: 44px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); margin-bottom: 18px; line-height: 1.08; position: relative; }
+.page-hero-title em { font-style: italic; color: var(--gold); }
+.page-hero-sub { font-family: var(--font-serif); font-size: 20px; font-weight: 300; font-style: italic; color: var(--brown-mid); max-width: 580px; margin: 0 auto 36px; line-height: 1.7; position: relative; }
+.page-hero-rule { display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 32px; position: relative; }
+.page-hero-rule-line { flex: 0 0 60px; height: 1px; background: var(--gold); opacity: 0.4; }
+.page-hero-rule-gem  { width: 5px; height: 5px; background: var(--gold); transform: rotate(45deg); }
+.page-hero-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; position: relative; }
+
+/* ── PAGE STYLES ── */
+/* ── NAV ── */
+.
 
 /* ── HERO ── */
-.hero {
-  position: relative;
-  padding: 130px 40px 90px;
-  text-align: center; overflow: hidden;
-  min-height: 560px; display: flex; align-items: center; justify-content: center;
-}
-.hero-bg {
-  position: absolute; inset: 0;
-  background: linear-gradient(
-    158deg,
-    #06050F 0%,
-    #0C0A20 10%,
-    #141030 20%,
-    #1C1848 32%,
-    #28205A 42%,
-    #3A2860 52%,
-    #5A3060 60%,
-    #7A3840 68%,
-    #A85828 78%,
-    #C87828 88%,
-    #A86018 100%
-  );
-}
+
 /* Silhouette of European rooftops / skyline */
-.hero-skyline {
-  position: absolute; bottom: 0; left: 0; right: 0;
-  height: 160px; overflow: hidden;
-}
+
 .hero-skyline svg { width: 100%; height: 100%; }
-.hero-glow {
-  position: absolute; bottom: 0; left: 50%;
-  transform: translateX(-50%);
-  width: 900px; height: 220px;
-  background: radial-gradient(ellipse, rgba(200,120,40,0.38) 0%, transparent 70%);
-  filter: blur(36px);
-}
-.hero-stars {
-  position: absolute; inset: 0; pointer-events: none;
-}
-.hero-content { position: relative; z-index: 2; }
-.hero-eyebrow {
-  font-size: 11px; letter-spacing: 0.22em; text-transform: uppercase;
-  color: var(--gold-lt); opacity: 0.85; margin-bottom: 14px;
-}
-.hero-title {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(36px, 6vw, 70px); font-weight: 300;
-  color: var(--cream); line-height: 1.06; margin-bottom: 20px;
-}
-.hero-title em { font-style: italic; color: var(--gold-lt); }
-.hero-sub {
-  font-size: 15px; color: rgba(251,247,240,0.72);
-  line-height: 1.75; max-width: 560px; margin: 0 auto 36px;
-}
-.hero-pills {
-  display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;
-}
-.hero-pill {
-  font-size: 12px; letter-spacing: 0.06em;
-  background: rgba(255,255,255,0.1);
-  border: 1px solid rgba(255,255,255,0.18);
-  color: rgba(251,247,240,0.85);
-  padding: 6px 18px; border-radius: 20px;
-}
 
 /* ── JUMP NAV ── */
 .jump-nav {
   background: var(--white);
-  border-bottom: 1px solid var(--cream-2);
+  border-bottom: 1px solid var(--parchment-deep);
   padding: 0 40px;
   display: flex; gap: 0;
   overflow-x: auto; scrollbar-width: none;
@@ -142,32 +143,32 @@ body {
 .jump-link {
   font-size: 12px; font-weight: 500;
   letter-spacing: 0.08em; text-transform: uppercase;
-  color: var(--ink-muted); text-decoration: none;
+  color: var(--warm-gray); text-decoration: none;
   padding: 16px 20px; white-space: nowrap;
   border-bottom: 2px solid transparent;
   transition: color 0.15s, border-color 0.15s;
 }
-.jump-link:hover { color: var(--ink); border-color: var(--coral); }
+.jump-link:hover { color: var(--ink); border-color: var(--gold); }
 
 /* ── SHARED SECTION ── */
 .section-inner { max-width: 960px; margin: 0 auto; }
 .section-eyebrow {
   font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
-  color: var(--coral); margin-bottom: 10px;
+  color: var(--gold); margin-bottom: 10px;
 }
 .section-title {
   font-family: 'Cormorant Garamond', serif;
   font-size: clamp(28px, 4vw, 46px); font-weight: 300;
   line-height: 1.15; color: var(--ink); margin-bottom: 12px;
 }
-.section-title em { font-style: italic; color: var(--teal); }
+.section-title em { font-style: italic; color: var(--ink); }
 .section-sub {
-  font-size: 14px; color: var(--ink-muted);
+  font-size: 14px; color: var(--warm-gray);
   line-height: 1.75; margin-bottom: 40px; max-width: 620px;
 }
 
 /* ── INTRO ── */
-.intro-section { padding: 64px 40px 0; background: var(--cream); }
+.intro-section { padding: 64px 40px 0; background: var(--linen); }
 .why-grid {
   display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 40px;
 }
@@ -181,10 +182,10 @@ body {
   font-family: 'Cormorant Garamond', serif;
   font-size: 20px; font-weight: 500; color: var(--ink); margin-bottom: 8px;
 }
-.why-desc { font-size: 13px; color: var(--ink-muted); line-height: 1.7; }
+.why-desc { font-size: 13px; color: var(--warm-gray); line-height: 1.7; }
 
 /* ── REGION CARDS ── */
-.regions-section { padding: 64px 40px; background: var(--cream-2); }
+.regions-section { padding: 64px 40px; background: var(--parchment-deep); }
 
 .region-card {
   background: var(--white); border-radius: 20px;
@@ -214,7 +215,7 @@ body {
   line-height: 1.08; margin-bottom: 10px;
 }
 .region-name em { font-style: italic; }
-.region-tagline { font-size: 14px; color: var(--ink-muted); line-height: 1.65; max-width: 520px; }
+.region-tagline { font-size: 14px; color: var(--warm-gray); line-height: 1.65; max-width: 520px; }
 .region-badge {
   font-size: 12px; font-weight: 500;
   padding: 7px 16px; border-radius: 20px; white-space: nowrap; flex-shrink: 0;
@@ -222,18 +223,18 @@ body {
 
 .region-body {
   display: grid; grid-template-columns: 1fr 1fr 1fr;
-  border-top: 1px solid var(--cream-2);
+  border-top: 1px solid var(--parchment-deep);
 }
 .region-col { padding: 24px 28px; }
-.region-col + .region-col { border-left: 1px solid var(--cream-2); }
+.region-col + .region-col { border-left: 1px solid var(--parchment-deep); }
 .col-title {
   font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
-  color: var(--ink-muted); margin-bottom: 14px;
+  color: var(--warm-gray); margin-bottom: 14px;
 }
 .region-list { list-style: none; }
 .region-list li {
   font-size: 13px; color: var(--ink);
-  padding: 6px 0; border-bottom: 1px solid var(--cream-2);
+  padding: 6px 0; border-bottom: 1px solid var(--parchment-deep);
   display: flex; gap: 10px; align-items: flex-start; line-height: 1.5;
 }
 .region-list li:last-child { border-bottom: none; }
@@ -244,8 +245,8 @@ body {
 
 .region-highlights {
   display: flex; gap: 10px; flex-wrap: wrap;
-  padding: 16px 28px; border-top: 1px solid var(--cream-2);
-  background: var(--cream);
+  padding: 16px 28px; border-top: 1px solid var(--parchment-deep);
+  background: var(--linen);
 }
 .highlight-chip {
   font-size: 11px; padding: 5px 14px; border-radius: 14px;
@@ -254,19 +255,19 @@ body {
 
 .region-footer {
   padding: 20px 40px;
-  background: var(--white); border-top: 1px solid var(--cream-2);
+  background: var(--white); border-top: 1px solid var(--parchment-deep);
   display: flex; align-items: center; justify-content: space-between;
   gap: 20px; flex-wrap: wrap;
 }
-.region-footer-tip { font-size: 13px; color: var(--ink-muted); line-height: 1.6; flex: 1; }
+.region-footer-tip { font-size: 13px; color: var(--warm-gray); line-height: 1.6; flex: 1; }
 .region-footer-tip strong { color: var(--ink); font-weight: 500; }
 .ask-btn {
   font-size: 12px; font-weight: 500; letter-spacing: 0.04em;
-  background: var(--coral); color: var(--cream);
+  background: var(--gold); color: var(--linen);
   text-decoration: none; padding: 9px 20px;
   border-radius: 20px; white-space: nowrap; transition: background 0.15s;
 }
-.ask-btn:hover { background: #D4604A; }
+.ask-btn:hover { background: var(--gold-light); }
 
 /* Region-specific theming */
 .card-med   .region-eyebrow, .card-med   .region-name { color: var(--med);   }
@@ -290,7 +291,7 @@ body {
 .card-brit  .highlight-chip { background: #EDE8F8; color: var(--brit);  }
 
 /* ── DESTINATION GRID — KEY CITIES ── */
-.cities-section { padding: 72px 40px; background: var(--cream); }
+.cities-section { padding: 72px 40px; background: var(--linen); }
 .cities-grid {
   display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 40px;
 }
@@ -321,7 +322,7 @@ body {
 .city-name {
   position: relative; z-index: 2;
   font-family: 'Cormorant Garamond', serif;
-  font-size: 20px; font-weight: 400; color: var(--cream);
+  font-size: 20px; font-weight: 400; color: var(--linen);
   line-height: 1.2;
 }
 .city-region {
@@ -331,7 +332,7 @@ body {
 }
 
 /* ── TRIP TYPES ── */
-.trips-section { padding: 72px 40px; background: var(--cream-2); }
+.trips-section { padding: 72px 40px; background: var(--parchment-deep); }
 .trip-grid {
   display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 40px;
 }
@@ -346,11 +347,11 @@ body {
   font-family: 'Cormorant Garamond', serif;
   font-size: 22px; font-weight: 500; color: var(--ink); margin-bottom: 8px;
 }
-.trip-desc { font-size: 13px; color: var(--ink-muted); line-height: 1.7; margin-bottom: 14px; }
-.trip-tag { font-size: 12px; font-weight: 500; color: var(--teal); letter-spacing: 0.04em; }
+.trip-desc { font-size: 13px; color: var(--warm-gray); line-height: 1.7; margin-bottom: 14px; }
+.trip-tag { font-size: 12px; font-weight: 500; color: var(--ink); letter-spacing: 0.04em; }
 
 /* ── PRACTICAL TIPS ── */
-.tips-section { padding: 64px 40px; background: var(--cream); }
+.tips-section { padding: 64px 40px; background: var(--linen); }
 .tips-grid {
   display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 40px;
 }
@@ -366,7 +367,7 @@ body {
   font-size: 20px; flex-shrink: 0;
 }
 .tip-title { font-size: 14px; font-weight: 500; color: var(--ink); margin-bottom: 6px; }
-.tip-text  { font-size: 13px; color: var(--ink-muted); line-height: 1.7; }
+.tip-text  { font-size: 13px; color: var(--warm-gray); line-height: 1.7; }
 
 /* ── CTA ── */
 .cta-section {
@@ -386,42 +387,28 @@ body {
 .cta-title {
   font-family: 'Cormorant Garamond', serif;
   font-size: clamp(30px, 4.5vw, 52px); font-weight: 300;
-  color: var(--cream); line-height: 1.1; margin-bottom: 18px; position: relative;
+  color: var(--linen); line-height: 1.1; margin-bottom: 18px; position: relative;
 }
-.cta-title em { font-style: italic; color: var(--gold-lt); }
+.cta-title em { font-style: italic; color: var(--gold-pale); }
 .cta-sub {
   font-size: 14px; color: rgba(251,247,240,0.65);
   line-height: 1.75; max-width: 520px; margin: 0 auto 32px; position: relative;
 }
 .cta-btn {
   display: inline-block;
-  background: var(--coral); color: var(--cream);
+  background: var(--gold); color: var(--linen);
   text-decoration: none; padding: 16px 40px;
   border-radius: 32px; font-size: 14px; font-weight: 500;
   letter-spacing: 0.04em; transition: background 0.15s; position: relative;
 }
-.cta-btn:hover { background: #D4604A; }
+.cta-btn:hover { background: var(--gold-light); }
 .cta-free {
   font-size: 12px; color: rgba(251,247,240,0.45);
   letter-spacing: 0.12em; margin-top: 20px; position: relative;
 }
 
 /* ── FOOTER ── */
-footer {
-  background: #060F1C; padding: 56px 40px 32px;
-  color: rgba(251,247,240,0.6);
-}
-.footer-inner { max-width: 960px; margin: 0 auto; }
-.footer-top {
-  display: grid; grid-template-columns: 2fr 1fr 1fr;
-  gap: 40px; margin-bottom: 40px;
-}
-.footer-brand {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 22px; font-weight: 400; color: var(--cream); margin-bottom: 12px;
-}
-.footer-tagline { font-size: 13px; line-height: 1.7; margin-bottom: 20px; }
-.footer-social { display: flex; gap: 12px; }
+
 .footer-social a {
   width: 34px; height: 34px; border-radius: 50%;
   background: rgba(255,255,255,0.08);
@@ -430,22 +417,8 @@ footer {
   transition: background 0.15s;
 }
 .footer-social a:hover { background: rgba(255,255,255,0.16); }
-.footer-col h4 {
-  font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
-  color: rgba(251,247,240,0.4); margin-bottom: 16px;
-}
-.footer-col a {
-  display: block; color: rgba(251,247,240,0.65); text-decoration: none;
-  font-size: 13px; margin-bottom: 10px; transition: color 0.15s;
-}
-.footer-col a:hover { color: var(--cream); }
-.footer-bottom {
-  border-top: 1px solid rgba(255,255,255,0.07);
-  padding-top: 24px; display: flex;
-  justify-content: space-between; align-items: center;
-  flex-wrap: wrap; gap: 8px;
-  font-size: 12px; color: rgba(251,247,240,0.3);
-}
+
+.footer-col a:hover { color: var(--linen); }
 
 /* ── REVEAL ── */
 .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s, transform 0.6s; }
@@ -456,8 +429,8 @@ footer {
 
 /* ── MOBILE ── */
 @media (max-width: 680px) {
-  .nav { padding: 14px 20px; }
-  .hero { padding: 100px 20px 72px; min-height: 460px; }
+  .
+  
   .intro-section, .regions-section, .cities-section,
   .trips-section, .tips-section { padding: 48px 20px; }
   .why-grid, .trip-grid { grid-template-columns: 1fr; }
@@ -465,84 +438,72 @@ footer {
   .cities-grid { grid-template-columns: 1fr 1fr; }
   .region-header { grid-template-columns: 1fr; padding: 24px 20px; }
   .region-body { grid-template-columns: 1fr; }
-  .region-col + .region-col { border-left: none; border-top: 1px solid var(--cream-2); }
+  .region-col + .region-col { border-left: none; border-top: 1px solid var(--parchment-deep); }
   .region-col { padding: 18px 20px; }
   .region-highlights { padding: 14px 20px; }
   .region-footer { padding: 16px 20px; }
   .jump-nav { padding: 0 20px; }
-  .footer-top { grid-template-columns: 1fr; gap: 28px; }
+  
   .cta-section { padding: 56px 20px; }
 }
 @media (max-width: 420px) {
   .cities-grid { grid-template-columns: 1fr; }
 }
+body { padding-top: 100px; }
+.nav.scrolled { background: rgba(253,250,244,0.99); box-shadow: 0 2px 20px rgba(184,146,42,0.1); }
 </style>
 </head>
 <body>
-
-<!-- ── NAV ── -->
 <nav class="nav" id="nav">
-  <a class="nav-brand" href="vanessa-homepage.html">Styled Escapes by Vanessa</a>
-  <a class="nav-cta" href="vanessa-travel-chatbot.html">Plan My Trip →</a>
+  <a href="vanessa-homepage.html" class="nav-logo">
+    <img src="embossed_gold_logo.png" alt="Styled Escapes by Vanessa">
+  </a>
+  <ul class="nav-links">
+    <li><a href="vanessa-homepage.html#destinations" class="active">Destinations</a></li>
+    <li><a href="vanessa-homepage.html#about">About</a></li>
+    <li><a href="deals.html">Deals</a></li>
+    <li><a href="blog-index.html">Blog</a></li>
+    <li><a href="cruise-planner-landing.html">Free Guide</a></li>
+    <li><a href="vanessa-travel-chatbot.html" class="nav-btn">Plan My Trip</a></li>
+  </ul>
 </nav>
-
-<!-- ── HERO ── -->
-<section class="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-glow"></div>
-
-  <!-- European rooftop / cathedral skyline silhouette -->
-  <div class="hero-skyline">
-    <svg viewBox="0 0 1440 160" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <!-- Background layer — distant buildings -->
-      <rect x="0"    y="90"  width="60"  height="70" fill="rgba(6,5,15,0.5)"/>
-      <rect x="55"   y="75"  width="45"  height="85" fill="rgba(6,5,15,0.5)"/>
-      <rect x="95"   y="85"  width="30"  height="75" fill="rgba(6,5,15,0.5)"/>
-      <rect x="140"  y="60"  width="50"  height="100" fill="rgba(6,5,15,0.5)"/>
-      <!-- Eiffel Tower rough shape center-left -->
-      <polygon points="320,10 332,80 308,80" fill="rgba(6,5,15,0.65)"/>
-      <rect x="314" y="80" width="12" height="80" fill="rgba(6,5,15,0.65)"/>
-      <rect x="308" y="50" width="24" height="4" fill="rgba(6,5,15,0.65)"/>
-      <rect x="310" y="65" width="20" height="3" fill="rgba(6,5,15,0.65)"/>
-      <!-- Dome (Pantheon / dome-like) -->
-      <ellipse cx="560" cy="72" rx="38" ry="18" fill="rgba(6,5,15,0.6)"/>
-      <rect x="527" y="72" width="66" height="88" fill="rgba(6,5,15,0.6)"/>
-      <rect x="515" y="100" width="90" height="60" fill="rgba(6,5,15,0.6)"/>
-      <!-- Bell tower / campanile -->
-      <rect x="680" y="30" width="24" height="130" fill="rgba(6,5,15,0.65)"/>
-      <rect x="676" y="28" width="32" height="12" rx="2" fill="rgba(6,5,15,0.65)"/>
-      <polygon points="692,10 700,28 684,28" fill="rgba(6,5,15,0.65)"/>
-      <!-- Row of houses right side -->
-      <rect x="800"  y="80" width="40"  height="80" fill="rgba(6,5,15,0.55)"/>
-      <polygon points="800,80 820,55 840,80" fill="rgba(6,5,15,0.55)"/>
-      <rect x="840"  y="70" width="50"  height="90" fill="rgba(6,5,15,0.55)"/>
-      <polygon points="840,70 865,45 890,70" fill="rgba(6,5,15,0.55)"/>
-      <rect x="890"  y="85" width="35"  height="75" fill="rgba(6,5,15,0.55)"/>
-      <polygon points="890,85 907,65 925,85" fill="rgba(6,5,15,0.55)"/>
-      <rect x="960"  y="75" width="55"  height="85" fill="rgba(6,5,15,0.5)"/>
-      <rect x="1050" y="65" width="45"  height="95" fill="rgba(6,5,15,0.5)"/>
-      <rect x="1120" y="80" width="60"  height="80" fill="rgba(6,5,15,0.5)"/>
-      <rect x="1200" y="70" width="40"  height="90" fill="rgba(6,5,15,0.5)"/>
-      <rect x="1270" y="85" width="50"  height="75" fill="rgba(6,5,15,0.5)"/>
-      <rect x="1350" y="75" width="90"  height="85" fill="rgba(6,5,15,0.5)"/>
-      <!-- Foreground ground fill -->
-      <rect x="0" y="140" width="1440" height="20" fill="rgba(6,5,15,0.8)"/>
-    </svg>
+<section class="page-hero">
+  <div class="page-hero-ghost">E</div>
+  <span class="page-hero-eyebrow">Mediterranean · Northern Europe · Beyond</span>
+  <h1 class="page-hero-title">Europe & Beyond</h1>
+  <div class="page-hero-rule">
+    <div class="page-hero-rule-line"></div>
+    <div class="page-hero-rule-gem"></div>
+    <div class="page-hero-rule-gem" style="opacity:0.4;margin:0 -6px;width:3px;height:3px;"></div>
+    <div class="page-hero-rule-gem"></div>
+    <div class="page-hero-rule-line"></div>
   </div>
-
-  <div class="hero-content">
-    <div class="hero-eyebrow">Europe vacations</div>
-    <h1 class="hero-title">Ancient streets.<br><em>Extraordinary stories.</em></h1>
-    <p class="hero-sub">Europe is the trip people dream about their whole lives — and it lives up to every dream. Whether it's a river cruise through the Rhine Valley, a week on the Amalfi Coast, or castles and cobblestones from Paris to Prague, Vanessa will get you there beautifully.</p>
-    <div class="hero-pills">
-      <span class="hero-pill">Mediterranean</span>
-      <span class="hero-pill">River Cruises</span>
-      <span class="hero-pill">Western Europe</span>
-      <span class="hero-pill">British Isles</span>
-      <span class="hero-pill">Eastern Europe</span>
-    </div>
+  <p class="page-hero-sub">From ancient cobblestones to Norwegian fjords — extraordinary journeys await.</p>
+  <div class="page-hero-actions">
+    <a href="vanessa-travel-chatbot.html" class="btn-primary">Plan My European Trip</a>
+    <a href="vanessa-homepage.html#about" class="btn-ghost">Meet Vanessa</a>
   </div>
 </section>
+<div class="marquee-strip" aria-hidden="true">
+  <div class="marquee-track">
+    <span class="marquee-item">Free Consultation <span class="m-gem"></span></span>
+    <span class="marquee-item">Abundant Travel by Dream Vacations <span class="m-gem"></span></span>
+    <span class="marquee-item">Caribbean Cruises <span class="m-gem"></span></span>
+    <span class="marquee-item">Hawaii Specialists <span class="m-gem"></span></span>
+    <span class="marquee-item">All-Inclusive Resorts <span class="m-gem"></span></span>
+    <span class="marquee-item">Group Travel Experts <span class="m-gem"></span></span>
+    <span class="marquee-item">Mediterranean Sailings <span class="m-gem"></span></span>
+    <span class="marquee-item">Free Consultation <span class="m-gem"></span></span>
+    <span class="marquee-item">Abundant Travel by Dream Vacations <span class="m-gem"></span></span>
+    <span class="marquee-item">Caribbean Cruises <span class="m-gem"></span></span>
+    <span class="marquee-item">Hawaii Specialists <span class="m-gem"></span></span>
+    <span class="marquee-item">All-Inclusive Resorts <span class="m-gem"></span></span>
+    <span class="marquee-item">Group Travel Experts <span class="m-gem"></span></span>
+    <span class="marquee-item">Mediterranean Sailings <span class="m-gem"></span></span>
+  </div>
+</div>
+<!-- ── HERO ── -->
+
 
 <!-- ── JUMP NAV ── -->
 <div class="jump-nav">
@@ -988,40 +949,54 @@ footer {
 
 <!-- ── FOOTER ── -->
 <footer>
-  <div class="footer-inner">
-    <div class="footer-top">
-      <div>
-        <div class="footer-brand">Styled Escapes by Vanessa</div>
-        <p class="footer-tagline">Dream Vacations certified travel consultant serving Portland, TN and clients nationwide. Let's plan something beautiful.</p>
-        <div class="footer-social">
-          <a href="https://www.facebook.com/styledescapesbyvanessa" target="_blank" title="Facebook">f</a>
-          <a href="https://www.instagram.com/vanessa_abundant_travel/" target="_blank" title="Instagram">i</a>
-          <a href="mailto:travel@myjacobs.com" title="Email">@</a>
-        </div>
-      </div>
-      <div class="footer-col">
-        <h4>Free Resources</h4>
-        <a href="allinclusive-resort-guide.html">All-Inclusive Resort Guide</a>
-        <a href="travel-style-quiz.html">Travel Style Quiz</a>
-        <a href="caribbean-island-quiz.html">Caribbean Island Quiz</a>
-        <a href="cruise-planner-landing.html">Free Cruise Planner PDF</a>
-      </div>
-      <div class="footer-col">
-        <h4>Connect</h4>
-        <a href="vanessa-homepage.html">Back to Home</a>
-        <a href="vanessa-travel-chatbot.html">Plan My Trip</a>
-        <a href="https://vjacobs.dreamvacations.com" target="_blank">Dream Vacations</a>
-        <a href="mailto:travel@myjacobs.com">Contact Vanessa</a>
-      </div>
+  <img class="footer-logo" src="embossed_gold_logo.png" alt="Styled Escapes by Vanessa">
+  <p class="footer-tagline">Curated Journeys. Timeless Memories.</p>
+  <div class="footer-social">
+    <a href="https://www.facebook.com/styledescapesbyvanessa" target="_blank" rel="noopener" title="Facebook">f</a>
+    <a href="https://www.instagram.com/vanessa_abundant_travel/" target="_blank" rel="noopener" title="Instagram">ig</a>
+    <a href="mailto:travel@myjacobs.com" title="Email">@</a>
+  </div>
+  <div class="footer-cols">
+    <div class="footer-col">
+      <h4>Explore</h4>
+      <a href="destinations-cruises.html">Cruises</a>
+      <a href="destinations-hawaii.html">Hawaii</a>
+      <a href="allinclusive-resort-guide.html">All-Inclusive</a>
+      <a href="destinations-europe.html">Europe &amp; Beyond</a>
     </div>
-    <div class="footer-bottom">
-      <div>© 2025 Styled Escapes by Vanessa · All rights reserved</div>
-      <div>Affiliated with Abundant Travel by Dream Vacations</div>
+    <div class="footer-col">
+      <h4>Plan</h4>
+      <a href="vanessa-travel-chatbot.html">Plan My Trip</a>
+      <a href="cruise-planner-landing.html">Free Cruise Guide</a>
+      <a href="travel-style-quiz.html">Travel Style Quiz</a>
+      <a href="caribbean-island-quiz.html">Caribbean Quiz</a>
+    </div>
+    <div class="footer-col">
+      <h4>Connect</h4>
+      <a href="vanessa-homepage.html#about">About Vanessa</a>
+      <a href="https://vjacobs.dreamvacations.com" target="_blank" rel="noopener">Abundant Travel by Dream Vacations</a>
+      <a href="deals.html">Current Deals</a>
+      <a href="mailto:travel@myjacobs.com">Contact</a>
     </div>
   </div>
+  <div class="footer-hr"></div>
+  <p class="footer-legal">© 2025 Styled Escapes by Vanessa &nbsp;·&nbsp; Affiliated with Abundant Travel by Dream Vacations &nbsp;·&nbsp; Portland, TN 37148</p>
 </footer>
-
 <script>
+window.addEventListener('scroll', function() {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 60);
+});
+
+var reveals = document.querySelectorAll('.reveal');
+if (reveals.length > 0) {
+  var revealObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) { e.target.classList.add('visible'); revealObserver.unobserve(e.target); }
+    });
+  }, { threshold: 0.08 });
+  reveals.forEach(function(el) { revealObserver.observe(el); });
+}
+
 var reveals = document.querySelectorAll('.reveal');
 var observer = new IntersectionObserver(function(entries) {
   entries.forEach(function(e) {
