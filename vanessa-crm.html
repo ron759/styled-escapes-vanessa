@@ -1238,9 +1238,10 @@ function renderClientView() {
           '</div>' +
         '</div>' +
         '<div class="tabs-row">' +
-          '<button class="tab-btn active" id="tab-info"  onclick="switchTab(\'info\')">Info</button>' +
-          '<button class="tab-btn"        id="tab-notes" onclick="switchTab(\'notes\')">Notes</button>' +
-          '<button class="tab-btn"        id="tab-todos" onclick="switchTab(\'todos\')">Follow-ups</button>' +
+          '<button class="tab-btn active" id="tab-info"        onclick="switchTab(\'info\')">Info</button>' +
+          '<button class="tab-btn"        id="tab-notes"       onclick="switchTab(\'notes\')">Notes</button>' +
+          '<button class="tab-btn"        id="tab-todos"       onclick="switchTab(\'todos\')">Follow-ups</button>' +
+          '<button class="tab-btn"        id="tab-itineraries" onclick="switchTab(\'itineraries\')">Itineraries</button>' +
         '</div>' +
       '</div>' +
       '<div class="tab-body" id="tabBody"></div>' +
@@ -1252,7 +1253,7 @@ function renderClientView() {
 function switchTab(t) {
   if (editMode && t !== 'info') { saveEdit(); }
   activeTab = t;
-  ['info','notes','todos'].forEach(function(tab) {
+  ['info','notes','todos','itineraries'].forEach(function(tab) {
     var b = document.getElementById('tab-' + tab);
     if (b) b.className = 'tab-btn' + (tab === t ? ' active' : '');
   });
@@ -1260,9 +1261,10 @@ function switchTab(t) {
 }
 
 function renderTabContent() {
-  if (activeTab === 'info')  renderInfoTab();
-  if (activeTab === 'notes') renderNotesTab();
-  if (activeTab === 'todos') renderTodosTab();
+  if (activeTab === 'info')        renderInfoTab();
+  if (activeTab === 'notes')       renderNotesTab();
+  if (activeTab === 'todos')       renderTodosTab();
+  if (activeTab === 'itineraries') renderItinerariesTab();
 }
 
 // ── Info tab ───────────────────────────────────────────────────
@@ -1512,6 +1514,87 @@ function deleteTodo(idx) {
   if (todo.id) deleteTodoFromSheet(todo.id).catch(function() {});
 }
 
+// ── Itineraries tab ────────────────────────────────────────────
+function renderItinerariesTab() {
+  var b = document.getElementById('tabBody');
+  if (!b) return;
+  var c = getClient(selectedId);
+  if (!c) return;
+
+  b.innerHTML =
+    '<div style="padding:16px 0 8px;display:flex;align-items:center;justify-content:space-between;gap:12px">' +
+      '<div style="font-size:13px;color:var(--ink-muted)">Past &amp; upcoming trips for this client</div>' +
+      '<a href="itinerary-builder.html?clientId=' + c.id + '" class="btn-action primary" style="text-decoration:none;white-space:nowrap">+ New Itinerary</a>' +
+    '</div>' +
+    '<div id="itinList"><div class="empty-tab" style="padding:24px 0"><p>Loading itineraries…</p></div></div>';
+
+  // Fetch from GAS
+  gasPost({ type: 'itinerary', action: 'getClientItineraries', clientId: c.id })
+    .then(function(res) {
+      var list = document.getElementById('itinList');
+      if (!list) return;
+      if (!res.success || !res.itineraries || res.itineraries.length === 0) {
+        list.innerHTML =
+          '<div class="empty-tab" style="padding:24px 0">' +
+          '<p>No itineraries yet.<br>Click <strong>+ New Itinerary</strong> to build one for ' + esc(c.name) + '.</p>' +
+          '</div>';
+        return;
+      }
+      var html = '';
+      res.itineraries.forEach(function(it) {
+        var dateRange = '';
+        if (it.startDate || it.endDate) {
+          dateRange = formatItinDate(it.startDate) + (it.endDate ? ' – ' + formatItinDate(it.endDate) : '');
+        }
+        var viewerUrl = 'itinerary-viewer.html?id=' + it.id;
+        html +=
+          '<div style="background:var(--white);border:1px solid var(--sand-2);border-radius:var(--radius-sm);padding:14px 16px;margin-bottom:10px">' +
+            '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;flex-wrap:wrap">' +
+              '<div style="flex:1;min-width:0">' +
+                '<div style="font-size:14px;font-weight:500;color:var(--ocean);margin-bottom:3px">' + esc(it.title) + '</div>' +
+                '<div style="font-size:12px;color:var(--ink-muted)">' +
+                  (it.destination ? esc(it.destination) + (dateRange ? '  ·  ' : '') : '') +
+                  (dateRange ? dateRange : '') +
+                  (it.tripType ? '  ·  ' + esc(it.tripType) : '') +
+                '</div>' +
+              '</div>' +
+              '<div style="display:flex;gap:8px;flex-shrink:0">' +
+                '<a href="' + viewerUrl + '" target="_blank" class="btn-action" style="font-size:12px;padding:5px 12px;text-decoration:none">View</a>' +
+                '<button class="btn-action" style="font-size:12px;padding:5px 12px" onclick="copyItinLink(\'' + viewerUrl + '\')">Copy Link</button>' +
+                '<a href="itinerary-builder.html?clientId=' + c.id + '&itineraryId=' + it.id + '" class="btn-action" style="font-size:12px;padding:5px 12px;text-decoration:none">Edit</a>' +
+              '</div>' +
+            '</div>' +
+          '</div>';
+      });
+      list.innerHTML = html;
+    })
+    .catch(function() {
+      var list = document.getElementById('itinList');
+      if (list) list.innerHTML = '<div class="empty-tab" style="padding:24px 0"><p>Could not load itineraries — check your connection.</p></div>';
+    });
+}
+
+function copyItinLink(url) {
+  var fullUrl = window.location.origin + '/' + url;
+  navigator.clipboard.writeText(fullUrl).then(function() {
+    showToast('Link copied!');
+  }).catch(function() {
+    showToast('Copy failed — try manually');
+  });
+}
+
+function formatItinDate(d) {
+  if (!d) return '';
+  var p = d.split('-');
+  if (p.length !== 3) return d;
+  var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return months[parseInt(p[1],10)-1] + ' ' + parseInt(p[2],10) + ', ' + p[0];
+}
+
+function esc(s) {
+  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
 // ── Delete client ──────────────────────────────────────────────
 function deleteClient() {
   var c = getClient(selectedId);
@@ -1664,7 +1747,7 @@ loadAll(function() {
 });
 
 // ── Login gate ───────────────────────────────────────────────────
-// Password is verified server-side via GAS — never stored in this file1.
+// Password is verified server-side via GAS — never stored in this file.
 // GAS tracks failed attempts and enforces a 15-minute lockout after 5 failures.
 
 function checkLogin() {
