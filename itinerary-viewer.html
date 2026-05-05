@@ -172,58 +172,61 @@ function renderItinerary(it,days,clientName){
   html+='<div class="body-wrap">';
 
   // FLIGHTS
-  var fo=safeParse(it.flightOut,null);
-  var fr=safeParse(it.flightReturn,null);
-  var hasFlights=(fo&&(fo.info||fo.from||fo.to))||(fr&&(fr.info||fr.from||fr.to));
-  if(hasFlights){
+  var flights=safeParse(it.flightOut,[]);
+  if(!Array.isArray(flights)){
+    // backwards compat: old format
+    var fo=safeParse(it.flightOut,null);var fr=safeParse(it.flightReturn,null);
+    flights=[];if(fo&&(fo.info||fo.from||fo.to))flights.push(fo);if(fr&&(fr.info||fr.from||fr.to))flights.push(fr);
+  }
+  var flightIcons=['🛫','✈️','✈️','✈️','🛬'];
+  var flightLabels=['Outbound Flight','','','','Return Flight'];
+  if(flights.length>0){
     html+='<div class="section"><div class="section-label">Flights</div><div class="card">';
-    if(fo&&(fo.info||fo.from||fo.to)){
-      html+='<div class="flight-row"><div class="flight-icon">🛫</div><div style="flex:1">';
-      html+='<div class="flight-label">Outbound Flight</div>';
-      if(fo.info)html+='<div class="flight-main">'+esc(fo.info)+'</div>';
+    flights.forEach(function(f,i){
+      if(!f||(!(f.info||f.from||f.to)))return;
+      var icon=i===0?'🛫':(i===flights.length-1&&flights.length>1?'🛬':'✈️');
+      var lbl=i===0?'Outbound Flight':(i===flights.length-1&&flights.length>1?'Return Flight':'Connecting Flight');
+      html+='<div class="flight-row"><div class="flight-icon">'+icon+'</div><div style="flex:1">';
+      html+='<div class="flight-label">'+lbl+'</div>';
+      if(f.info)html+='<div class="flight-main">'+esc(f.info)+'</div>';
       html+='<div class="flight-meta">';
-      if(fo.date&&fo.time)html+='<span>📅 '+fmtDate(fo.date)+' at '+fmtTime(fo.time)+'</span>';
-      else if(fo.date)html+='<span>📅 '+fmtDate(fo.date)+'</span>';
-      if(fo.from)html+='<span>🛫 '+esc(fo.from)+'</span>';
-      if(fo.to)html+='<span>🛬 '+esc(fo.to)+'</span>';
+      if(f.date&&f.time)html+='<span>📅 '+fmtDate(f.date)+' at '+fmtTime(f.time)+'</span>';
+      else if(f.date)html+='<span>📅 '+fmtDate(f.date)+'</span>';
+      if(f.from)html+='<span>🛫 '+esc(f.from)+'</span>';
+      if(f.to)html+='<span>🛬 '+esc(f.to)+'</span>';
       html+='</div></div></div>';
-    }
-    if(fr&&(fr.info||fr.from||fr.to)){
-      html+='<div class="flight-row"><div class="flight-icon">🛬</div><div style="flex:1">';
-      html+='<div class="flight-label">Return Flight</div>';
-      if(fr.info)html+='<div class="flight-main">'+esc(fr.info)+'</div>';
-      html+='<div class="flight-meta">';
-      if(fr.date&&fr.time)html+='<span>📅 '+fmtDate(fr.date)+' at '+fmtTime(fr.time)+'</span>';
-      else if(fr.date)html+='<span>📅 '+fmtDate(fr.date)+'</span>';
-      if(fr.from)html+='<span>🛫 '+esc(fr.from)+'</span>';
-      if(fr.to)html+='<span>🛬 '+esc(fr.to)+'</span>';
-      html+='</div></div></div>';
-    }
+    });
     html+='</div></div>';
   }
 
   // ACCOMMODATION
-  var ac=safeParse(it.accommodation,null);
-  if(ac){
-    html+='<div class="section"><div class="section-label">'+( ac.type==='ship'?'Cruise Ship':'Accommodation')+'</div><div class="card"><div class="accom-grid">';
-    if(ac.type==='ship'){
-      var shipRows=[];
-      if(ac.line||ac.name)shipRows.push({k:'Ship',v:(ac.line?ac.line:'')+(ac.line&&ac.name?' · ':'')+( ac.name?ac.name:'')});
-      if(ac.conf)shipRows.push({k:'Confirmation',v:ac.conf});
-      if(ac.sail||ac.return)shipRows.push({k:'Dates',v:(ac.sail?'Sails '+fmtDate(ac.sail):'')+( ac.sail&&ac.return?' · ':'')+( ac.return?'Returns '+fmtDate(ac.return):'')});
-      if(ac.cabin)shipRows.push({k:'Cabin',v:ac.cabin});
-      if(ac.drinks)shipRows.push({k:'Drink Package',v:ac.drinks});
-      if(ac.notes)shipRows.push({k:'Additional Info',v:ac.notes});
-      shipRows.forEach(function(r){html+='<div class="accom-row"><div class="accom-key">'+esc(r.k)+'</div><div class="accom-val">'+esc(r.v)+'</div></div>';});
-    } else {
-      var hotelRows=[];
-      if(ac.name)hotelRows.push({k:'Property',v:ac.name});
-      if(ac.checkin||ac.checkout)hotelRows.push({k:'Dates',v:(ac.checkin?'Check-in '+fmtDate(ac.checkin):'')+( ac.checkin&&ac.checkout?' · ':'')+( ac.checkout?'Check-out '+fmtDate(ac.checkout):'')});
-      if(ac.conf)hotelRows.push({k:'Confirmation',v:ac.conf});
-      if(ac.notes)hotelRows.push({k:'Additional Info',v:ac.notes});
-      hotelRows.forEach(function(r){html+='<div class="accom-row"><div class="accom-key">'+esc(r.k)+'</div><div class="accom-val">'+esc(r.v)+'</div></div>';});
-    }
-    html+='</div></div></div>';
+  var accoms=safeParse(it.accommodation,[]);
+  if(!Array.isArray(accoms)){var singleAc=safeParse(it.accommodation,null);accoms=singleAc?[singleAc]:[];}
+  if(accoms.length>0){
+    accoms.forEach(function(ac,idx){
+      if(!ac)return;
+      var sectionLabel=ac.type==='ship'?'Cruise Ship':'Accommodation';
+      if(accoms.length>1)sectionLabel+=' '+(idx+1);
+      html+='<div class="section"><div class="section-label">'+sectionLabel+'</div><div class="card"><div class="accom-grid">';
+      if(ac.type==='ship'){
+        var shipRows=[];
+        if(ac.line||ac.name)shipRows.push({k:'Ship',v:(ac.line||'')+(ac.line&&ac.name?' · ':'')+( ac.name||'')});
+        if(ac.conf)shipRows.push({k:'Confirmation',v:ac.conf});
+        if(ac.sail||ac.return)shipRows.push({k:'Dates',v:(ac.sail?'Sails '+fmtDate(ac.sail):'')+( ac.sail&&ac.return?' · ':'')+( ac.return?'Returns '+fmtDate(ac.return):'')});
+        if(ac.cabin)shipRows.push({k:'Cabin',v:ac.cabin});
+        if(ac.drinks)shipRows.push({k:'Drink Package',v:ac.drinks});
+        if(ac.notes)shipRows.push({k:'Additional Info',v:ac.notes});
+        shipRows.forEach(function(r){html+='<div class="accom-row"><div class="accom-key">'+esc(r.k)+'</div><div class="accom-val">'+esc(r.v)+'</div></div>';});
+      } else {
+        var hotelRows=[];
+        if(ac.name)hotelRows.push({k:'Property',v:ac.name});
+        if(ac.checkin||ac.checkout)hotelRows.push({k:'Dates',v:(ac.checkin?'Check-in '+fmtDate(ac.checkin):'')+( ac.checkin&&ac.checkout?' · ':'')+( ac.checkout?'Check-out '+fmtDate(ac.checkout):'')});
+        if(ac.conf)hotelRows.push({k:'Confirmation',v:ac.conf});
+        if(ac.notes)hotelRows.push({k:'Additional Info',v:ac.notes});
+        hotelRows.forEach(function(r){html+='<div class="accom-row"><div class="accom-key">'+esc(r.k)+'</div><div class="accom-val">'+esc(r.v)+'</div></div>';});
+      }
+      html+='</div></div></div>';
+    });
   }
 
   // DAY BY DAY

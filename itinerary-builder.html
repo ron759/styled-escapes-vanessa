@@ -214,84 +214,15 @@ html,body{font-family:'DM Sans',Georgia,sans-serif;background:var(--sand);color:
   <!-- FLIGHTS -->
   <div class="section-card">
     <div class="section-card-title"><div class="section-icon">✈️</div>Flights</div>
-    <div class="flight-block">
-      <div class="flight-block-label">🛫 &nbsp;Outbound Flight</div>
-      <div class="field-grid">
-        <div class="field"><label>Airline &amp; Flight Details</label><input type="text" id="fl-out-info" placeholder="e.g. Delta DL 1234 · Confirmation: ABC123"></div>
-        <div class="field-grid fg2">
-          <div class="field"><label>Departure Date</label><input type="date" id="fl-out-date"></div>
-          <div class="field"><label>Departure Time</label><input type="time" id="fl-out-time"></div>
-        </div>
-        <div class="field-grid fg2">
-          <div class="field"><label>Departure Airport</label><input type="text" id="fl-out-from" placeholder="e.g. BNA – Nashville" maxlength="80"></div>
-          <div class="field"><label>Arrival Airport</label><input type="text" id="fl-out-to" placeholder="e.g. MIA – Miami" maxlength="80"></div>
-        </div>
-      </div>
-    </div>
-    <div class="flight-block">
-      <div class="flight-block-label">🛬 &nbsp;Return Flight</div>
-      <div class="field-grid">
-        <div class="field"><label>Airline &amp; Flight Details</label><input type="text" id="fl-ret-info" placeholder="e.g. Delta DL 5678 · Confirmation: XYZ789"></div>
-        <div class="field-grid fg2">
-          <div class="field"><label>Departure Date</label><input type="date" id="fl-ret-date"></div>
-          <div class="field"><label>Departure Time</label><input type="time" id="fl-ret-time"></div>
-        </div>
-        <div class="field-grid fg2">
-          <div class="field"><label>Departure Airport</label><input type="text" id="fl-ret-from" placeholder="e.g. MIA – Miami" maxlength="80"></div>
-          <div class="field"><label>Arrival Airport</label><input type="text" id="fl-ret-to" placeholder="e.g. BNA – Nashville" maxlength="80"></div>
-        </div>
-      </div>
-    </div>
+    <div id="flightsList"></div>
+    <button class="btn-add-day" style="margin-top:8px" onclick="addFlight()">+ Add a Flight Leg</button>
   </div>
 
   <!-- ACCOMMODATION -->
   <div class="section-card">
     <div class="section-card-title"><div class="section-icon">🏨</div>Accommodation</div>
-    <div class="radio-group">
-      <label class="radio-option selected" id="radio-hotel" onclick="selectAccom('hotel')">
-        <input type="radio" name="accomType" value="hotel" checked>
-        <div class="radio-dot"></div>
-        <div><div class="radio-label">🏨 Hotel / Resort</div><div class="radio-sub">All-inclusive, hotel, villa</div></div>
-      </label>
-      <label class="radio-option" id="radio-ship" onclick="selectAccom('ship')">
-        <input type="radio" name="accomType" value="ship">
-        <div class="radio-dot"></div>
-        <div><div class="radio-label">🚢 Cruise Ship</div><div class="radio-sub">Ocean &amp; river cruises</div></div>
-      </label>
-    </div>
-
-    <!-- Hotel Panel -->
-    <div class="accom-panel active" id="panel-hotel">
-      <div class="field-grid">
-        <div class="field"><label>Hotel / Resort Name &amp; Address</label><input type="text" id="ac-hotel-name" placeholder="e.g. Sandals Royal Barbados, St. Lawrence Gap, Christ Church" maxlength="200"></div>
-        <div class="field-grid fg3">
-          <div class="field"><label>Check-In Date</label><input type="date" id="ac-hotel-checkin"></div>
-          <div class="field"><label>Check-Out Date</label><input type="date" id="ac-hotel-checkout"></div>
-          <div class="field"><label>Confirmation #</label><input type="text" id="ac-hotel-conf" placeholder="e.g. SRB-789456" maxlength="80"></div>
-        </div>
-        <div class="field"><label>Additional Info</label><textarea id="ac-hotel-notes" placeholder="Room type, resort credits, special requests, dining plan, airport transfer details…"></textarea></div>
-      </div>
-    </div>
-
-    <!-- Ship Panel -->
-    <div class="accom-panel" id="panel-ship">
-      <div class="field-grid">
-        <div class="field-grid fg2">
-          <div class="field"><label>Cruise Line</label><input type="text" id="ac-ship-line" placeholder="e.g. Royal Caribbean" maxlength="100"></div>
-          <div class="field"><label>Ship Name</label><input type="text" id="ac-ship-name" placeholder="e.g. Oasis of the Seas" maxlength="100"></div>
-        </div>
-        <div class="field-grid fg2">
-          <div class="field"><label>Confirmation #</label><input type="text" id="ac-ship-conf" placeholder="e.g. RC-1234567" maxlength="80"></div>
-          <div class="field"><label>Cabin Type &amp; Number</label><input type="text" id="ac-ship-cabin" placeholder="e.g. Ocean View · Cabin 7218, Deck 7" maxlength="100"></div>
-        </div>
-        <div class="field-grid fg2">
-          <div class="field"><label>Sail Date</label><input type="date" id="ac-ship-sail"></div>
-          <div class="field"><label>Return Date</label><input type="date" id="ac-ship-return"></div>
-        </div>
-        <div class="field"><label>Drink Package</label><input type="text" id="ac-ship-drinks" placeholder="e.g. Deluxe Beverage Package included for both guests" maxlength="200"></div>
-        <div class="field"><label>Additional Info</label><textarea id="ac-ship-notes" placeholder="Embarkation port &amp; time, gratuities, specialty dining, excursion credits, loyalty tier…"></textarea></div>
-      </div>
-    </div>
+    <div id="accomList"></div>
+    <button class="btn-add-day" style="margin-top:8px" onclick="addAccom()">+ Add Another Accommodation</button>
   </div>
 
   <!-- DAY BY DAY -->
@@ -334,8 +265,8 @@ var GAS_URL      = 'YOUR_GAS_WEB_APP_URL';
 var PROXY_SECRET = 'YOUR_PROXY_SECRET';
 var VIEWER_BASE  = window.location.origin + '/itinerary-viewer.html';
 
-var clientId=null, clientName='', itineraryId=null, dayCount=0, savedShareUrl='', accomType='hotel';
-var entryCounters={};
+var clientId=null, clientName='', itineraryId=null, dayCount=0, savedShareUrl='';
+var entryCounters={}, flightCount=0, accomCount=0;
 
 window.addEventListener('DOMContentLoaded',function(){
   var p=new URLSearchParams(window.location.search);
@@ -347,40 +278,164 @@ window.addEventListener('DOMContentLoaded',function(){
       if(d&&d.clients){var m=d.clients.find(function(c){return c.id===clientId;});if(m){clientName=m.name;showBadge(m.name);}}
     }catch(e){}
   }
-  if(itineraryId){loadExisting(itineraryId);}else{addDay();}
+  if(itineraryId){loadExisting(itineraryId);}else{addFlight();addFlight();addAccom();addDay();}
 });
 
 function showBadge(name){document.getElementById('clientBadge').style.display='inline-flex';document.getElementById('clientBadgeName').textContent=name;}
 
-function selectAccom(type){
-  accomType=type;
-  document.getElementById('radio-hotel').classList.toggle('selected',type==='hotel');
-  document.getElementById('radio-ship').classList.toggle('selected',type==='ship');
-  document.getElementById('panel-hotel').classList.toggle('active',type==='hotel');
-  document.getElementById('panel-ship').classList.toggle('active',type==='ship');
+// ── Flight management ────────────────────────────────────────────
+function addFlight(existing){
+  flightCount++;
+  var n=flightCount;
+  var isFirst=n===1, isSecond=n===2;
+  var defaultLabel=isFirst?'🛫 Outbound Flight':isSecond?'🛬 Return Flight':'✈️ Flight Leg '+n;
+  var container=document.getElementById('flightsList');
+  var div=document.createElement('div');
+  div.className='flight-block';div.id='flBlock-'+n;
+  div.style.position='relative';
+  div.innerHTML=
+    '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">' +
+      '<div class="flight-block-label" style="margin-bottom:0">'+defaultLabel+'</div>' +
+      (n>2?'<button class="btn-remove-entry" style="margin-top:0" onclick="removeFlight('+n+')" title="Remove leg">✕ Remove</button>':'') +
+    '</div>' +
+    '<div class="field-grid">' +
+      '<div class="field"><label>Airline &amp; Flight Details</label><input type="text" id="fl-info-'+n+'" value="'+escAttr(existing?(existing.info||''):'')+'" placeholder="e.g. Delta DL 1234 · Confirmation: ABC123"></div>' +
+      '<div class="field-grid fg2">' +
+        '<div class="field"><label>Departure Date</label><input type="date" id="fl-date-'+n+'" value="'+(existing?(existing.date||''):'')+'"></div>' +
+        '<div class="field"><label>Departure Time</label><input type="time" id="fl-time-'+n+'" value="'+(existing?(existing.time||''):'')+'"></div>' +
+      '</div>' +
+      '<div class="field-grid fg2">' +
+        '<div class="field"><label>Departure Airport</label><input type="text" id="fl-from-'+n+'" value="'+escAttr(existing?(existing.from||''):'')+'" placeholder="e.g. BNA – Nashville" maxlength="80"></div>' +
+        '<div class="field"><label>Arrival Airport</label><input type="text" id="fl-to-'+n+'" value="'+escAttr(existing?(existing.to||''):'')+'" placeholder="e.g. MIA – Miami" maxlength="80"></div>' +
+      '</div>' +
+    '</div>';
+  container.appendChild(div);
+}
+
+function removeFlight(n){var el=document.getElementById('flBlock-'+n);if(el)el.remove();}
+
+function collectFlights(){
+  var flights=[];
+  document.querySelectorAll('#flightsList .flight-block').forEach(function(block){
+    var n=block.id.replace('flBlock-','');
+    var info=val('fl-info-'+n);var date=val('fl-date-'+n);var time=val('fl-time-'+n);var from=val('fl-from-'+n);var to=val('fl-to-'+n);
+    if(info||from||to)flights.push({info:info,date:date,time:time,from:from,to:to});
+  });
+  return flights;
+}
+
+// ── Accommodation management ─────────────────────────────────────
+function addAccom(existing){
+  accomCount++;
+  var n=accomCount;
+  var type=(existing&&existing.type)?existing.type:'hotel';
+  var container=document.getElementById('accomList');
+  var div=document.createElement('div');
+  div.className='flight-block';div.id='acBlock-'+n;
+  div.innerHTML=
+    '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">' +
+      '<div class="radio-group" style="margin-bottom:0;flex:1">' +
+        '<label class="radio-option'+(type==='hotel'?' selected':'')+'" id="ac-radio-hotel-'+n+'" onclick="selectAccomType('+n+',\'hotel\')">' +
+          '<input type="radio" name="acType-'+n+'" value="hotel"'+(type==='hotel'?' checked':'')+'>'+
+          '<div class="radio-dot"></div>' +
+          '<div><div class="radio-label">🏨 Hotel / Resort</div><div class="radio-sub">All-inclusive, hotel, villa</div></div>' +
+        '</label>' +
+        '<label class="radio-option'+(type==='ship'?' selected':'')+'" id="ac-radio-ship-'+n+'" onclick="selectAccomType('+n+',\'ship\')">' +
+          '<input type="radio" name="acType-'+n+'" value="ship"'+(type==='ship'?' checked':'')+'>'+
+          '<div class="radio-dot"></div>' +
+          '<div><div class="radio-label">🚢 Cruise Ship</div><div class="radio-sub">Ocean &amp; river cruises</div></div>' +
+        '</label>' +
+      '</div>' +
+      (n>1?'<button class="btn-remove-entry" style="margin-top:0;margin-left:12px;flex-shrink:0" onclick="removeAccom('+n+')" title="Remove">✕ Remove</button>':'') +
+    '</div>' +
+    // Hotel panel
+    '<div class="accom-panel'+(type==='hotel'?' active':'')+'" id="ac-panel-hotel-'+n+'">' +
+      '<div class="field-grid">' +
+        '<div class="field"><label>Hotel / Resort Name &amp; Address</label><input type="text" id="ac-hotel-name-'+n+'" value="'+escAttr(existing?(existing.name||''):'')+'" placeholder="e.g. Sandals Royal Barbados, St. Lawrence Gap" maxlength="200"></div>' +
+        '<div class="field-grid fg3">' +
+          '<div class="field"><label>Check-In Date</label><input type="date" id="ac-hotel-checkin-'+n+'" value="'+(existing?(existing.checkin||''):'')+'"></div>' +
+          '<div class="field"><label>Check-Out Date</label><input type="date" id="ac-hotel-checkout-'+n+'" value="'+(existing?(existing.checkout||''):'')+'"></div>' +
+          '<div class="field"><label>Confirmation #</label><input type="text" id="ac-hotel-conf-'+n+'" value="'+escAttr(existing?(existing.conf||''):'')+'" placeholder="e.g. SRB-789456" maxlength="80"></div>' +
+        '</div>' +
+        '<div class="field"><label>Additional Info</label><textarea id="ac-hotel-notes-'+n+'" placeholder="Room type, resort credits, dining plan…">'+escHtml(existing?(existing.notes||''):'')+'</textarea></div>' +
+      '</div>' +
+    '</div>' +
+    // Ship panel
+    '<div class="accom-panel'+(type==='ship'?' active':'')+'" id="ac-panel-ship-'+n+'">' +
+      '<div class="field-grid">' +
+        '<div class="field-grid fg2">' +
+          '<div class="field"><label>Cruise Line</label><input type="text" id="ac-ship-line-'+n+'" value="'+escAttr(existing?(existing.line||''):'')+'" placeholder="e.g. Royal Caribbean" maxlength="100"></div>' +
+          '<div class="field"><label>Ship Name</label><input type="text" id="ac-ship-name-'+n+'" value="'+escAttr(existing?(existing.name||''):'')+'" placeholder="e.g. Oasis of the Seas" maxlength="100"></div>' +
+        '</div>' +
+        '<div class="field-grid fg2">' +
+          '<div class="field"><label>Confirmation #</label><input type="text" id="ac-ship-conf-'+n+'" value="'+escAttr(existing?(existing.conf||''):'')+'" placeholder="e.g. RC-1234567" maxlength="80"></div>' +
+          '<div class="field"><label>Cabin Type &amp; Number</label><input type="text" id="ac-ship-cabin-'+n+'" value="'+escAttr(existing?(existing.cabin||''):'')+'" placeholder="e.g. Ocean View · Cabin 7218, Deck 7" maxlength="100"></div>' +
+        '</div>' +
+        '<div class="field-grid fg2">' +
+          '<div class="field"><label>Sail Date</label><input type="date" id="ac-ship-sail-'+n+'" value="'+(existing?(existing.sail||''):'')+'"></div>' +
+          '<div class="field"><label>Return Date</label><input type="date" id="ac-ship-return-'+n+'" value="'+(existing?(existing.return||''):'')+'"></div>' +
+        '</div>' +
+        '<div class="field"><label>Drink Package</label><input type="text" id="ac-ship-drinks-'+n+'" value="'+escAttr(existing?(existing.drinks||''):'')+'" placeholder="e.g. Deluxe Beverage Package included for both guests" maxlength="200"></div>' +
+        '<div class="field"><label>Additional Info</label><textarea id="ac-ship-notes-'+n+'" placeholder="Embarkation port &amp; time, gratuities, specialty dining, excursion credits…">'+escHtml(existing?(existing.notes||''):'')+'</textarea></div>' +
+      '</div>' +
+    '</div>';
+  container.appendChild(div);
+}
+
+function removeAccom(n){var el=document.getElementById('acBlock-'+n);if(el)el.remove();}
+
+function selectAccomType(n,type){
+  document.getElementById('ac-radio-hotel-'+n).classList.toggle('selected',type==='hotel');
+  document.getElementById('ac-radio-ship-'+n).classList.toggle('selected',type==='ship');
+  document.getElementById('ac-panel-hotel-'+n).classList.toggle('active',type==='hotel');
+  document.getElementById('ac-panel-ship-'+n).classList.toggle('active',type==='ship');
+}
+
+function collectAccoms(){
+  var accoms=[];
+  document.querySelectorAll('#accomList .flight-block').forEach(function(block){
+    var n=block.id.replace('acBlock-','');
+    var hotelPanel=document.getElementById('ac-panel-hotel-'+n);
+    var type=(hotelPanel&&hotelPanel.classList.contains('active'))?'hotel':'ship';
+    var obj;
+    if(type==='ship'){
+      obj={type:'ship',line:val('ac-ship-line-'+n),name:val('ac-ship-name-'+n),conf:val('ac-ship-conf-'+n),cabin:val('ac-ship-cabin-'+n),sail:val('ac-ship-sail-'+n),return:val('ac-ship-return-'+n),drinks:val('ac-ship-drinks-'+n),notes:val('ac-ship-notes-'+n)};
+      if(obj.line||obj.name||obj.conf)accoms.push(obj);
+    } else {
+      obj={type:'hotel',name:val('ac-hotel-name-'+n),checkin:val('ac-hotel-checkin-'+n),checkout:val('ac-hotel-checkout-'+n),conf:val('ac-hotel-conf-'+n),notes:val('ac-hotel-notes-'+n)};
+      if(obj.name||obj.conf)accoms.push(obj);
+    }
+  });
+  return accoms;
 }
 
 function loadExisting(id){
   showOverlay('Loading itinerary…');
   gasPost({type:'itinerary',action:'getItinerary',itineraryId:id}).then(function(res){
     hideOverlay();
-    if(!res.success){showToast('Could not load itinerary','error');addDay();return;}
+    if(!res.success){showToast('Could not load itinerary','error');addFlight();addFlight();addAccom();addDay();return;}
     var it=res.itinerary,days=res.days||[];
     if(res.clientName)showBadge(res.clientName);
     setVal('f-title',it.title);setVal('f-destination',it.destination);setVal('f-tripType',it.tripType);
     setVal('f-startDate',it.startDate);setVal('f-endDate',it.endDate);setVal('f-travelers',it.travelers);
-    var fo=safeParse(it.flightOut,{});
-    setVal('fl-out-info',fo.info||'');setVal('fl-out-date',fo.date||'');setVal('fl-out-time',fo.time||'');setVal('fl-out-from',fo.from||'');setVal('fl-out-to',fo.to||'');
-    var fr=safeParse(it.flightReturn,{});
-    setVal('fl-ret-info',fr.info||'');setVal('fl-ret-date',fr.date||'');setVal('fl-ret-time',fr.time||'');setVal('fl-ret-from',fr.from||'');setVal('fl-ret-to',fr.to||'');
-    var ac=safeParse(it.accommodation,{type:'hotel'});
-    selectAccom(ac.type||'hotel');
-    if(ac.type==='ship'){setVal('ac-ship-line',ac.line||'');setVal('ac-ship-name',ac.name||'');setVal('ac-ship-conf',ac.conf||'');setVal('ac-ship-cabin',ac.cabin||'');setVal('ac-ship-sail',ac.sail||'');setVal('ac-ship-return',ac.return||'');setVal('ac-ship-drinks',ac.drinks||'');setVal('ac-ship-notes',ac.notes||'');}
-    else{setVal('ac-hotel-name',ac.name||'');setVal('ac-hotel-checkin',ac.checkin||'');setVal('ac-hotel-checkout',ac.checkout||'');setVal('ac-hotel-conf',ac.conf||'');setVal('ac-hotel-notes',ac.notes||'');}
+    // Flights — stored as JSON array, with fallback for old single-object format
+    var flights=safeParse(it.flightOut,[]);
+    if(!Array.isArray(flights)){
+      // backwards compat: old format stored outbound in flightOut, return in flightReturn
+      var fo=safeParse(it.flightOut,{});var fr=safeParse(it.flightReturn,{});
+      flights=[];
+      if(fo.info||fo.from||fo.to)flights.push(fo);
+      if(fr.info||fr.from||fr.to)flights.push(fr);
+    }
+    if(flights.length>0){flights.forEach(function(f){addFlight(f);});}else{addFlight();addFlight();}
+    // Accommodation — stored as JSON array, with fallback for old single-object format
+    var accoms=safeParse(it.accommodation,[]);
+    if(!Array.isArray(accoms)){var ac=safeParse(it.accommodation,null);accoms=ac?[ac]:[];}
+    if(accoms.length>0){accoms.forEach(function(a){addAccom(a);});}else{addAccom();}
     setVal('f-importantNumbers',it.importantNumbers);setVal('f-vanessaNotes',it.vanessaNotes);
     if(days.length>0){days.forEach(function(d){addDay(d);});}else{addDay();}
     document.getElementById('actionStatus').textContent='Editing existing itinerary — save to update the link.';
-  }).catch(function(){hideOverlay();showToast('Load failed','error');addDay();});
+  }).catch(function(){hideOverlay();showToast('Load failed','error');addFlight();addFlight();addAccom();addDay();});
 }
 
 // ── Day management ───────────────────────────────────────────────
@@ -471,18 +526,16 @@ function collectDays(){
   return days;
 }
 
-function collectAccom(){
-  if(accomType==='ship')return JSON.stringify({type:'ship',line:val('ac-ship-line'),name:val('ac-ship-name'),conf:val('ac-ship-conf'),cabin:val('ac-ship-cabin'),sail:val('ac-ship-sail'),return:val('ac-ship-return'),drinks:val('ac-ship-drinks'),notes:val('ac-ship-notes')});
-  return JSON.stringify({type:'hotel',name:val('ac-hotel-name'),checkin:val('ac-hotel-checkin'),checkout:val('ac-hotel-checkout'),conf:val('ac-hotel-conf'),notes:val('ac-hotel-notes')});
-}
-
 function saveItinerary(){
   var title=val('f-title').trim();
   if(!title){showToast('Trip title is required','error');document.getElementById('f-title').focus();return;}
+  var flights=collectFlights();
+  var accoms=collectAccoms();
   var it={id:itineraryId||null,clientId:clientId||'',title:title,destination:val('f-destination'),tripType:val('f-tripType'),startDate:val('f-startDate'),endDate:val('f-endDate'),travelers:val('f-travelers'),
-    flightOut:JSON.stringify({info:val('fl-out-info'),date:val('fl-out-date'),time:val('fl-out-time'),from:val('fl-out-from'),to:val('fl-out-to')}),
-    flightReturn:JSON.stringify({info:val('fl-ret-info'),date:val('fl-ret-date'),time:val('fl-ret-time'),from:val('fl-ret-from'),to:val('fl-ret-to')}),
-    accommodation:collectAccom(),confirmationNumbers:'',importantNumbers:val('f-importantNumbers'),vanessaNotes:val('f-vanessaNotes'),status:'active'};
+    flightOut:JSON.stringify(flights),
+    flightReturn:'[]',
+    accommodation:JSON.stringify(accoms),
+    confirmationNumbers:'',importantNumbers:val('f-importantNumbers'),vanessaNotes:val('f-vanessaNotes'),status:'active'};
   var days=collectDays();
   document.getElementById('saveBtn').disabled=true;showOverlay('Saving itinerary…');
   gasPost({type:'itinerary',action:'saveItinerary',itinerary:it,days:days}).then(function(res){
