@@ -86,7 +86,7 @@ body{font-family:'DM Sans',Georgia,sans-serif;background:var(--cream);color:var(
 .numbers-text{font-size:14px;color:var(--ink);line-height:1.9;white-space:pre-wrap;}
 
 /* VANESSA NOTE */
-.vanessa-note{background:linear-gradient(135deg,#fdf3e3 0%,#faeae7 100%);border:1px solid rgba(200,133,42,0.2);border-radius:var(--radius);padding:24px 28px;margin-top:36px;position:relative;}
+.vanessa-note{background:linear-gradient(135deg,#fdf3e3 0%,#faeae7 100%);border:1px solid rgba(200,133,42,0.2);border-radius:var(--radius);padding:24px 28px;position:relative;}
 .vanessa-note::before{content:'🦋';position:absolute;top:-12px;right:20px;font-size:22px;}
 .vanessa-note-label{font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;font-weight:500;}
 .vanessa-note-text{font-size:15px;color:var(--ink-mid);line-height:1.8;white-space:pre-wrap;}
@@ -127,8 +127,8 @@ body{font-family:'DM Sans',Georgia,sans-serif;background:var(--cream);color:var(
 </div>
 
 <script>
-var GAS_URL      = 'https://script.google.com/macros/s/AKfycbzwpKU33T2fYOOE1a6RPTAtysw-lGEQM7YdV2GHqm5WBI9XxBoC3zCQDbLSOxP4qb8a/exec';
-var PROXY_SECRET = '2xqcjRE-smroFvVFZHNw';
+var GAS_URL      = 'YOUR_GAS_WEB_APP_URL';
+var PROXY_SECRET = 'YOUR_PROXY_SECRET';
 
 window.addEventListener('DOMContentLoaded',function(){
   var id=new URLSearchParams(window.location.search).get('id');
@@ -185,7 +185,7 @@ function renderItinerary(it,days,clientName){
     flights.forEach(function(f,i){
       if(!f||(!(f.info||f.from||f.to)))return;
       var icon=i===0?'🛫':(i===flights.length-1&&flights.length>1?'🛬':'✈️');
-      var lbl=i===0?'Outbound Flight':(i===flights.length-1&&flights.length>1?'Return Flight':'Connecting Flight');
+      var lbl=i===0?'Outbound Flight':(i===flights.length-1&&flights.length>1?'Return Flight':'Additional Leg '+(i));
       html+='<div class="flight-row"><div class="flight-icon">'+icon+'</div><div style="flex:1">';
       html+='<div class="flight-label">'+lbl+'</div>';
       if(f.info)html+='<div class="flight-main">'+esc(f.info)+'</div>';
@@ -252,7 +252,7 @@ function renderItinerary(it,days,clientName){
 
   // DAY BY DAY
   if(days.length>0){
-    html+='<div class="section"><div class="section-label">Day-by-Day</div><div class="timeline">';
+    html+='<div class="section"><div class="section-label">Day-by-Day</div><div class="card" style="padding:20px 24px 8px"><div class="timeline">';
     days.forEach(function(d,i){
       var acts  = safeParse(d.description,[]);
       var meals = safeParse(d.meals,[]);
@@ -280,7 +280,7 @@ function renderItinerary(it,days,clientName){
       if(!hasContent)html+='<div style="font-size:13px;color:var(--ink-muted);padding:4px 0">No details added for this day yet.</div>';
       html+='</div></div></div>';
     });
-    html+='</div></div>';
+    html+='</div></div></div>';
   }
 
   // IMPORTANT NUMBERS
@@ -290,7 +290,7 @@ function renderItinerary(it,days,clientName){
 
   // VANESSA'S NOTE
   if(it.vanessaNotes){
-    html+='<div class="vanessa-note"><div class="vanessa-note-label">A note from Vanessa</div><div class="vanessa-note-text">'+esc(it.vanessaNotes)+'</div></div>';
+    html+='<div class="section"><div class="vanessa-note"><div class="vanessa-note-label">A note from Vanessa</div><div class="vanessa-note-text">'+esc(it.vanessaNotes)+'</div></div></div>';
   }
 
   html+='</div>'; // /body-wrap
