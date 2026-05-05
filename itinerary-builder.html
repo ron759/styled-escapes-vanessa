@@ -215,7 +215,7 @@ html,body{font-family:'DM Sans',Georgia,sans-serif;background:var(--sand);color:
   <div class="section-card">
     <div class="section-card-title"><div class="section-icon">✈️</div>Flights</div>
     <div id="flightsList"></div>
-    <button class="btn-add-day" style="margin-top:8px" onclick="addFlight()">+ Add a Flight Leg</button>
+    <button class="btn-add-day" style="margin-top:8px" onclick="addFlight()">+ Add a Flight Leg (add return flight last)</button>
   </div>
 
   <!-- ACCOMMODATION -->
@@ -288,7 +288,8 @@ function addFlight(existing){
   flightCount++;
   var n=flightCount;
   var isFirst=n===1, isSecond=n===2;
-  var defaultLabel=isFirst?'🛫 Outbound Flight':isSecond?'🛬 Return Flight':'✈️ Flight Leg '+n;
+  var defaultLabel=isFirst?'🛫 Flight Leg 1 — Outbound':isSecond?'✈️ Flight Leg 2':'✈️ Flight Leg '+n;
+  var hint=isFirst?'Fill in your first flight. Add more legs below in travel order — put your return flight last.':isSecond?'Add your next flight leg. Put your return flight last.':'';
   var conns=existing&&Array.isArray(existing.connections)?existing.connections:[];
   var container=document.getElementById('flightsList');
   var div=document.createElement('div');
@@ -296,7 +297,10 @@ function addFlight(existing){
   div.style.position='relative';
   div.innerHTML=
     '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">' +
-      '<div class="flight-block-label" style="margin-bottom:0">'+defaultLabel+'</div>' +
+      '<div>' +
+        '<div class="flight-block-label" style="margin-bottom:0">'+defaultLabel+'</div>' +
+        (hint?'<div style="font-size:11px;color:var(--ink-muted);margin-top:3px">'+hint+'</div>':'') +
+      '</div>' +
       (n>2?'<button class="btn-remove-entry" style="margin-top:0" onclick="removeFlight('+n+')" title="Remove leg">✕ Remove</button>':'') +
     '</div>' +
     '<div class="field-grid">' +

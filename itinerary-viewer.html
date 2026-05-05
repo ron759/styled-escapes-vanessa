@@ -35,10 +35,11 @@ body{font-family:'DM Sans',Georgia,sans-serif;background:var(--cream);color:var(
 .stat-lbl{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(245,240,232,0.5);margin-top:4px;}
 
 /* BODY */
-.body-wrap{max-width:720px;margin:0 auto;padding:0 20px 80px;}
-.section{margin-top:36px;}
-.section-label{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:10px;display:flex;align-items:center;gap:10px;}
-.section-label::after{content:'';flex:1;height:1px;background:var(--sand-2);}
+.body-wrap{max-width:720px;margin:0 auto;padding:0 20px 80px;overflow:hidden;}
+#appRoot{width:100%;}
+.section{margin-top:36px;width:100%;}
+.section-label{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:10px;display:flex;align-items:center;gap:10px;width:100%;}
+.section-label::after{content:'';flex:1;height:1px;background:var(--sand-2);min-width:0;}
 .card{background:var(--white);border:1px solid var(--sand-2);border-radius:var(--radius);padding:20px 24px;}
 
 /* FLIGHTS */
@@ -146,7 +147,7 @@ function renderItinerary(it,days,clientName){
   var nightCount='';
   if(it.startDate&&it.endDate){var d1=new Date(it.startDate),d2=new Date(it.endDate);var n=Math.round((d2-d1)/86400000);if(n>0)nightCount=n+' night'+(n!==1?'s':'');}
 
-  var html='';
+  var html='<div id="itinRoot">';
 
   // HERO
   html+='<div class="hero">';
@@ -308,7 +309,7 @@ function renderItinerary(it,days,clientName){
   html+='</div>';
   html+='<div class="contact-footer-dv">Itinerary prepared by Styled Escapes by Vanessa · Dream Vacations affiliate · Portland, TN</div>';
   html+='</footer>';
-
+  html+='</div>'; // /itinRoot
   document.getElementById('appRoot').innerHTML=html;
 }
 
