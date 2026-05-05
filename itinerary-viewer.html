@@ -182,12 +182,16 @@ function renderItinerary(it,days,clientName){
   var flightIcons=['🛫','✈️','✈️','✈️','🛬'];
   var flightLabels=['Outbound Flight','','','','Return Flight'];
   if(flights.length>0){
-    html+='<div class="section"><div class="section-label">Flights</div><div class="card">';
+    html+='<div class="section">';
+    html+='<div class="section-label">Flights</div>';
     flights.forEach(function(f,i){
       if(!f||(!(f.info||f.from||f.to)))return;
       var icon=i===0?'🛫':(i===flights.length-1&&flights.length>1?'🛬':'✈️');
-      var lbl=i===0?'Outbound Flight':(i===flights.length-1&&flights.length>1?'Return Flight':'Additional Leg '+(i));
-      html+='<div class="flight-row"><div class="flight-icon">'+icon+'</div><div style="flex:1">';
+      var lbl=i===0?'Outbound Flight':(i===flights.length-1&&flights.length>1?'Return Flight':'Additional Leg '+i);
+      html+='<div class="card" style="margin-bottom:10px">';
+      html+='<div class="flight-row">';
+      html+='<div class="flight-icon">'+icon+'</div>';
+      html+='<div style="flex:1;min-width:0">';
       html+='<div class="flight-label">'+lbl+'</div>';
       if(f.info)html+='<div class="flight-main">'+esc(f.info)+'</div>';
       html+='<div class="flight-meta">';
@@ -196,13 +200,12 @@ function renderItinerary(it,days,clientName){
       if(f.arrTime)html+='<span>🛬 Arrives '+fmtTime(f.arrTime)+'</span>';
       if(f.from)html+='<span>🛫 '+esc(f.from)+'</span>';
       if(f.to)html+='<span>🛬 '+esc(f.to)+'</span>';
-      html+='</div>';
-      // Connections
+      html+='</div>'; // /flight-meta
       if(f.connections&&f.connections.length>0){
         html+='<div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--sand-2)">';
         html+='<div style="font-size:10px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:6px;">Connections</div>';
         f.connections.forEach(function(c){
-          html+='<div style="display:flex;align-items:center;gap:10px;font-size:13px;color:var(--ink-mid);padding:4px 0;">';
+          html+='<div style="display:flex;align-items:center;gap:10px;font-size:13px;color:var(--ink-mid);padding:4px 0">';
           html+='<span style="color:var(--gold)">⟶</span>';
           html+='<span style="font-weight:500;color:var(--ink)">'+esc(c.airport)+'</span>';
           if(c.arrTime||c.depTime){
@@ -212,13 +215,15 @@ function renderItinerary(it,days,clientName){
             if(c.depTime)html+='Departs '+fmtTime(c.depTime);
             html+='</span>';
           }
-          html+='</div>';
+          html+='</div>'; // /connection row
         });
-        html+='</div>';
+        html+='</div>'; // /connections block
       }
-      html+='</div></div></div>';
+      html+='</div>'; // /flex:1
+      html+='</div>'; // /flight-row
+      html+='</div>'; // /card
     });
-    html+='</div></div>';
+    html+='</div>'; // /section
   }
 
   // ACCOMMODATION
@@ -229,7 +234,10 @@ function renderItinerary(it,days,clientName){
       if(!ac)return;
       var sectionLabel=ac.type==='ship'?'Cruise Ship':'Accommodation';
       if(accoms.length>1)sectionLabel+=' '+(idx+1);
-      html+='<div class="section"><div class="section-label">'+sectionLabel+'</div><div class="card"><div class="accom-grid">';
+      html+='<div class="section">';
+      html+='<div class="section-label">'+sectionLabel+'</div>';
+      html+='<div class="card">';
+      html+='<div class="accom-grid">';
       if(ac.type==='ship'){
         var shipRows=[];
         if(ac.line||ac.name)shipRows.push({k:'Ship',v:(ac.line||'')+(ac.line&&ac.name?' · ':'')+( ac.name||'')});
@@ -247,51 +255,79 @@ function renderItinerary(it,days,clientName){
         if(ac.notes)hotelRows.push({k:'Additional Info',v:ac.notes});
         hotelRows.forEach(function(r){html+='<div class="accom-row"><div class="accom-key">'+esc(r.k)+'</div><div class="accom-val">'+esc(r.v)+'</div></div>';});
       }
-      html+='</div></div></div>';
+      html+='</div>'; // /accom-grid
+      html+='</div>'; // /card
+      html+='</div>'; // /section
     });
   }
 
   // DAY BY DAY
   if(days.length>0){
-    html+='<div class="section"><div class="section-label">Day-by-Day</div><div class="card" style="padding:20px 24px 8px"><div class="timeline">';
+    html+='<div class="section">';
+    html+='<div class="section-label">Day-by-Day</div>';
+    html+='<div class="card" style="padding:20px 24px 8px">';
+    html+='<div class="timeline">';
     days.forEach(function(d,i){
       var acts  = safeParse(d.description,[]);
       var meals = safeParse(d.meals,[]);
       if(!Array.isArray(acts)) acts  = d.description?[{time:'',text:d.description}]:[];
       if(!Array.isArray(meals))meals = d.meals      ?[{time:'',text:d.meals}]      :[];
       var hasContent=acts.length>0||meals.length>0||d.notes;
-      html+='<div class="day-entry"><div class="day-dot">'+d.dayNumber+'</div><div class="day-card">';
+      html+='<div class="day-entry">';
+      html+='<div class="day-dot">'+d.dayNumber+'</div>';
+      html+='<div class="day-card">';
       html+='<div class="day-card-top" onclick="toggleDay('+i+')">';
       if(d.date)html+='<div class="day-card-date">'+fmtDate(d.date)+'</div>';
       html+='<div class="day-card-title">'+esc(d.title||'Day '+d.dayNumber)+'</div>';
       html+='<div class="day-toggle open" id="dtoggle-'+i+'">▼</div>';
-      html+='</div>';
+      html+='</div>'; // /day-card-top
       html+='<div class="day-card-body open" id="dbody-'+i+'">';
       if(acts.length>0){
-        html+='<div class="day-section"><div class="day-section-label">Activities &amp; Details</div>';
+        html+='<div class="day-section">';
+        html+='<div class="day-section-label">Activities &amp; Details</div>';
         acts.forEach(function(a){html+='<div class="entry-item"><div class="entry-time">'+(a.time?fmtTime(a.time):'')+'</div><div class="entry-text">'+esc(a.text)+'</div></div>';});
-        html+='</div>';
+        html+='</div>'; // /day-section
       }
       if(meals.length>0){
-        html+='<div class="day-section"><div class="day-section-label">Meals &amp; Dining</div>';
+        html+='<div class="day-section">';
+        html+='<div class="day-section-label">Meals &amp; Dining</div>';
         meals.forEach(function(m){html+='<div class="entry-item"><div class="entry-time">'+(m.time?fmtTime(m.time):'')+'</div><div class="entry-text">'+esc(m.text)+'</div></div>';});
-        html+='</div>';
+        html+='</div>'; // /day-section
       }
-      if(d.notes)html+='<div class="day-section"><div class="day-section-label">Notes</div><div class="day-notes-text">'+esc(d.notes)+'</div></div>';
+      if(d.notes){
+        html+='<div class="day-section">';
+        html+='<div class="day-section-label">Notes</div>';
+        html+='<div class="day-notes-text">'+esc(d.notes)+'</div>';
+        html+='</div>'; // /day-section
+      }
       if(!hasContent)html+='<div style="font-size:13px;color:var(--ink-muted);padding:4px 0">No details added for this day yet.</div>';
-      html+='</div></div></div>';
+      html+='</div>'; // /day-card-body
+      html+='</div>'; // /day-card
+      html+='</div>'; // /day-entry
     });
-    html+='</div></div></div>';
+    html+='</div>'; // /timeline
+    html+='</div>'; // /card
+    html+='</div>'; // /section
   }
 
   // IMPORTANT NUMBERS
   if(it.importantNumbers){
-    html+='<div class="section"><div class="section-label">Important Numbers &amp; Info</div><div class="card"><div class="numbers-text">'+esc(it.importantNumbers)+'</div></div></div>';
+    html+='<div class="section">';
+    html+='<div class="section-label">Important Numbers &amp; Info</div>';
+    html+='<div class="card">';
+    html+='<div class="numbers-text">'+esc(it.importantNumbers)+'</div>';
+    html+='</div>'; // /card
+    html+='</div>'; // /section
   }
 
   // VANESSA'S NOTE
   if(it.vanessaNotes){
-    html+='<div class="section"><div class="vanessa-note"><div class="vanessa-note-label">A note from Vanessa</div><div class="vanessa-note-text">'+esc(it.vanessaNotes)+'</div></div></div>';
+    html+='<div class="section">';
+    html+='<div class="vanessa-note">';
+    html+='<div class="vanessa-note-label">A note from Vanessa</div>';
+    html+='<div class="vanessa-note-text">'+esc(it.vanessaNotes)+'</div>';
+    html+='</div>'; // /vanessa-note
+    html+='</div>'; // /section
   }
 
   html+='</div>'; // /body-wrap
