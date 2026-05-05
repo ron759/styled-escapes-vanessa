@@ -8,441 +8,151 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
 :root {
-  --ocean:      #1A4A5C;
-  --ocean-mid:  #2A6A82;
-  --ocean-l:    #E8F2F6;
-  --coral:      #C4503A;
-  --coral-l:    #FAEAE7;
-  --gold:       #C8852A;
-  --gold-l:     #FDF3E3;
-  --sand:       #F5F0E8;
-  --sand-2:     #EDE7DC;
-  --sand-3:     #E0D8CC;
-  --ink:        #1C1A18;
-  --ink-mid:    #4A4640;
-  --ink-muted:  #7A7068;
-  --white:      #FEFDFB;
-  --green:      #2D6A4F;
-  --green-l:    #E8F5EF;
-  --radius:     12px;
-  --radius-sm:  8px;
+  --ocean:#1A4A5C;--ocean-mid:#2A6A82;--ocean-l:#E8F2F6;
+  --coral:#C4503A;--coral-l:#FAEAE7;--gold:#C8852A;--gold-l:#FDF3E3;
+  --sand:#F5F0E8;--sand-2:#EDE7DC;--sand-3:#E0D8CC;
+  --ink:#1C1A18;--ink-mid:#4A4640;--ink-muted:#7A7068;
+  --white:#FEFDFB;--green:#2D6A4F;--green-l:#E8F5EF;
+  --radius:12px;--radius-sm:8px;
 }
+html,body{font-family:'DM Sans',Georgia,sans-serif;background:var(--sand);color:var(--ink);min-height:100vh;}
 
-html, body {
-  font-family: 'DM Sans', Georgia, sans-serif;
-  background: var(--sand);
-  color: var(--ink);
-  min-height: 100vh;
-}
+/* TOP BAR */
+.topbar{background:var(--ocean);display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:52px;position:sticky;top:0;z-index:100;border-bottom:1px solid rgba(255,255,255,0.08);}
+.topbar-left{display:flex;align-items:center;gap:16px;}
+.topbar-logo{font-family:'Cormorant Garamond',Georgia,serif;font-size:17px;font-weight:400;color:#F5F0E8;letter-spacing:0.02em;}
+.topbar-divider{color:rgba(245,240,232,0.25);}
+.topbar-page{font-size:13px;color:rgba(245,240,232,0.7);}
+.btn-back{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);color:#F5F0E8;font-family:'DM Sans',sans-serif;font-size:13px;padding:6px 14px;border-radius:6px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:background 0.15s;}
+.btn-back:hover{background:rgba(255,255,255,0.18);}
 
-/* ── TOP BAR ── */
-.topbar {
-  background: var(--ocean);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 24px;
-  height: 52px;
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  border-bottom: 1px solid rgba(255,255,255,0.08);
-}
-.topbar-left { display: flex; align-items: center; gap: 16px; }
-.topbar-logo {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 17px;
-  font-weight: 400;
-  color: #F5F0E8;
-  letter-spacing: 0.02em;
-}
-.topbar-divider { color: rgba(245,240,232,0.25); }
-.topbar-page { font-size: 13px; color: rgba(245,240,232,0.7); }
-.btn-back {
-  background: rgba(255,255,255,0.1);
-  border: 1px solid rgba(255,255,255,0.15);
-  color: #F5F0E8;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 13px;
-  padding: 6px 14px;
-  border-radius: 6px;
-  cursor: pointer;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  transition: background 0.15s;
-}
-.btn-back:hover { background: rgba(255,255,255,0.18); }
+/* LAYOUT */
+.page{max-width:820px;margin:0 auto;padding:32px 24px 80px;}
+.page-header{margin-bottom:32px;}
+.page-title{font-family:'Cormorant Garamond',Georgia,serif;font-size:32px;font-weight:400;color:var(--ocean);line-height:1.2;}
+.page-title em{font-style:italic;color:var(--coral);}
+.page-sub{font-size:14px;color:var(--ink-muted);margin-top:6px;}
+.client-badge{display:inline-flex;align-items:center;gap:8px;background:var(--gold-l);border:1px solid rgba(200,133,42,0.25);border-radius:20px;padding:5px 14px 5px 10px;font-size:13px;color:var(--ink-mid);margin-top:12px;}
+.client-badge-dot{width:8px;height:8px;background:var(--gold);border-radius:50%;}
 
-/* ── LAYOUT ── */
-.page { max-width: 820px; margin: 0 auto; padding: 32px 24px 80px; }
+/* SECTION CARD */
+.section-card{background:var(--white);border:1px solid var(--sand-2);border-radius:var(--radius);padding:24px;margin-bottom:20px;}
+.section-card-title{font-family:'Cormorant Garamond',Georgia,serif;font-size:18px;font-weight:500;color:var(--ocean);margin-bottom:18px;display:flex;align-items:center;gap:10px;}
+.section-icon{width:28px;height:28px;background:var(--ocean-l);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
 
-.page-header { margin-bottom: 32px; }
-.page-title {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 32px;
-  font-weight: 400;
-  color: var(--ocean);
-  line-height: 1.2;
-}
-.page-title em { font-style: italic; color: var(--coral); }
-.page-sub {
-  font-size: 14px;
-  color: var(--ink-muted);
-  margin-top: 6px;
-}
-.client-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--gold-l);
-  border: 1px solid rgba(200,133,42,0.25);
-  border-radius: 20px;
-  padding: 5px 14px 5px 10px;
-  font-size: 13px;
-  color: var(--ink-mid);
-  margin-top: 12px;
-}
-.client-badge-dot {
-  width: 8px; height: 8px;
-  background: var(--gold);
-  border-radius: 50%;
-}
+/* FORM FIELDS */
+.field-grid{display:grid;gap:16px;}
+.fg2{grid-template-columns:1fr 1fr;}
+.fg3{grid-template-columns:1fr 1fr 1fr;}
+.field{display:flex;flex-direction:column;gap:5px;}
+.field label{font-size:12px;font-weight:500;color:var(--ink-mid);text-transform:uppercase;letter-spacing:0.07em;}
+.field input,.field select,.field textarea{font-family:'DM Sans',sans-serif;font-size:14px;color:var(--ink);background:var(--white);border:1px solid var(--sand-3);border-radius:var(--radius-sm);padding:9px 12px;transition:border-color 0.15s,box-shadow 0.15s;width:100%;}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--ocean-mid);box-shadow:0 0 0 3px rgba(26,74,92,0.08);}
+.field textarea{resize:vertical;min-height:72px;}
+.field select{cursor:pointer;}
 
-/* ── SECTION CARD ── */
-.section-card {
-  background: var(--white);
-  border: 1px solid var(--sand-2);
-  border-radius: var(--radius);
-  padding: 24px;
-  margin-bottom: 20px;
-}
-.section-card-title {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 18px;
-  font-weight: 500;
-  color: var(--ocean);
-  margin-bottom: 18px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.section-card-title .section-icon {
-  width: 28px; height: 28px;
-  background: var(--ocean-l);
-  border-radius: 6px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 14px;
-  flex-shrink: 0;
-}
+/* FLIGHT BLOCK */
+.flight-block{border:1px solid var(--sand-2);border-radius:var(--radius-sm);padding:16px;background:var(--sand);margin-bottom:14px;}
+.flight-block:last-child{margin-bottom:0;}
+.flight-block-label{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.12em;color:var(--ocean);margin-bottom:12px;}
 
-/* ── FORM FIELDS ── */
-.field-grid { display: grid; gap: 16px; }
-.field-grid-2 { grid-template-columns: 1fr 1fr; }
-.field-grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+/* RADIO TOGGLE */
+.radio-group{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap;}
+.radio-option{flex:1;min-width:140px;border:2px solid var(--sand-3);border-radius:var(--radius-sm);padding:12px 16px;cursor:pointer;display:flex;align-items:center;gap:10px;transition:border-color 0.15s,background 0.15s;user-select:none;}
+.radio-option:hover{border-color:var(--ocean-mid);background:var(--ocean-l);}
+.radio-option.selected{border-color:var(--ocean);background:var(--ocean-l);}
+.radio-option input[type="radio"]{display:none;}
+.radio-dot{width:16px;height:16px;border-radius:50%;border:2px solid var(--sand-3);flex-shrink:0;transition:border-color 0.15s,background 0.15s;position:relative;}
+.radio-option.selected .radio-dot{border-color:var(--ocean);background:var(--ocean);}
+.radio-option.selected .radio-dot::after{content:'';width:6px;height:6px;background:white;border-radius:50%;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);}
+.radio-label{font-size:14px;font-weight:500;color:var(--ink);}
+.radio-sub{font-size:12px;color:var(--ink-muted);margin-top:1px;}
+.accom-panel{display:none;}
+.accom-panel.active{display:block;}
 
-.field { display: flex; flex-direction: column; gap: 5px; }
-.field label {
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--ink-mid);
-  text-transform: uppercase;
-  letter-spacing: 0.07em;
-}
-.field input,
-.field select,
-.field textarea {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 14px;
-  color: var(--ink);
-  background: var(--white);
-  border: 1px solid var(--sand-3);
-  border-radius: var(--radius-sm);
-  padding: 9px 12px;
-  transition: border-color 0.15s, box-shadow 0.15s;
-  width: 100%;
-}
-.field input:focus,
-.field select:focus,
-.field textarea:focus {
-  outline: none;
-  border-color: var(--ocean-mid);
-  box-shadow: 0 0 0 3px rgba(26,74,92,0.08);
-}
-.field textarea { resize: vertical; min-height: 80px; }
-.field select { cursor: pointer; }
+/* DAY CARDS */
+.days-list{display:flex;flex-direction:column;gap:12px;}
+.day-card{border:1px solid var(--sand-2);border-radius:var(--radius-sm);overflow:hidden;}
+.day-card-header{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--sand);cursor:pointer;user-select:none;gap:10px;}
+.day-card-header:hover{background:var(--sand-2);}
+.day-label{font-size:13px;font-weight:500;color:var(--ocean);display:flex;align-items:center;gap:10px;}
+.day-num{width:24px;height:24px;background:var(--ocean);color:white;border-radius:50%;font-size:11px;font-weight:500;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.day-header-right{display:flex;align-items:center;gap:8px;}
+.btn-remove-day{background:none;border:none;color:var(--ink-muted);cursor:pointer;font-size:16px;line-height:1;padding:2px 6px;border-radius:4px;transition:color 0.15s,background 0.15s;}
+.btn-remove-day:hover{color:var(--coral);background:var(--coral-l);}
+.day-chevron{font-size:11px;color:var(--ink-muted);transition:transform 0.2s;}
+.day-chevron.open{transform:rotate(180deg);}
+.day-card-body{padding:16px;border-top:1px solid var(--sand-2);background:var(--white);display:none;}
+.day-card-body.open{display:block;}
 
-/* ── DAYS SECTION ── */
-.days-list { display: flex; flex-direction: column; gap: 12px; }
+/* ENTRY ROWS */
+.entries-label{font-size:12px;font-weight:500;color:var(--ink-mid);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:8px;}
+.entry-list{display:flex;flex-direction:column;gap:8px;margin-bottom:8px;}
+.entry-row{display:grid;grid-template-columns:100px 1fr auto;gap:8px;align-items:start;}
+.entry-row input[type="time"],.entry-row textarea{font-family:'DM Sans',sans-serif;font-size:14px;color:var(--ink);background:var(--white);border:1px solid var(--sand-3);border-radius:var(--radius-sm);padding:8px 10px;transition:border-color 0.15s,box-shadow 0.15s;width:100%;}
+.entry-row input[type="time"]:focus,.entry-row textarea:focus{outline:none;border-color:var(--ocean-mid);box-shadow:0 0 0 3px rgba(26,74,92,0.08);}
+.entry-row textarea{resize:vertical;min-height:58px;}
+.btn-remove-entry{background:none;border:none;color:var(--ink-muted);cursor:pointer;font-size:14px;padding:8px 6px;border-radius:4px;transition:color 0.15s,background 0.15s;flex-shrink:0;margin-top:1px;}
+.btn-remove-entry:hover{color:var(--coral);background:var(--coral-l);}
+.btn-add-entry{display:inline-flex;align-items:center;gap:6px;background:none;border:1px dashed var(--sand-3);border-radius:var(--radius-sm);color:var(--ink-muted);font-family:'DM Sans',sans-serif;font-size:13px;padding:7px 14px;cursor:pointer;transition:border-color 0.15s,color 0.15s,background 0.15s;}
+.btn-add-entry:hover{border-color:var(--ocean-mid);color:var(--ocean);background:var(--ocean-l);}
 
-.day-card {
-  border: 1px solid var(--sand-2);
-  border-radius: var(--radius-sm);
-  overflow: hidden;
-}
-.day-card-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 14px;
-  background: var(--sand);
-  cursor: pointer;
-  user-select: none;
-  gap: 10px;
-}
-.day-card-header:hover { background: var(--sand-2); }
-.day-label {
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--ocean);
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.day-num {
-  width: 24px; height: 24px;
-  background: var(--ocean);
-  color: white;
-  border-radius: 50%;
-  font-size: 11px;
-  font-weight: 500;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-}
-.day-title-preview {
-  color: var(--ink-muted);
-  font-weight: 400;
-  font-size: 13px;
-}
-.day-header-right { display: flex; align-items: center; gap: 8px; }
-.btn-remove-day {
-  background: none;
-  border: none;
-  color: var(--ink-muted);
-  cursor: pointer;
-  font-size: 16px;
-  line-height: 1;
-  padding: 2px 6px;
-  border-radius: 4px;
-  transition: color 0.15s, background 0.15s;
-}
-.btn-remove-day:hover { color: var(--coral); background: var(--coral-l); }
-.day-chevron { font-size: 11px; color: var(--ink-muted); transition: transform 0.2s; }
-.day-chevron.open { transform: rotate(180deg); }
+/* ADD DAY */
+.btn-add-day{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:11px;background:none;border:2px dashed var(--sand-3);border-radius:var(--radius-sm);color:var(--ink-muted);font-family:'DM Sans',sans-serif;font-size:14px;cursor:pointer;transition:border-color 0.15s,color 0.15s,background 0.15s;margin-top:8px;}
+.btn-add-day:hover{border-color:var(--ocean-mid);color:var(--ocean);background:var(--ocean-l);}
 
-.day-card-body {
-  padding: 16px;
-  border-top: 1px solid var(--sand-2);
-  background: var(--white);
-  display: none;
-}
-.day-card-body.open { display: block; }
-.day-field-grid { display: grid; gap: 12px; }
+/* ACTION BAR */
+.action-bar{position:fixed;bottom:0;left:0;right:0;background:var(--white);border-top:1px solid var(--sand-2);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:12px;z-index:50;box-shadow:0 -4px 16px rgba(0,0,0,0.06);}
+.action-bar-left{font-size:13px;color:var(--ink-muted);}
+.action-bar-right{display:flex;gap:10px;align-items:center;}
+.btn-save{background:var(--ocean);color:white;border:none;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;padding:10px 24px;border-radius:var(--radius-sm);cursor:pointer;transition:background 0.15s,transform 0.1s;}
+.btn-save:hover{background:var(--ocean-mid);}
+.btn-save:active{transform:scale(0.98);}
+.btn-save:disabled{opacity:0.5;cursor:not-allowed;}
+.btn-secondary{background:none;color:var(--ink-mid);border:1px solid var(--sand-3);font-family:'DM Sans',sans-serif;font-size:14px;padding:10px 18px;border-radius:var(--radius-sm);cursor:pointer;transition:background 0.15s;}
+.btn-secondary:hover{background:var(--sand);}
 
-.btn-add-day {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  width: 100%;
-  padding: 11px;
-  background: none;
-  border: 2px dashed var(--sand-3);
-  border-radius: var(--radius-sm);
-  color: var(--ink-muted);
-  font-family: 'DM Sans', sans-serif;
-  font-size: 14px;
-  cursor: pointer;
-  transition: border-color 0.15s, color 0.15s, background 0.15s;
-  margin-top: 8px;
-}
-.btn-add-day:hover {
-  border-color: var(--ocean-mid);
-  color: var(--ocean);
-  background: var(--ocean-l);
-}
+/* TOAST */
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--ink);color:white;font-size:14px;padding:10px 20px;border-radius:20px;opacity:0;pointer-events:none;transition:opacity 0.25s,transform 0.25s;z-index:200;white-space:nowrap;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+.toast.success{background:var(--green);}
+.toast.error{background:var(--coral);}
 
-/* ── ACTION BAR ── */
-.action-bar {
-  position: fixed;
-  bottom: 0; left: 0; right: 0;
-  background: var(--white);
-  border-top: 1px solid var(--sand-2);
-  padding: 14px 24px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  z-index: 50;
-  box-shadow: 0 -4px 16px rgba(0,0,0,0.06);
-}
-.action-bar-left { font-size: 13px; color: var(--ink-muted); }
-.action-bar-right { display: flex; gap: 10px; align-items: center; }
+/* SUCCESS */
+.success-panel{background:var(--green-l);border:1px solid rgba(45,106,79,0.25);border-radius:var(--radius);padding:28px;text-align:center;display:none;margin-bottom:20px;}
+.success-panel.show{display:block;}
+.success-icon{font-size:36px;margin-bottom:12px;}
+.success-title{font-family:'Cormorant Garamond',Georgia,serif;font-size:22px;color:var(--green);margin-bottom:8px;}
+.success-sub{font-size:14px;color:var(--ink-mid);margin-bottom:20px;}
+.link-box{display:flex;align-items:center;gap:8px;background:white;border:1px solid rgba(45,106,79,0.2);border-radius:var(--radius-sm);padding:10px 14px;margin:0 auto 16px;max-width:560px;}
+.link-url{flex:1;font-size:13px;color:var(--ocean);word-break:break-all;text-align:left;}
+.btn-copy{background:var(--ocean);color:white;border:none;font-family:'DM Sans',sans-serif;font-size:13px;padding:7px 14px;border-radius:6px;cursor:pointer;white-space:nowrap;flex-shrink:0;}
+.btn-copy:hover{background:var(--ocean-mid);}
+.success-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+.btn-success-action{font-family:'DM Sans',sans-serif;font-size:13px;padding:8px 18px;border-radius:6px;cursor:pointer;border:1px solid var(--sand-3);background:white;color:var(--ink-mid);transition:background 0.15s;}
+.btn-success-action:hover{background:var(--sand);}
+.btn-success-action.primary{background:var(--ocean);color:white;border-color:var(--ocean);}
+.btn-success-action.primary:hover{background:var(--ocean-mid);}
 
-.btn-save {
-  background: var(--ocean);
-  color: white;
-  border: none;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 14px;
-  font-weight: 500;
-  padding: 10px 24px;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  transition: background 0.15s, transform 0.1s;
-}
-.btn-save:hover { background: var(--ocean-mid); }
-.btn-save:active { transform: scale(0.98); }
-.btn-save:disabled { opacity: 0.5; cursor: not-allowed; }
+/* OVERLAY */
+.overlay{position:fixed;inset:0;background:rgba(245,240,232,0.75);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;z-index:300;}
+.overlay.show{display:flex;}
+.overlay-box{background:white;border-radius:var(--radius);padding:32px 40px;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,0.12);}
+.spinner{width:36px;height:36px;border:3px solid var(--sand-2);border-top-color:var(--ocean);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 14px;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.overlay-msg{font-size:14px;color:var(--ink-mid);}
 
-.btn-secondary {
-  background: none;
-  color: var(--ink-mid);
-  border: 1px solid var(--sand-3);
-  font-family: 'DM Sans', sans-serif;
-  font-size: 14px;
-  padding: 10px 18px;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  transition: background 0.15s, border-color 0.15s;
-}
-.btn-secondary:hover { background: var(--sand); border-color: var(--sand-3); }
-
-/* ── TOAST ── */
-.toast {
-  position: fixed;
-  bottom: 80px;
-  left: 50%;
-  transform: translateX(-50%) translateY(20px);
-  background: var(--ink);
-  color: white;
-  font-size: 14px;
-  padding: 10px 20px;
-  border-radius: 20px;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.25s, transform 0.25s;
-  z-index: 200;
-  white-space: nowrap;
-}
-.toast.show {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
-}
-.toast.success { background: var(--green); }
-.toast.error { background: var(--coral); }
-
-/* ── SUCCESS STATE ── */
-.success-panel {
-  background: var(--green-l);
-  border: 1px solid rgba(45,106,79,0.25);
-  border-radius: var(--radius);
-  padding: 28px;
-  text-align: center;
-  display: none;
-  margin-bottom: 20px;
-}
-.success-panel.show { display: block; }
-.success-icon { font-size: 36px; margin-bottom: 12px; }
-.success-title {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: 22px;
-  color: var(--green);
-  margin-bottom: 8px;
-}
-.success-sub { font-size: 14px; color: var(--ink-mid); margin-bottom: 20px; }
-.link-box {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: white;
-  border: 1px solid rgba(45,106,79,0.2);
-  border-radius: var(--radius-sm);
-  padding: 10px 14px;
-  margin: 0 auto 16px;
-  max-width: 560px;
-}
-.link-url {
-  flex: 1;
-  font-size: 13px;
-  color: var(--ocean);
-  word-break: break-all;
-  text-align: left;
-}
-.btn-copy {
-  background: var(--ocean);
-  color: white;
-  border: none;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 13px;
-  padding: 7px 14px;
-  border-radius: 6px;
-  cursor: pointer;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-.btn-copy:hover { background: var(--ocean-mid); }
-.success-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
-.btn-success-action {
-  font-family: 'DM Sans', sans-serif;
-  font-size: 13px;
-  padding: 8px 18px;
-  border-radius: 6px;
-  cursor: pointer;
-  border: 1px solid var(--sand-3);
-  background: white;
-  color: var(--ink-mid);
-  transition: background 0.15s;
-}
-.btn-success-action:hover { background: var(--sand); }
-.btn-success-action.primary {
-  background: var(--ocean);
-  color: white;
-  border-color: var(--ocean);
-}
-.btn-success-action.primary:hover { background: var(--ocean-mid); }
-
-/* ── LOADING OVERLAY ── */
-.overlay {
-  position: fixed; inset: 0;
-  background: rgba(245,240,232,0.75);
-  backdrop-filter: blur(3px);
-  display: flex; align-items: center; justify-content: center;
-  z-index: 300;
-  display: none;
-}
-.overlay.show { display: flex; }
-.overlay-box {
-  background: white;
-  border-radius: var(--radius);
-  padding: 32px 40px;
-  text-align: center;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
-}
-.spinner {
-  width: 36px; height: 36px;
-  border: 3px solid var(--sand-2);
-  border-top-color: var(--ocean);
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-  margin: 0 auto 14px;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
-.overlay-msg { font-size: 14px; color: var(--ink-mid); }
-
-@media (max-width: 600px) {
-  .field-grid-2, .field-grid-3 { grid-template-columns: 1fr; }
-  .page { padding: 20px 16px 80px; }
-  .topbar { padding: 0 16px; }
+@media(max-width:600px){
+  .fg2,.fg3{grid-template-columns:1fr;}
+  .page{padding:20px 16px 80px;}
+  .topbar{padding:0 16px;}
+  .entry-row{grid-template-columns:80px 1fr auto;}
 }
 </style>
 </head>
 <body>
 
-<!-- TOP BAR -->
 <header class="topbar">
   <div class="topbar-left">
     <span class="topbar-logo">Styled Escapes by Vanessa</span>
@@ -453,26 +163,21 @@ html, body {
 </header>
 
 <div class="page">
-
-  <!-- PAGE HEADER -->
   <div class="page-header">
     <h1 class="page-title">Build an <em>Itinerary</em></h1>
     <p class="page-sub">Fill in the trip details below. When you save, you'll get a shareable link to send to your client.</p>
     <div id="clientBadge" class="client-badge" style="display:none">
       <div class="client-badge-dot"></div>
-      <span id="clientBadgeName">Loading client…</span>
+      <span id="clientBadgeName"></span>
     </div>
   </div>
 
-  <!-- SUCCESS PANEL -->
+  <!-- SUCCESS -->
   <div class="success-panel" id="successPanel">
     <div class="success-icon">✈️</div>
     <div class="success-title">Itinerary Saved!</div>
     <div class="success-sub">Here's the shareable link for your client.</div>
-    <div class="link-box">
-      <span class="link-url" id="shareUrl"></span>
-      <button class="btn-copy" onclick="copyLink()">Copy Link</button>
-    </div>
+    <div class="link-box"><span class="link-url" id="shareUrl"></span><button class="btn-copy" onclick="copyLink()">Copy Link</button></div>
     <div class="success-actions">
       <button class="btn-success-action" onclick="continueEditing()">Keep Editing</button>
       <button class="btn-success-action" onclick="openViewer()">Preview Itinerary</button>
@@ -480,447 +185,331 @@ html, body {
     </div>
   </div>
 
-  <!-- SECTION: TRIP OVERVIEW -->
+  <!-- TRIP OVERVIEW -->
   <div class="section-card">
-    <div class="section-card-title">
-      <div class="section-icon">🗺️</div>
-      Trip Overview
-    </div>
+    <div class="section-card-title"><div class="section-icon">🗺️</div>Trip Overview</div>
     <div class="field-grid">
-      <div class="field">
-        <label>Trip Title <span style="color:var(--coral)">*</span></label>
-        <input type="text" id="f-title" placeholder="e.g. Jacobs Family Caribbean Cruise 2025" maxlength="120">
-      </div>
-      <div class="field-grid field-grid-2">
-        <div class="field">
-          <label>Destination</label>
-          <input type="text" id="f-destination" placeholder="e.g. Eastern Caribbean" maxlength="100">
-        </div>
-        <div class="field">
-          <label>Trip Type</label>
+      <div class="field"><label>Trip Title <span style="color:var(--coral)">*</span></label><input type="text" id="f-title" placeholder="e.g. Jacobs Family Caribbean Cruise 2025" maxlength="120"></div>
+      <div class="field-grid fg2">
+        <div class="field"><label>Destination</label><input type="text" id="f-destination" placeholder="e.g. Eastern Caribbean" maxlength="100"></div>
+        <div class="field"><label>Trip Type</label>
           <select id="f-tripType">
             <option value="">Select a type…</option>
-            <option>Cruise</option>
-            <option>All-Inclusive Resort</option>
-            <option>Hawaii</option>
-            <option>Family Trip</option>
-            <option>Couples / Romantic Getaway</option>
-            <option>Honeymoon</option>
-            <option>Anniversary Trip</option>
-            <option>Girls / Friends Trip</option>
-            <option>Group Travel</option>
-            <option>Europe</option>
-            <option>Adventure / Outdoors</option>
-            <option>River Cruise</option>
-            <option>Custom Land Itinerary</option>
-            <option>Other</option>
+            <option>Cruise</option><option>All-Inclusive Resort</option><option>Hawaii</option>
+            <option>Family Trip</option><option>Couples / Romantic Getaway</option><option>Honeymoon</option>
+            <option>Anniversary Trip</option><option>Girls / Friends Trip</option><option>Group Travel</option>
+            <option>Europe</option><option>Adventure / Outdoors</option><option>River Cruise</option>
+            <option>Custom Land Itinerary</option><option>Other</option>
           </select>
         </div>
       </div>
-      <div class="field-grid field-grid-3">
-        <div class="field">
-          <label>Departure Date</label>
-          <input type="date" id="f-startDate">
+      <div class="field-grid fg3">
+        <div class="field"><label>Departure Date</label><input type="date" id="f-startDate"></div>
+        <div class="field"><label>Return Date</label><input type="date" id="f-endDate"></div>
+        <div class="field"><label>Travelers</label><input type="text" id="f-travelers" placeholder="e.g. 2 adults, 2 kids" maxlength="80"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FLIGHTS -->
+  <div class="section-card">
+    <div class="section-card-title"><div class="section-icon">✈️</div>Flights</div>
+    <div class="flight-block">
+      <div class="flight-block-label">🛫 &nbsp;Outbound Flight</div>
+      <div class="field-grid">
+        <div class="field"><label>Airline &amp; Flight Details</label><input type="text" id="fl-out-info" placeholder="e.g. Delta DL 1234 · Confirmation: ABC123"></div>
+        <div class="field-grid fg2">
+          <div class="field"><label>Departure Date</label><input type="date" id="fl-out-date"></div>
+          <div class="field"><label>Departure Time</label><input type="time" id="fl-out-time"></div>
         </div>
-        <div class="field">
-          <label>Return Date</label>
-          <input type="date" id="f-endDate">
+        <div class="field-grid fg2">
+          <div class="field"><label>Departure Airport</label><input type="text" id="fl-out-from" placeholder="e.g. BNA – Nashville" maxlength="80"></div>
+          <div class="field"><label>Arrival Airport</label><input type="text" id="fl-out-to" placeholder="e.g. MIA – Miami" maxlength="80"></div>
         </div>
-        <div class="field">
-          <label>Travelers</label>
-          <input type="text" id="f-travelers" placeholder="e.g. 2 adults, 2 kids" maxlength="80">
+      </div>
+    </div>
+    <div class="flight-block">
+      <div class="flight-block-label">🛬 &nbsp;Return Flight</div>
+      <div class="field-grid">
+        <div class="field"><label>Airline &amp; Flight Details</label><input type="text" id="fl-ret-info" placeholder="e.g. Delta DL 5678 · Confirmation: XYZ789"></div>
+        <div class="field-grid fg2">
+          <div class="field"><label>Departure Date</label><input type="date" id="fl-ret-date"></div>
+          <div class="field"><label>Departure Time</label><input type="time" id="fl-ret-time"></div>
+        </div>
+        <div class="field-grid fg2">
+          <div class="field"><label>Departure Airport</label><input type="text" id="fl-ret-from" placeholder="e.g. MIA – Miami" maxlength="80"></div>
+          <div class="field"><label>Arrival Airport</label><input type="text" id="fl-ret-to" placeholder="e.g. BNA – Nashville" maxlength="80"></div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- SECTION: FLIGHTS -->
+  <!-- ACCOMMODATION -->
   <div class="section-card">
-    <div class="section-card-title">
-      <div class="section-icon">✈️</div>
-      Flights
+    <div class="section-card-title"><div class="section-icon">🏨</div>Accommodation</div>
+    <div class="radio-group">
+      <label class="radio-option selected" id="radio-hotel" onclick="selectAccom('hotel')">
+        <input type="radio" name="accomType" value="hotel" checked>
+        <div class="radio-dot"></div>
+        <div><div class="radio-label">🏨 Hotel / Resort</div><div class="radio-sub">All-inclusive, hotel, villa</div></div>
+      </label>
+      <label class="radio-option" id="radio-ship" onclick="selectAccom('ship')">
+        <input type="radio" name="accomType" value="ship">
+        <div class="radio-dot"></div>
+        <div><div class="radio-label">🚢 Cruise Ship</div><div class="radio-sub">Ocean &amp; river cruises</div></div>
+      </label>
     </div>
-    <div class="field-grid">
-      <div class="field">
-        <label>Outbound Flight</label>
-        <input type="text" id="f-flightOut" placeholder="e.g. Delta DL 1234 · BNA → MIA · Jun 7 @ 6:45am" maxlength="200">
+
+    <!-- Hotel Panel -->
+    <div class="accom-panel active" id="panel-hotel">
+      <div class="field-grid">
+        <div class="field"><label>Hotel / Resort Name &amp; Address</label><input type="text" id="ac-hotel-name" placeholder="e.g. Sandals Royal Barbados, St. Lawrence Gap, Christ Church" maxlength="200"></div>
+        <div class="field-grid fg3">
+          <div class="field"><label>Check-In Date</label><input type="date" id="ac-hotel-checkin"></div>
+          <div class="field"><label>Check-Out Date</label><input type="date" id="ac-hotel-checkout"></div>
+          <div class="field"><label>Confirmation #</label><input type="text" id="ac-hotel-conf" placeholder="e.g. SRB-789456" maxlength="80"></div>
+        </div>
+        <div class="field"><label>Additional Info</label><textarea id="ac-hotel-notes" placeholder="Room type, resort credits, special requests, dining plan, airport transfer details…"></textarea></div>
       </div>
-      <div class="field">
-        <label>Return Flight</label>
-        <input type="text" id="f-flightReturn" placeholder="e.g. Delta DL 5678 · MIA → BNA · Jun 14 @ 4:15pm" maxlength="200">
+    </div>
+
+    <!-- Ship Panel -->
+    <div class="accom-panel" id="panel-ship">
+      <div class="field-grid">
+        <div class="field-grid fg2">
+          <div class="field"><label>Cruise Line</label><input type="text" id="ac-ship-line" placeholder="e.g. Royal Caribbean" maxlength="100"></div>
+          <div class="field"><label>Ship Name</label><input type="text" id="ac-ship-name" placeholder="e.g. Oasis of the Seas" maxlength="100"></div>
+        </div>
+        <div class="field-grid fg2">
+          <div class="field"><label>Confirmation #</label><input type="text" id="ac-ship-conf" placeholder="e.g. RC-1234567" maxlength="80"></div>
+          <div class="field"><label>Cabin Type &amp; Number</label><input type="text" id="ac-ship-cabin" placeholder="e.g. Ocean View · Cabin 7218, Deck 7" maxlength="100"></div>
+        </div>
+        <div class="field-grid fg2">
+          <div class="field"><label>Sail Date</label><input type="date" id="ac-ship-sail"></div>
+          <div class="field"><label>Return Date</label><input type="date" id="ac-ship-return"></div>
+        </div>
+        <div class="field"><label>Drink Package</label><input type="text" id="ac-ship-drinks" placeholder="e.g. Deluxe Beverage Package included for both guests" maxlength="200"></div>
+        <div class="field"><label>Additional Info</label><textarea id="ac-ship-notes" placeholder="Embarkation port &amp; time, gratuities, specialty dining, excursion credits, loyalty tier…"></textarea></div>
       </div>
     </div>
   </div>
 
-  <!-- SECTION: ACCOMMODATION / SHIP -->
+  <!-- DAY BY DAY -->
   <div class="section-card">
-    <div class="section-card-title">
-      <div class="section-icon">🏨</div>
-      Accommodation / Ship
-    </div>
-    <div class="field-grid">
-      <div class="field">
-        <label>Hotel, Resort, or Ship</label>
-        <textarea id="f-accommodation" rows="3" placeholder="e.g. Royal Caribbean Oasis of the Seas — stateroom 7218, deck 7 ocean view&#10;Check-in: Jun 7 @ 4:00pm · Check-out: Jun 14 @ 8:00am"></textarea>
-      </div>
-      <div class="field">
-        <label>Confirmation Numbers</label>
-        <textarea id="f-confirmationNumbers" rows="3" placeholder="e.g. Booking #: RC-1234567&#10;Travel insurance: TI-9876543&#10;Excursions: see individual day entries"></textarea>
-      </div>
-    </div>
-  </div>
-
-  <!-- SECTION: DAY BY DAY -->
-  <div class="section-card">
-    <div class="section-card-title">
-      <div class="section-icon">📅</div>
-      Day-by-Day
-    </div>
+    <div class="section-card-title"><div class="section-icon">📅</div>Day-by-Day</div>
     <div class="days-list" id="daysList"></div>
     <button class="btn-add-day" onclick="addDay()">+ Add a Day</button>
   </div>
 
-  <!-- SECTION: IMPORTANT NUMBERS -->
+  <!-- IMPORTANT NUMBERS -->
   <div class="section-card">
-    <div class="section-card-title">
-      <div class="section-icon">📞</div>
-      Important Numbers & Info
-    </div>
-    <div class="field-grid">
-      <div class="field">
-        <label>Numbers, Contacts & Links</label>
-        <textarea id="f-importantNumbers" rows="5" placeholder="e.g. Ship emergency line: 1-800-XXX-XXXX&#10;Travel insurance claim: 1-888-XXX-XXXX&#10;Transfer company: +1 (305) 555-0100&#10;Excursion booking site: www.example.com&#10;Emergency services at destination: 911 / local #"></textarea>
-      </div>
+    <div class="section-card-title"><div class="section-icon">📞</div>Important Numbers &amp; Info</div>
+    <div class="field"><label>Numbers, Contacts &amp; Links</label>
+      <textarea id="f-importantNumbers" rows="5" placeholder="e.g. Ship emergency line: 1-800-XXX-XXXX&#10;Travel insurance: 1-888-XXX-XXXX&#10;Transfer company: +1 (305) 555-0100"></textarea>
     </div>
   </div>
 
-  <!-- SECTION: VANESSA'S NOTES -->
+  <!-- VANESSA'S NOTES -->
   <div class="section-card">
-    <div class="section-card-title">
-      <div class="section-icon">💛</div>
-      Vanessa's Notes for the Client
-    </div>
-    <div class="field-grid">
-      <div class="field">
-        <label>Personal tips, reminders & well-wishes</label>
-        <textarea id="f-vanessaNotes" rows="5" placeholder="e.g. Don't forget to check in online 24 hours before your flight! Pack your travel documents in your carry-on. You're going to have the most amazing time — I can't wait to hear all about it. Reach out anytime if you need anything. 🦋"></textarea>
-      </div>
+    <div class="section-card-title"><div class="section-icon">💛</div>Vanessa's Notes for the Client</div>
+    <div class="field"><label>Personal tips, reminders &amp; well-wishes</label>
+      <textarea id="f-vanessaNotes" rows="5" placeholder="e.g. Don't forget to check in online 24 hours before your flight! You're going to have the most amazing time — reach out anytime. 🦋"></textarea>
     </div>
   </div>
 
-</div><!-- /page -->
+</div>
 
-<!-- ACTION BAR -->
 <div class="action-bar">
   <div class="action-bar-left" id="actionStatus">Fill in the trip details above, then save.</div>
   <div class="action-bar-right">
     <button class="btn-secondary" onclick="backToCrm()">Cancel</button>
-    <button class="btn-save" id="saveBtn" onclick="saveItinerary()">Save & Get Link</button>
+    <button class="btn-save" id="saveBtn" onclick="saveItinerary()">Save &amp; Get Link</button>
   </div>
 </div>
-
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
-
-<!-- LOADING OVERLAY -->
-<div class="overlay" id="overlay">
-  <div class="overlay-box">
-    <div class="spinner"></div>
-    <div class="overlay-msg" id="overlayMsg">Saving itinerary…</div>
-  </div>
-</div>
+<div class="overlay" id="overlay"><div class="overlay-box"><div class="spinner"></div><div class="overlay-msg" id="overlayMsg">Saving…</div></div></div>
 
 <script>
-// ── Config ───────────────────────────────────────────────────────
-var GAS_URL      = 'https://script.google.com/macros/s/AKfycbzwpKU33T2fYOOE1a6RPTAtysw-lGEQM7YdV2GHqm5WBI9XxBoC3zCQDbLSOxP4qb8a/exec';
-var PROXY_SECRET = '2xqcjRE-smroFvVFZHNw';
+var GAS_URL      = 'YOUR_GAS_WEB_APP_URL';
+var PROXY_SECRET = 'YOUR_PROXY_SECRET';
 var VIEWER_BASE  = window.location.origin + '/itinerary-viewer.html';
 
-// ── State ────────────────────────────────────────────────────────
-var clientId       = null;
-var clientName     = '';
-var itineraryId    = null;   // set after first save
-var dayCount       = 0;
-var savedShareUrl  = '';
+var clientId=null, clientName='', itineraryId=null, dayCount=0, savedShareUrl='', accomType='hotel';
+var entryCounters={};
 
-// ── Init ─────────────────────────────────────────────────────────
-window.addEventListener('DOMContentLoaded', function() {
-  var params = new URLSearchParams(window.location.search);
-  clientId      = params.get('clientId') || null;
-  itineraryId   = params.get('itineraryId') || null;
-
-  if (clientId) {
-    // Try to get client name from CRM localStorage cache
-    try {
-      var crmData = JSON.parse(localStorage.getItem('vnCRM_v2_dev') || 'null');
-      if (crmData && crmData.clients) {
-        var match = crmData.clients.find(function(c) { return c.id === clientId; });
-        if (match) { clientName = match.name; showClientBadge(match.name); }
-      }
-    } catch(e) {}
+window.addEventListener('DOMContentLoaded',function(){
+  var p=new URLSearchParams(window.location.search);
+  clientId=p.get('clientId')||null;
+  itineraryId=p.get('itineraryId')||null;
+  if(clientId){
+    try{
+      var d=JSON.parse(localStorage.getItem('vnCRM_v2_dev')||'null');
+      if(d&&d.clients){var m=d.clients.find(function(c){return c.id===clientId;});if(m){clientName=m.name;showBadge(m.name);}}
+    }catch(e){}
   }
-
-  if (itineraryId) {
-    loadExistingItinerary(itineraryId);
-  } else {
-    // Start with one empty day
-    addDay();
-  }
+  if(itineraryId){loadExisting(itineraryId);}else{addDay();}
 });
 
-function showClientBadge(name) {
-  document.getElementById('clientBadge').style.display = 'inline-flex';
-  document.getElementById('clientBadgeName').textContent = name;
+function showBadge(name){document.getElementById('clientBadge').style.display='inline-flex';document.getElementById('clientBadgeName').textContent=name;}
+
+function selectAccom(type){
+  accomType=type;
+  document.getElementById('radio-hotel').classList.toggle('selected',type==='hotel');
+  document.getElementById('radio-ship').classList.toggle('selected',type==='ship');
+  document.getElementById('panel-hotel').classList.toggle('active',type==='hotel');
+  document.getElementById('panel-ship').classList.toggle('active',type==='ship');
 }
 
-// ── Load existing itinerary for editing ──────────────────────────
-function loadExistingItinerary(id) {
+function loadExisting(id){
   showOverlay('Loading itinerary…');
-  gasPost({ type: 'itinerary', action: 'getItinerary', itineraryId: id })
-    .then(function(res) {
-      hideOverlay();
-      if (!res.success) { showToast('Could not load itinerary', 'error'); addDay(); return; }
-      var it = res.itinerary;
-      var days = res.days || [];
-      if (res.clientName) showClientBadge(res.clientName);
-
-      document.getElementById('f-title').value              = it.title || '';
-      document.getElementById('f-destination').value        = it.destination || '';
-      document.getElementById('f-tripType').value           = it.tripType || '';
-      document.getElementById('f-startDate').value          = it.startDate || '';
-      document.getElementById('f-endDate').value            = it.endDate || '';
-      document.getElementById('f-travelers').value          = it.travelers || '';
-      document.getElementById('f-flightOut').value          = it.flightOut || '';
-      document.getElementById('f-flightReturn').value       = it.flightReturn || '';
-      document.getElementById('f-accommodation').value      = it.accommodation || '';
-      document.getElementById('f-confirmationNumbers').value= it.confirmationNumbers || '';
-      document.getElementById('f-importantNumbers').value   = it.importantNumbers || '';
-      document.getElementById('f-vanessaNotes').value       = it.vanessaNotes || '';
-
-      if (days.length > 0) {
-        days.forEach(function(d) { addDay(d); });
-      } else {
-        addDay();
-      }
-      document.getElementById('actionStatus').textContent = 'Editing existing itinerary — save to update the link.';
-    })
-    .catch(function() { hideOverlay(); showToast('Load failed', 'error'); addDay(); });
+  gasPost({type:'itinerary',action:'getItinerary',itineraryId:id}).then(function(res){
+    hideOverlay();
+    if(!res.success){showToast('Could not load itinerary','error');addDay();return;}
+    var it=res.itinerary,days=res.days||[];
+    if(res.clientName)showBadge(res.clientName);
+    setVal('f-title',it.title);setVal('f-destination',it.destination);setVal('f-tripType',it.tripType);
+    setVal('f-startDate',it.startDate);setVal('f-endDate',it.endDate);setVal('f-travelers',it.travelers);
+    var fo=safeParse(it.flightOut,{});
+    setVal('fl-out-info',fo.info||'');setVal('fl-out-date',fo.date||'');setVal('fl-out-time',fo.time||'');setVal('fl-out-from',fo.from||'');setVal('fl-out-to',fo.to||'');
+    var fr=safeParse(it.flightReturn,{});
+    setVal('fl-ret-info',fr.info||'');setVal('fl-ret-date',fr.date||'');setVal('fl-ret-time',fr.time||'');setVal('fl-ret-from',fr.from||'');setVal('fl-ret-to',fr.to||'');
+    var ac=safeParse(it.accommodation,{type:'hotel'});
+    selectAccom(ac.type||'hotel');
+    if(ac.type==='ship'){setVal('ac-ship-line',ac.line||'');setVal('ac-ship-name',ac.name||'');setVal('ac-ship-conf',ac.conf||'');setVal('ac-ship-cabin',ac.cabin||'');setVal('ac-ship-sail',ac.sail||'');setVal('ac-ship-return',ac.return||'');setVal('ac-ship-drinks',ac.drinks||'');setVal('ac-ship-notes',ac.notes||'');}
+    else{setVal('ac-hotel-name',ac.name||'');setVal('ac-hotel-checkin',ac.checkin||'');setVal('ac-hotel-checkout',ac.checkout||'');setVal('ac-hotel-conf',ac.conf||'');setVal('ac-hotel-notes',ac.notes||'');}
+    setVal('f-importantNumbers',it.importantNumbers);setVal('f-vanessaNotes',it.vanessaNotes);
+    if(days.length>0){days.forEach(function(d){addDay(d);});}else{addDay();}
+    document.getElementById('actionStatus').textContent='Editing existing itinerary — save to update the link.';
+  }).catch(function(){hideOverlay();showToast('Load failed','error');addDay();});
 }
 
 // ── Day management ───────────────────────────────────────────────
-function addDay(existingDay) {
+function addDay(existing){
   dayCount++;
-  var num   = dayCount;
-  var dayId = existingDay ? existingDay.id : ('day-' + Date.now() + '-' + num);
-
-  var container = document.getElementById('daysList');
-  var div = document.createElement('div');
-  div.className = 'day-card';
-  div.id = 'dayCard-' + num;
-  div.innerHTML =
-    '<div class="day-card-header" onclick="toggleDay(' + num + ')">' +
-      '<div class="day-label">' +
-        '<div class="day-num">' + num + '</div>' +
-        '<span id="dayPreview-' + num + '">' + (existingDay && existingDay.title ? existingDay.title : 'Day ' + num) + '</span>' +
-      '</div>' +
-      '<div class="day-header-right">' +
-        '<button class="btn-remove-day" onclick="removeDay(event,' + num + ')" title="Remove day">✕</button>' +
-        '<span class="day-chevron open" id="chevron-' + num + '">▼</span>' +
-      '</div>' +
+  var num=dayCount;
+  var dayId=existing?existing.id:('day-'+Date.now()+'-'+num);
+  var acts=[];var meals=[];
+  if(existing){
+    acts=safeParse(existing.description,[]);
+    meals=safeParse(existing.meals,[]);
+    if(!Array.isArray(acts))acts=existing.description?[{time:'',text:existing.description}]:[];
+    if(!Array.isArray(meals))meals=existing.meals?[{time:'',text:existing.meals}]:[];
+  }
+  if(acts.length===0)acts=[{time:'',text:''}];
+  if(meals.length===0)meals=[{time:'',text:''}];
+  var preview=existing&&existing.title?existing.title:'Day '+num;
+  var container=document.getElementById('daysList');
+  var div=document.createElement('div');
+  div.className='day-card';div.id='dayCard-'+num;
+  div.innerHTML=
+    '<div class="day-card-header" onclick="toggleDay('+num+')">' +
+      '<div class="day-label"><div class="day-num">'+num+'</div><span id="dayPreview-'+num+'">'+escHtml(preview)+'</span></div>' +
+      '<div class="day-header-right"><button class="btn-remove-day" onclick="removeDay(event,'+num+')" title="Remove">✕</button><span class="day-chevron open" id="chevron-'+num+'">▼</span></div>' +
     '</div>' +
-    '<div class="day-card-body open" id="dayBody-' + num + '">' +
-      '<div class="day-field-grid">' +
-        '<div class="field-grid field-grid-2">' +
-          '<div class="field">' +
-            '<label>Date</label>' +
-            '<input type="date" id="d-date-' + num + '" value="' + (existingDay && existingDay.date ? existingDay.date : '') + '" onchange="updatePreview(' + num + ')">' +
-          '</div>' +
-          '<div class="field">' +
-            '<label>Day Title</label>' +
-            '<input type="text" id="d-title-' + num + '" placeholder="e.g. Day at Sea · Cozumel Port Day" maxlength="100" value="' + (existingDay && existingDay.title ? escAttr(existingDay.title) : '') + '" oninput="updatePreview(' + num + ')">' +
-          '</div>' +
+    '<div class="day-card-body open" id="dayBody-'+num+'">' +
+      '<div class="field-grid">' +
+        '<div class="field-grid fg2">' +
+          '<div class="field"><label>Date</label><input type="date" id="d-date-'+num+'" value="'+(existing&&existing.date?existing.date:'')+'" onchange="updatePreview('+num+')"></div>' +
+          '<div class="field"><label>Day Title</label><input type="text" id="d-title-'+num+'" placeholder="e.g. Cozumel Port Day" maxlength="100" value="'+escAttr(existing&&existing.title?existing.title:'')+'" oninput="updatePreview('+num+')"></div>' +
         '</div>' +
-        '<div class="field">' +
-          '<label>Description / Activities</label>' +
-          '<textarea id="d-desc-' + num + '" rows="3" placeholder="What\'s happening this day? Port stops, excursions, check-ins, activities…">' + (existingDay && existingDay.description ? escHtml(existingDay.description) : '') + '</textarea>' +
-        '</div>' +
-        '<div class="field">' +
-          '<label>Meals / Dining</label>' +
-          '<input type="text" id="d-meals-' + num + '" placeholder="e.g. Breakfast: buffet · Dinner: Chops Grille (7pm reservation)" value="' + (existingDay && existingDay.meals ? escAttr(existingDay.meals) : '') + '">' +
-        '</div>' +
-        '<div class="field">' +
-          '<label>Day Notes</label>' +
-          '<input type="text" id="d-notes-' + num + '" placeholder="Packing tips, reminders, tickets to print…" value="' + (existingDay && existingDay.notes ? escAttr(existingDay.notes) : '') + '">' +
-        '</div>' +
+        '<div><div class="entries-label">Activities &amp; Details</div><div class="entry-list" id="acts-'+num+'"></div><button class="btn-add-entry" onclick="addEntry(\'acts\','+num+')">+ Add activity</button></div>' +
+        '<div style="margin-top:4px"><div class="entries-label">Meals &amp; Dining</div><div class="entry-list" id="meals-'+num+'"></div><button class="btn-add-entry" onclick="addEntry(\'meals\','+num+')">+ Add meal</button></div>' +
+        '<div class="field" style="margin-top:4px"><label>Day Notes</label><input type="text" id="d-notes-'+num+'" placeholder="Packing tips, reminders, tickets to print…" value="'+escAttr(existing&&existing.notes?existing.notes:'')+'" ></div>' +
       '</div>' +
-      '<input type="hidden" id="d-id-' + num + '" value="' + dayId + '">' +
+      '<input type="hidden" id="d-id-'+num+'" value="'+dayId+'">' +
     '</div>';
   container.appendChild(div);
+  acts.forEach(function(a){addEntry('acts',num,a);});
+  meals.forEach(function(m){addEntry('meals',num,m);});
 }
 
-function removeDay(e, num) {
-  e.stopPropagation();
-  var card = document.getElementById('dayCard-' + num);
-  if (card) card.remove();
+function addEntry(type,dayNum,existing){
+  var listId=type+'-'+dayNum;
+  var list=document.getElementById(listId);if(!list)return;
+  var key=listId;entryCounters[key]=(entryCounters[key]||0)+1;
+  var eNum=entryCounters[key];var eId=type+'-'+dayNum+'-'+eNum;
+  var timeVal=existing?(existing.time||''):'';
+  var textVal=existing?(existing.text||''):'';
+  var ph=type==='acts'?'Excursion, activity, port stop, check-in…':'Restaurant, reservation, dining notes…';
+  var row=document.createElement('div');
+  row.className='entry-row';row.id='erow-'+eId;
+  row.innerHTML=
+    '<input type="time" id="etime-'+eId+'" value="'+escAttr(timeVal)+'">' +
+    '<textarea id="etext-'+eId+'" rows="2" placeholder="'+ph+'">'+escHtml(textVal)+'</textarea>' +
+    '<button class="btn-remove-entry" onclick="removeEntry(\''+eId+'\')" title="Remove">✕</button>';
+  list.appendChild(row);
 }
 
-function toggleDay(num) {
-  var body    = document.getElementById('dayBody-' + num);
-  var chevron = document.getElementById('chevron-' + num);
-  if (!body) return;
-  var isOpen = body.classList.contains('open');
-  body.classList.toggle('open', !isOpen);
-  if (chevron) chevron.classList.toggle('open', !isOpen);
+function removeEntry(eId){var r=document.getElementById('erow-'+eId);if(r)r.remove();}
+function removeDay(e,num){e.stopPropagation();var c=document.getElementById('dayCard-'+num);if(c)c.remove();}
+function toggleDay(num){var b=document.getElementById('dayBody-'+num);var ch=document.getElementById('chevron-'+num);if(!b)return;var o=b.classList.contains('open');b.classList.toggle('open',!o);if(ch)ch.classList.toggle('open',!o);}
+function updatePreview(num){
+  var t=document.getElementById('d-title-'+num);var d=document.getElementById('d-date-'+num);var p=document.getElementById('dayPreview-'+num);if(!p)return;
+  var tv=t?t.value.trim():'';var dv=d?d.value:'';var label='Day '+num;
+  if(dv){var pts=dv.split('-');if(pts.length===3){var mn=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];label=mn[parseInt(pts[1],10)-1]+' '+parseInt(pts[2],10);}}
+  if(tv)label+=' · '+tv;p.textContent=label;
 }
 
-function updatePreview(num) {
-  var titleEl = document.getElementById('d-title-' + num);
-  var dateEl  = document.getElementById('d-date-' + num);
-  var preview = document.getElementById('dayPreview-' + num);
-  if (!preview) return;
-  var t = titleEl ? titleEl.value.trim() : '';
-  var d = dateEl  ? dateEl.value : '';
-  var label = 'Day ' + num;
-  if (d) {
-    var parts = d.split('-');
-    if (parts.length === 3) {
-      var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-      label = months[parseInt(parts[1],10)-1] + ' ' + parseInt(parts[2],10);
-    }
-  }
-  if (t) label += ' · ' + t;
-  preview.textContent = label;
+function collectEntries(type,dayNum){
+  var list=document.getElementById(type+'-'+dayNum);if(!list)return[];
+  var rows=list.querySelectorAll('.entry-row');var result=[];
+  rows.forEach(function(row){
+    var eId=row.id.replace('erow-','');
+    var tEl=document.getElementById('etime-'+eId);var txEl=document.getElementById('etext-'+eId);
+    var text=txEl?txEl.value.trim():'';
+    if(text)result.push({time:tEl?tEl.value:'',text:text});
+  });
+  return result;
 }
 
-// ── Collect days from DOM ────────────────────────────────────────
-function collectDays() {
-  var days = [];
-  var cards = document.querySelectorAll('.day-card');
-  cards.forEach(function(card, idx) {
-    var num = card.id.replace('dayCard-','');
-    var dayNum = idx + 1;
-    days.push({
-      id:          val('d-id-'   + num),
-      dayNumber:   dayNum,
-      date:        val('d-date-' + num),
-      title:       val('d-title-'+ num),
-      description: val('d-desc-' + num),
-      meals:       val('d-meals-'+ num),
-      notes:       val('d-notes-'+ num)
-    });
+function collectDays(){
+  var days=[];
+  document.querySelectorAll('.day-card').forEach(function(card,idx){
+    var num=card.id.replace('dayCard-','');
+    days.push({id:val('d-id-'+num),dayNumber:idx+1,date:val('d-date-'+num),title:val('d-title-'+num),description:JSON.stringify(collectEntries('acts',num)),meals:JSON.stringify(collectEntries('meals',num)),notes:val('d-notes-'+num)});
   });
   return days;
 }
 
-// ── Save ─────────────────────────────────────────────────────────
-function saveItinerary() {
-  var title = val('f-title').trim();
-  if (!title) { showToast('Trip title is required', 'error'); document.getElementById('f-title').focus(); return; }
-
-  var it = {
-    id:                   itineraryId || null,
-    clientId:             clientId    || '',
-    title:                title,
-    destination:          val('f-destination'),
-    tripType:             val('f-tripType'),
-    startDate:            val('f-startDate'),
-    endDate:              val('f-endDate'),
-    travelers:            val('f-travelers'),
-    flightOut:            val('f-flightOut'),
-    flightReturn:         val('f-flightReturn'),
-    accommodation:        val('f-accommodation'),
-    confirmationNumbers:  val('f-confirmationNumbers'),
-    importantNumbers:     val('f-importantNumbers'),
-    vanessaNotes:         val('f-vanessaNotes'),
-    status:               'active'
-  };
-  var days = collectDays();
-
-  document.getElementById('saveBtn').disabled = true;
-  showOverlay('Saving itinerary…');
-
-  gasPost({ type: 'itinerary', action: 'saveItinerary', itinerary: it, days: days })
-    .then(function(res) {
-      hideOverlay();
-      document.getElementById('saveBtn').disabled = false;
-      if (!res.success) { showToast('Save failed: ' + (res.error || 'unknown error'), 'error'); return; }
-
-      itineraryId = res.itineraryId;
-      var url = VIEWER_BASE + '?id=' + itineraryId;
-      savedShareUrl = url;
-
-      document.getElementById('shareUrl').textContent = url;
-      document.getElementById('successPanel').classList.add('show');
-      document.getElementById('actionStatus').textContent = 'Saved! Share the link with your client.';
-      document.getElementById('successPanel').scrollIntoView({ behavior: 'smooth', block: 'start' });
-    })
-    .catch(function(err) {
-      hideOverlay();
-      document.getElementById('saveBtn').disabled = false;
-      showToast('Save failed — check your connection', 'error');
-    });
+function collectAccom(){
+  if(accomType==='ship')return JSON.stringify({type:'ship',line:val('ac-ship-line'),name:val('ac-ship-name'),conf:val('ac-ship-conf'),cabin:val('ac-ship-cabin'),sail:val('ac-ship-sail'),return:val('ac-ship-return'),drinks:val('ac-ship-drinks'),notes:val('ac-ship-notes')});
+  return JSON.stringify({type:'hotel',name:val('ac-hotel-name'),checkin:val('ac-hotel-checkin'),checkout:val('ac-hotel-checkout'),conf:val('ac-hotel-conf'),notes:val('ac-hotel-notes')});
 }
 
-function copyLink() {
-  if (!savedShareUrl) return;
-  navigator.clipboard.writeText(savedShareUrl).then(function() {
-    showToast('Link copied!', 'success');
-  }).catch(function() {
-    showToast('Copy failed — select the URL manually', 'error');
-  });
+function saveItinerary(){
+  var title=val('f-title').trim();
+  if(!title){showToast('Trip title is required','error');document.getElementById('f-title').focus();return;}
+  var it={id:itineraryId||null,clientId:clientId||'',title:title,destination:val('f-destination'),tripType:val('f-tripType'),startDate:val('f-startDate'),endDate:val('f-endDate'),travelers:val('f-travelers'),
+    flightOut:JSON.stringify({info:val('fl-out-info'),date:val('fl-out-date'),time:val('fl-out-time'),from:val('fl-out-from'),to:val('fl-out-to')}),
+    flightReturn:JSON.stringify({info:val('fl-ret-info'),date:val('fl-ret-date'),time:val('fl-ret-time'),from:val('fl-ret-from'),to:val('fl-ret-to')}),
+    accommodation:collectAccom(),confirmationNumbers:'',importantNumbers:val('f-importantNumbers'),vanessaNotes:val('f-vanessaNotes'),status:'active'};
+  var days=collectDays();
+  document.getElementById('saveBtn').disabled=true;showOverlay('Saving itinerary…');
+  gasPost({type:'itinerary',action:'saveItinerary',itinerary:it,days:days}).then(function(res){
+    hideOverlay();document.getElementById('saveBtn').disabled=false;
+    if(!res.success){showToast('Save failed: '+(res.error||'unknown error'),'error');return;}
+    itineraryId=res.itineraryId;savedShareUrl=VIEWER_BASE+'?id='+itineraryId;
+    document.getElementById('shareUrl').textContent=savedShareUrl;
+    document.getElementById('successPanel').classList.add('show');
+    document.getElementById('actionStatus').textContent='Saved! Share the link with your client.';
+    document.getElementById('successPanel').scrollIntoView({behavior:'smooth',block:'start'});
+  }).catch(function(){hideOverlay();document.getElementById('saveBtn').disabled=false;showToast('Save failed — check your connection','error');});
 }
 
-function openViewer() {
-  if (savedShareUrl) window.open(savedShareUrl, '_blank');
-}
+function copyLink(){if(!savedShareUrl)return;navigator.clipboard.writeText(savedShareUrl).then(function(){showToast('Link copied!','success');}).catch(function(){showToast('Copy failed','error');});}
+function openViewer(){if(savedShareUrl)window.open(savedShareUrl,'_blank');}
+function continueEditing(){document.getElementById('successPanel').classList.remove('show');window.scrollTo({top:0,behavior:'smooth'});}
+function backToCrm(){window.location.href=clientId?'vanessa-crm.html?clientId='+clientId:'vanessa-crm.html';}
 
-function continueEditing() {
-  document.getElementById('successPanel').classList.remove('show');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-function backToCrm() {
-  if (clientId) {
-    window.location.href = 'vanessa-crm.html?clientId=' + clientId;
-  } else {
-    window.location.href = 'vanessa-crm.html';
-  }
-}
-
-// ── GAS helper ───────────────────────────────────────────────────
-function gasPost(payload) {
-  return fetch(GAS_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'text/plain' },
-    body: JSON.stringify(Object.assign({ secret: PROXY_SECRET }, payload))
-  }).then(function(r) { return r.json(); });
-}
-
-// ── UI helpers ───────────────────────────────────────────────────
-function val(id) {
-  var el = document.getElementById(id);
-  return el ? el.value : '';
-}
-function escHtml(s) {
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-}
-function escAttr(s) {
-  return String(s).replace(/"/g,'&quot;').replace(/'/g,'&#39;');
-}
-function showToast(msg, type) {
-  var t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className = 'toast show' + (type ? ' ' + type : '');
-  clearTimeout(t._timer);
-  t._timer = setTimeout(function() { t.className = 'toast'; }, 3000);
-}
-function showOverlay(msg) {
-  document.getElementById('overlayMsg').textContent = msg || 'Working…';
-  document.getElementById('overlay').classList.add('show');
-}
-function hideOverlay() {
-  document.getElementById('overlay').classList.remove('show');
-}
+function gasPost(payload){return fetch(GAS_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify(Object.assign({secret:PROXY_SECRET},payload))}).then(function(r){return r.json();});}
+function val(id){var e=document.getElementById(id);return e?e.value:'';}
+function setVal(id,v){var e=document.getElementById(id);if(e)e.value=v||'';}
+function safeParse(s,fb){try{return JSON.parse(s);}catch(e){return fb;}}
+function escHtml(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function escAttr(s){return String(s||'').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+function showToast(msg,type){var t=document.getElementById('toast');t.textContent=msg;t.className='toast show'+(type?' '+type:'');clearTimeout(t._timer);t._timer=setTimeout(function(){t.className='toast';},3000);}
+function showOverlay(msg){document.getElementById('overlayMsg').textContent=msg||'Working…';document.getElementById('overlay').classList.add('show');}
+function hideOverlay(){document.getElementById('overlay').classList.remove('show');}
 </script>
 </body>
 </html>
