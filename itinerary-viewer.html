@@ -127,8 +127,8 @@ body{font-family:'DM Sans',Georgia,sans-serif;background:var(--cream);color:var(
 </div>
 
 <script>
-var GAS_URL      = 'https://script.google.com/macros/s/AKfycbzwpKU33T2fYOOE1a6RPTAtysw-lGEQM7YdV2GHqm5WBI9XxBoC3zCQDbLSOxP4qb8a/exec';
-var PROXY_SECRET = '2xqcjRE-smroFvVFZHNw';
+var GAS_URL      = 'YOUR_GAS_WEB_APP_URL';
+var PROXY_SECRET = 'YOUR_PROXY_SECRET';
 
 window.addEventListener('DOMContentLoaded',function(){
   var id=new URLSearchParams(window.location.search).get('id');
@@ -192,8 +192,29 @@ function renderItinerary(it,days,clientName){
       html+='<div class="flight-meta">';
       if(f.date&&f.time)html+='<span>📅 '+fmtDate(f.date)+' at '+fmtTime(f.time)+'</span>';
       else if(f.date)html+='<span>📅 '+fmtDate(f.date)+'</span>';
+      if(f.arrTime)html+='<span>🛬 Arrives '+fmtTime(f.arrTime)+'</span>';
       if(f.from)html+='<span>🛫 '+esc(f.from)+'</span>';
       if(f.to)html+='<span>🛬 '+esc(f.to)+'</span>';
+      html+='</div>';
+      // Connections
+      if(f.connections&&f.connections.length>0){
+        html+='<div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--sand-2)">';
+        html+='<div style="font-size:10px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:6px;">Connections</div>';
+        f.connections.forEach(function(c){
+          html+='<div style="display:flex;align-items:center;gap:10px;font-size:13px;color:var(--ink-mid);padding:4px 0;">';
+          html+='<span style="color:var(--gold)">⟶</span>';
+          html+='<span style="font-weight:500;color:var(--ink)">'+esc(c.airport)+'</span>';
+          if(c.arrTime||c.depTime){
+            html+='<span style="color:var(--ink-muted)">';
+            if(c.arrTime)html+='Arrives '+fmtTime(c.arrTime);
+            if(c.arrTime&&c.depTime)html+=' · ';
+            if(c.depTime)html+='Departs '+fmtTime(c.depTime);
+            html+='</span>';
+          }
+          html+='</div>';
+        });
+        html+='</div>';
+      }
       html+='</div></div></div>';
     });
     html+='</div></div>';

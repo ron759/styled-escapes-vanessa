@@ -89,7 +89,7 @@ html,body{font-family:'DM Sans',Georgia,sans-serif;background:var(--sand);color:
 /* ENTRY ROWS */
 .entries-label{font-size:12px;font-weight:500;color:var(--ink-mid);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:8px;}
 .entry-list{display:flex;flex-direction:column;gap:8px;margin-bottom:8px;}
-.entry-row{display:grid;grid-template-columns:100px 1fr auto;gap:8px;align-items:start;}
+.entry-row{display:grid;grid-template-columns:130px 1fr auto;gap:8px;align-items:start;}
 .entry-row input[type="time"],.entry-row textarea{font-family:'DM Sans',sans-serif;font-size:14px;color:var(--ink);background:var(--white);border:1px solid var(--sand-3);border-radius:var(--radius-sm);padding:8px 10px;transition:border-color 0.15s,box-shadow 0.15s;width:100%;}
 .entry-row input[type="time"]:focus,.entry-row textarea:focus{outline:none;border-color:var(--ocean-mid);box-shadow:0 0 0 3px rgba(26,74,92,0.08);}
 .entry-row textarea{resize:vertical;min-height:58px;}
@@ -147,7 +147,7 @@ html,body{font-family:'DM Sans',Georgia,sans-serif;background:var(--sand);color:
   .fg2,.fg3{grid-template-columns:1fr;}
   .page{padding:20px 16px 80px;}
   .topbar{padding:0 16px;}
-  .entry-row{grid-template-columns:80px 1fr auto;}
+  .entry-row{grid-template-columns:110px 1fr auto;}
 }
 </style>
 </head>
@@ -261,8 +261,8 @@ html,body{font-family:'DM Sans',Georgia,sans-serif;background:var(--sand);color:
 <div class="overlay" id="overlay"><div class="overlay-box"><div class="spinner"></div><div class="overlay-msg" id="overlayMsg">Saving…</div></div></div>
 
 <script>
-var GAS_URL      = 'https://script.google.com/macros/s/AKfycbzwpKU33T2fYOOE1a6RPTAtysw-lGEQM7YdV2GHqm5WBI9XxBoC3zCQDbLSOxP4qb8a/exec';
-var PROXY_SECRET = '2xqcjRE-smroFvVFZHNw';
+var GAS_URL      = 'YOUR_GAS_WEB_APP_URL';
+var PROXY_SECRET = 'YOUR_PROXY_SECRET';
 var VIEWER_BASE  = window.location.origin + '/itinerary-viewer.html';
 
 var clientId=null, clientName='', itineraryId=null, dayCount=0, savedShareUrl='';
@@ -289,6 +289,7 @@ function addFlight(existing){
   var n=flightCount;
   var isFirst=n===1, isSecond=n===2;
   var defaultLabel=isFirst?'🛫 Outbound Flight':isSecond?'🛬 Return Flight':'✈️ Flight Leg '+n;
+  var conns=existing&&Array.isArray(existing.connections)?existing.connections:[];
   var container=document.getElementById('flightsList');
   var div=document.createElement('div');
   div.className='flight-block';div.id='flBlock-'+n;
@@ -300,26 +301,72 @@ function addFlight(existing){
     '</div>' +
     '<div class="field-grid">' +
       '<div class="field"><label>Airline &amp; Flight Details</label><input type="text" id="fl-info-'+n+'" value="'+escAttr(existing?(existing.info||''):'')+'" placeholder="e.g. Delta DL 1234 · Confirmation: ABC123"></div>' +
-      '<div class="field-grid fg2">' +
+      '<div class="field-grid fg3">' +
         '<div class="field"><label>Departure Date</label><input type="date" id="fl-date-'+n+'" value="'+(existing?(existing.date||''):'')+'"></div>' +
         '<div class="field"><label>Departure Time</label><input type="time" id="fl-time-'+n+'" value="'+(existing?(existing.time||''):'')+'"></div>' +
+        '<div class="field"><label>Arrival Time</label><input type="time" id="fl-arrtime-'+n+'" value="'+(existing?(existing.arrTime||''):'')+'"></div>' +
       '</div>' +
       '<div class="field-grid fg2">' +
         '<div class="field"><label>Departure Airport</label><input type="text" id="fl-from-'+n+'" value="'+escAttr(existing?(existing.from||''):'')+'" placeholder="e.g. BNA – Nashville" maxlength="80"></div>' +
-        '<div class="field"><label>Arrival Airport</label><input type="text" id="fl-to-'+n+'" value="'+escAttr(existing?(existing.to||''):'')+'" placeholder="e.g. MIA – Miami" maxlength="80"></div>' +
+        '<div class="field"><label>Arrival Airport</label><input type="text" id="fl-to-'+n+'" value="'+escAttr(existing?(existing.to||''):'')+'" placeholder="e.g. HNL – Honolulu" maxlength="80"></div>' +
+      '</div>' +
+      // Connections sub-section
+      '<div style="margin-top:4px;padding-top:14px;border-top:1px solid var(--sand-3)">' +
+        '<div class="entries-label" style="margin-bottom:8px">Connections / Layovers</div>' +
+        '<div class="entry-list" id="fl-conns-'+n+'"></div>' +
+        '<button class="btn-add-entry" onclick="addConnection('+n+')">+ Add connection</button>' +
       '</div>' +
     '</div>';
   container.appendChild(div);
+  // Populate existing connections
+  if(conns.length>0){conns.forEach(function(c){addConnection(n,c);});}
 }
 
 function removeFlight(n){var el=document.getElementById('flBlock-'+n);if(el)el.remove();}
+
+var connCounters={};
+function addConnection(flightNum, existing){
+  var listId='fl-conns-'+flightNum;
+  var list=document.getElementById(listId);if(!list)return;
+  connCounters[listId]=(connCounters[listId]||0)+1;
+  var cNum=connCounters[listId];
+  var cId='conn-'+flightNum+'-'+cNum;
+  var airport=existing?(existing.airport||''):'';
+  var depTime=existing?(existing.depTime||''):'';
+  var arrTime=existing?(existing.arrTime||''):'';
+  var row=document.createElement('div');
+  row.id='crow-'+cId;
+  row.style.cssText='display:grid;grid-template-columns:1fr 130px 130px auto;gap:8px;align-items:start;margin-bottom:4px;';
+  row.innerHTML=
+    '<div class="field"><label style="font-size:11px">Connection Airport</label><input type="text" id="c-airport-'+cId+'" value="'+escAttr(airport)+'" placeholder="e.g. PHX – Phoenix" style="font-family:\'DM Sans\',sans-serif;font-size:14px;color:var(--ink);background:var(--white);border:1px solid var(--sand-3);border-radius:var(--radius-sm);padding:8px 10px;width:100%;"></div>' +
+    '<div class="field"><label style="font-size:11px">Arrival Time</label><input type="time" id="c-arr-'+cId+'" value="'+escAttr(arrTime)+'" style="font-family:\'DM Sans\',sans-serif;font-size:14px;color:var(--ink);background:var(--white);border:1px solid var(--sand-3);border-radius:var(--radius-sm);padding:8px 10px;width:100%;"></div>' +
+    '<div class="field"><label style="font-size:11px">Departure Time</label><input type="time" id="c-dep-'+cId+'" value="'+escAttr(depTime)+'" style="font-family:\'DM Sans\',sans-serif;font-size:14px;color:var(--ink);background:var(--white);border:1px solid var(--sand-3);border-radius:var(--radius-sm);padding:8px 10px;width:100%;"></div>' +
+    '<button class="btn-remove-entry" onclick="removeConnection(\''+cId+'\')" title="Remove" style="margin-top:20px">✕</button>';
+  list.appendChild(row);
+}
+
+function removeConnection(cId){var r=document.getElementById('crow-'+cId);if(r)r.remove();}
+
+function collectConnections(flightNum){
+  var list=document.getElementById('fl-conns-'+flightNum);if(!list)return[];
+  var result=[];
+  list.querySelectorAll('[id^="crow-"]').forEach(function(row){
+    var cId=row.id.replace('crow-','');
+    var airport=val('c-airport-'+cId);
+    var arrTime=val('c-arr-'+cId);
+    var depTime=val('c-dep-'+cId);
+    if(airport)result.push({airport:airport,arrTime:arrTime,depTime:depTime});
+  });
+  return result;
+}
 
 function collectFlights(){
   var flights=[];
   document.querySelectorAll('#flightsList .flight-block').forEach(function(block){
     var n=block.id.replace('flBlock-','');
-    var info=val('fl-info-'+n);var date=val('fl-date-'+n);var time=val('fl-time-'+n);var from=val('fl-from-'+n);var to=val('fl-to-'+n);
-    if(info||from||to)flights.push({info:info,date:date,time:time,from:from,to:to});
+    var info=val('fl-info-'+n);var date=val('fl-date-'+n);var time=val('fl-time-'+n);var arrTime=val('fl-arrtime-'+n);var from=val('fl-from-'+n);var to=val('fl-to-'+n);
+    var connections=collectConnections(n);
+    if(info||from||to)flights.push({info:info,date:date,time:time,arrTime:arrTime,from:from,to:to,connections:connections});
   });
   return flights;
 }
