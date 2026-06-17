@@ -574,7 +574,7 @@ async function generate() {
     if (!json.success) throw new Error(json.error || 'Proxy error');
 
     // Parse the JSON response from Claude
-    var raw = json.draft.replace(/```json|```/g, '').trim();
+    var raw = json.text.replace(/```json|```/g, '').trim();
     var data = JSON.parse(raw);
 
     // Fill cards
