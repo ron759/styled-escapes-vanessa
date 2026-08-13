@@ -472,72 +472,22 @@ body {
   color: rgba(251,247,240,0.4);
 }
 
-/* ── FOOTER ── */
-.page-footer {
-  background: #060F1C;
-  padding: 48px 48px 28px;
+/* ── FOOTER (matches homepage) ── */
+footer {
+  background: var(--ink); padding: 60px 52px 32px; text-align: center;
+  border-top: 1px solid rgba(184,146,42,0.2);
 }
-.footer-inner { max-width: 1160px; margin: 0 auto; }
-.footer-top {
-  display: flex;
-  gap: 48px;
-  flex-wrap: wrap;
-  padding-bottom: 36px;
-  border-bottom: 1px solid rgba(255,255,255,0.07);
-  margin-bottom: 24px;
-}
-.footer-brand {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 22px;
-  font-weight: 400;
-  color: #FBF7F0;
-  letter-spacing: 0.03em;
-  margin-bottom: 8px;
-}
-.footer-tagline {
-  font-size: 13px;
-  color: rgba(251,247,240,0.45);
-  line-height: 1.65;
-  max-width: 280px;
-  margin-bottom: 20px;
-}
-.footer-social { display: flex; gap: 10px; }
-.footer-social a {
-  width: 34px; height: 34px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.1);
-  color: rgba(251,247,240,0.6);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 13px;
-  text-decoration: none;
-  transition: all 0.15s;
-}
-.footer-social a:hover { background: var(--gold); border-color: var(--gold); color: #FBF7F0; }
-.footer-col { display: flex; flex-direction: column; gap: 10px; }
-.footer-col h4 {
-  font-size: 11px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: #F5DFA8;
-  margin-bottom: 4px;
-}
-.footer-col a {
-  font-size: 13px;
-  color: rgba(251,247,240,0.5);
-  text-decoration: none;
-  transition: color 0.15s;
-}
-.footer-col a:hover { color: #FBF7F0; }
-.footer-bottom {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-.footer-copy { font-size: 12px; color: rgba(251,247,240,0.25); }
-.footer-dream { font-size: 12px; color: rgba(251,247,240,0.25); }
+.footer-logo { height: 80px; width: auto; display: block; margin: 0 auto 8px; }
+.footer-tagline { font-size: 10px; letter-spacing: 0.26em; text-transform: uppercase; color: rgba(184,146,42,0.6); margin-bottom: 32px; font-family: 'DM Sans', sans-serif; }
+.footer-social { display: flex; justify-content: center; gap: 12px; margin-bottom: 32px; }
+.footer-social a { width: 36px; height: 36px; border: 1px solid rgba(184,146,42,0.2); display: flex; align-items: center; justify-content: center; font-size: 11px; color: rgba(184,146,42,0.7); font-weight: 600; cursor: pointer; transition: border-color 0.2s, color 0.2s; text-decoration: none; font-family: 'DM Sans', sans-serif; }
+.footer-social a:hover { border-color: var(--gold); color: var(--gold); }
+.footer-cols { display: grid; grid-template-columns: repeat(3,1fr); gap: 40px; max-width: 700px; margin: 0 auto 36px; text-align: left; }
+.footer-col h4 { font-family: 'Cormorant Garamond', serif; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold-mid); font-weight: 600; margin-bottom: 16px; }
+.footer-col a { display: block; font-size: 11px; letter-spacing: 0.1em; color: rgba(184,146,42,0.80); text-decoration: none; font-weight: 400; margin-bottom: 8px; font-family: 'DM Sans', sans-serif; transition: color 0.2s; }
+.footer-col a:hover { color: var(--gold); }
+.footer-hr { width: 100%; height: 1px; background: rgba(184,146,42,0.08); margin-bottom: 20px; }
+.footer-legal { font-size: 10px; color: rgba(184,146,42,0.70); letter-spacing: 0.06em; font-family: 'DM Sans', sans-serif; }
 
 /* ── ANIMATIONS ── */
 @keyframes fadeUp {
@@ -554,21 +504,6 @@ body {
   
 }
 
-/* ── SIMPLE FOOTER ── */
-.quiz-footer {
-  background: var(--ink); padding: 24px 48px;
-  display: flex; align-items: center; justify-content: space-between;
-  flex-wrap: wrap; gap: 12px;
-  border-top: 1px solid rgba(184,146,42,0.2);
-  margin-top: 60px;
-}
-.quiz-footer span {
-  font-size: 10px; letter-spacing: 0.1em; color: rgba(184,146,42,0.5);
-}
-.quiz-footer a {
-  color: rgba(184,146,42,0.7); text-decoration: none; transition: color 0.2s;
-}
-.quiz-footer a:hover { color: var(--gold); }
 </style>
 </head>
 <body>
@@ -581,6 +516,9 @@ body {
   <div class="top-nav-right">
     <a href="vanessa-homepage.html#destinations" class="top-nav-link">Destinations</a>
     <a href="vanessa-homepage.html#about" class="top-nav-link">About</a>
+    <a href="deals.html" class="top-nav-link">Deals</a>
+    <a href="blog/index.html" class="top-nav-link">Blog</a>
+    <a href="cruise-planner-landing.html" class="top-nav-link">Free Guide</a>
     <a href="vanessa-travel-chatbot.html" class="top-nav-btn">Plan My Trip</a>
   </div>
 </nav>
@@ -666,39 +604,40 @@ body {
 
 </div>
 
-<div class="page-footer">
-  <div class="footer-inner">
-    <div class="footer-top">
-      <div>
-        <div class="footer-brand">Styled Escapes by Vanessa</div>
-        <p class="footer-tagline">Dream Vacations certified travel consultant serving Portland, TN and clients nationwide. Let's plan something beautiful.</p>
-        <div class="footer-social">
-          <a href="https://www.facebook.com/styledescapesbyvanessa" target="_blank" title="Facebook">f</a>
-          <a href="https://www.instagram.com/vanessa_abundant_travel/" target="_blank" title="Instagram">&#9642;</a>
-          <a href="mailto:vanessa@example.com" title="Email">@</a>
-        </div>
-      </div>
-      <div class="footer-col">
-        <h4>Free Resources</h4>
-        <a href="allinclusive-resort-guide.html">All-Inclusive Resort Guide</a>
-        <a href="travel-style-quiz.html">Travel Style Quiz</a>
-        <a href="caribbean-island-quiz.html">Caribbean Island Quiz</a>
-        <a href="cruise-planner-landing.html">Free Cruise Planner</a>
-      </div>
-      <div class="footer-col">
-        <h4>Connect</h4>
-        <a href="vanessa-homepage.html">Back to Home</a>
-        <a href="vanessa-travel-chatbot.html">Plan My Trip</a>
-        <a href="https://vjacobs.dreamvacations.com" target="_blank">Abundant Travel by Dream Vacations</a>
-        <a href="mailto:vanessa@example.com">Contact Vanessa</a>
-      </div>
+<footer>
+  <img class="footer-logo" src="embossed_gold_logo.png" alt="Styled Escapes by Vanessa">
+  <p class="footer-tagline">Curated Journeys. Timeless Memories.</p>
+  <div class="footer-social">
+    <a href="https://www.facebook.com/styledescapesbyvanessa" target="_blank" rel="noopener" title="Facebook">f</a>
+    <a href="https://www.instagram.com/vanessa_abundant_travel/" target="_blank" rel="noopener" title="Instagram">ig</a>
+    <a href="mailto:travel@myjacobs.com" title="Email">@</a>
+  </div>
+  <div class="footer-cols">
+    <div class="footer-col">
+      <h4>Explore</h4>
+      <a href="destinations-cruises.html">Cruises</a>
+      <a href="destinations-hawaii.html">Hawaii</a>
+      <a href="allinclusive-resort-guide.html">All-Inclusive</a>
+      <a href="destinations-europe.html">Europe &amp; Beyond</a>
     </div>
-    <div class="footer-bottom">
-      <div class="footer-copy">© 2025 Styled Escapes by Vanessa · All rights reserved</div>
-      <div class="footer-dream">Affiliated with Abundant Travel by Dream Vacations</div>
+    <div class="footer-col">
+      <h4>Plan</h4>
+      <a href="vanessa-travel-chatbot.html">Plan My Trip</a>
+      <a href="cruise-planner-landing.html">Free Cruise Guide</a>
+      <a href="travel-style-quiz.html">Travel Style Quiz</a>
+      <a href="caribbean-island-quiz.html">Caribbean Quiz</a>
+    </div>
+    <div class="footer-col">
+      <h4>Connect</h4>
+      <a href="vanessa-homepage.html#about">About Vanessa</a>
+      <a href="https://vjacobs.dreamvacations.com" target="_blank" rel="noopener">Abundant Travel by Dream Vacations</a>
+      <a href="deals.html">Current Deals</a>
+      <a href="mailto:travel@myjacobs.com">Contact</a>
     </div>
   </div>
-</div>
+  <div class="footer-hr"></div>
+  <p class="footer-legal">© 2025 Styled Escapes by Vanessa &nbsp;·&nbsp; Affiliated with Abundant Travel by Dream Vacations &nbsp;·&nbsp; Portland, TN 37148</p>
+</footer>
 
 <script>
 // ── Questions ─────────────────────────────────────────────────────
@@ -1037,353 +976,6 @@ renderQuestion();
 window.addEventListener('scroll', function() {
   document.getElementById('header').classList.toggle('scrolled', window.scrollY > 60);
 });
-</script>
-
-<!-- FOOTER -->
-<div class="quiz-footer">
-  <span>&copy; 2025 Styled Escapes by Vanessa &middot; Affiliated with Abundant Travel by Dream Vacations</span>
-  <span><a href="vanessa-homepage.html">← Back to Home</a></span>
-</div>
-
-<script>
-
-// ── Questions ─────────────────────────────────────────────────────
-var questions = [
-  {
-    text: "When you finally get two weeks off, your first thought is…",
-    options: [
-      { letter:'A', text:"Total relaxation", sub:"Beach, pool, drinks. I want to do nothing and love it.", tag:'relax' },
-      { letter:'B', text:"See everything", sub:"I've got a list. Museums, landmarks, food markets — all of it.", tag:'explore' },
-      { letter:'C', text:"Feel something", sub:"I want experiences I'll still be talking about in ten years.", tag:'adventure' },
-      { letter:'D', text:"Reconnect", sub:"Just quality time with the people I love, somewhere beautiful.", tag:'romance' }
-    ]
-  },
-  {
-    text: "Your ideal place to sleep on vacation is…",
-    options: [
-      { letter:'A', text:"An all-inclusive resort", sub:"Everything in one place. Restaurants, bars, pools — done.", tag:'relax' },
-      { letter:'B', text:"A boutique hotel in the city center", sub:"Walk out the door and you're already exploring.", tag:'explore' },
-      { letter:'C', text:"Wherever the adventure takes me", sub:"Overwater bungalow? Mountain lodge? I'm in.", tag:'adventure' },
-      { letter:'D', text:"Somewhere secluded and romantic", sub:"Private beach, incredible views, just us.", tag:'romance' }
-    ]
-  },
-  {
-    text: "Packing for a trip, you always make sure to bring…",
-    options: [
-      { letter:'A', text:"Sunscreen and a good book", sub:"Vacation mode: activated.", tag:'relax' },
-      { letter:'B', text:"A fully charged camera", sub:"I document everything.", tag:'explore' },
-      { letter:'C', text:"Gear for whatever's on the itinerary", sub:"Snorkel, hiking shoes, you name it.", tag:'adventure' },
-      { letter:'D', text:"Something special for the occasion", sub:"A nice outfit, candles, the good stuff.", tag:'romance' }
-    ]
-  },
-  {
-    text: "Your travel companion suggests an unplanned detour. You say…",
-    options: [
-      { letter:'A', text:"Only if it leads to a good restaurant or a hammock.", tag:'relax' },
-      { letter:'B', text:"Absolutely — what's the story behind it?", tag:'explore' },
-      { letter:'C', text:"Let's go. That's the best part of traveling.", tag:'adventure' },
-      { letter:'D', text:"Sure, as long as we're together.", tag:'romance' }
-    ]
-  },
-  {
-    text: "The meal you're most excited about on vacation is…",
-    options: [
-      { letter:'A', text:"Unlimited breakfast buffet by the pool", sub:"Starting every day right.", tag:'relax' },
-      { letter:'B', text:"A tiny local spot that doesn't have a menu", sub:"Just point and hope for the best.", tag:'explore' },
-      { letter:'C', text:"A beachside lunch after a morning excursion", sub:"Earned it.", tag:'adventure' },
-      { letter:'D', text:"A candlelit dinner watching the sunset", sub:"The whole experience.", tag:'romance' }
-    ]
-  },
-  {
-    text: "On a cruise, you spend most of your time…",
-    options: [
-      { letter:'A', text:"Deck chair, cocktail, repeat.", tag:'relax' },
-      { letter:'B', text:"Off the ship exploring every port.", tag:'explore' },
-      { letter:'C', text:"Booking every shore excursion available.", tag:'adventure' },
-      { letter:'D', text:"Enjoying the ship's restaurants and shows with my person.", tag:'romance' }
-    ]
-  },
-  {
-    text: "Your friends would describe your travel style as…",
-    options: [
-      { letter:'A', text:"The one who actually relaxes on vacation", tag:'relax' },
-      { letter:'B', text:"The planner — always knows the hidden gems", tag:'explore' },
-      { letter:'C', text:"The one who talks everyone into the wild stuff", tag:'adventure' },
-      { letter:'D', text:"The one who turns every trip into a love story", tag:'romance' }
-    ]
-  },
-  {
-    text: "A perfect travel day ends with…",
-    options: [
-      { letter:'A', text:"Sunburned, fed, and asleep by 9pm.", tag:'relax' },
-      { letter:'B', text:"Notebook full of things to look up when I get home.", tag:'explore' },
-      { letter:'C', text:"Stories I can barely believe actually happened.", tag:'adventure' },
-      { letter:'D', text:"A slow walk, a good bottle of wine, nowhere to be.", tag:'romance' }
-    ]
-  }
-];
-
-// ── Result types ──────────────────────────────────────────────────
-var results = {
-  relax: {
-    type: "The Luxury Recharger",
-    emoji: "🌊",
-    tagline: "You work hard, and your vacation should work just as hard — at doing absolutely nothing. You want sun, good food, a great pool, and zero decisions to make.",
-    color1: "#0A2A4A", color2: "#1A6A8A", color3: "#40A8D0",
-    trips: [
-      { name: "All-Inclusive Caribbean Resort", why: "Everything included, nothing to plan. Pure bliss.", dot: "#C4503A" },
-      { name: "Royal Caribbean Cruise", why: "Every amenity on board — pools, dining, spa, entertainment.", dot: "#C8852A" },
-      { name: "Sandals or Secrets Resort", why: "Adults-only luxury built around total relaxation.", dot: "#1A5C50" }
-    ],
-    cta: "Tell Vanessa what 'perfect relaxation' looks like to you — she'll find exactly the right property at the best available price."
-  },
-  explore: {
-    type: "The Curious Explorer",
-    emoji: "🗺️",
-    tagline: "Travel is how you learn. You want to get off the beaten path, taste things you can't pronounce, and come home knowing something you didn't before.",
-    color1: "#1A3A1A", color2: "#2A6A3A", color3: "#5AAA60",
-    trips: [
-      { name: "European River Cruise", why: "Multiple cities, one unpacking. Culture at every port.", dot: "#C8852A" },
-      { name: "Mediterranean Cruise", why: "Ancient history, incredible food, iconic destinations.", dot: "#1A5C50" },
-      { name: "Hawaii Island Hopper", why: "Four distinct islands, each completely different.", dot: "#C4503A" }
-    ],
-    cta: "Vanessa loves building itineraries for explorers — she'll design something that balances discovery with comfort, and gets you the best value."
-  },
-  adventure: {
-    type: "The Experience Seeker",
-    emoji: "🤿",
-    tagline: "You don't go on vacation to sit still. You want the manta ray snorkel, the volcano hike, the sunset sail — the stories nobody else has.",
-    color1: "#2A1A0A", color2: "#6A3A10", color3: "#C87030",
-    trips: [
-      { name: "Hawaii (Maui or Big Island)", why: "Snorkeling, volcanoes, waterfalls, whale watching — all of it.", dot: "#C4503A" },
-      { name: "Caribbean Cruise with Shore Excursions", why: "New adventure every single day at every port.", dot: "#C8852A" },
-      { name: "Costa Rica / Central America", why: "Zip lines, rainforests, wildlife, and incredible beaches.", dot: "#1A5C50" }
-    ],
-    cta: "Vanessa knows exactly which ships and resorts are best for active travelers — and which shore excursions are actually worth it."
-  },
-  romance: {
-    type: "The Romance Architect",
-    emoji: "🌅",
-    tagline: "Travel is your love language. Whether it's a honeymoon, anniversary, or just a long-overdue escape for two — you want every detail to feel intentional and beautiful.",
-    color1: "#2A0A1A", color2: "#6A2A4A", color3: "#C46080",
-    trips: [
-      { name: "Sandals Overwater Bungalow", why: "The most romantic setting on earth. Full stop.", dot: "#C8852A" },
-      { name: "Caribbean or Mediterranean Cruise", why: "Sunset dinners, private shore excursions, sea days for two.", dot: "#C4503A" },
-      { name: "Maui Couples Retreat", why: "Luaus, spa days, private snorkel trips, and legendary sunsets.", dot: "#1A5C50" }
-    ],
-    cta: "Vanessa specializes in romantic travel — she'll handle every detail so you can focus completely on each other."
-  }
-};
-
-// ── CRM config (same GAS proxy as the CRM tool) ───────────────────
-var CRM_GAS_URL  = 'https://script.google.com/macros/s/AKfycbzwpKU33T2fYOOE1a6RPTAtysw-lGEQM7YdV2GHqm5WBI9XxBoC3zCQDbLSOxP4qb8a/exec';
-var PROXY_SECRET = '2xqcjRE-smroFvVFZHNw';  // Must match PROXY_SECRET in GAS Script Properties
-var CRM_LOCAL_KEY = 'vnCRM_v2_dev';
-
-function crmGenId() { return Date.now().toString(36) + Math.random().toString(36).slice(2,6); }
-function crmNowLabel() {
-  return new Date().toLocaleString('en-US', { month:'short', day:'numeric', year:'numeric', hour:'numeric', minute:'2-digit' });
-}
-
-function crmGasPost(payload) {
-  if (!CRM_GAS_URL || CRM_GAS_URL === 'YOUR_GAS_WEB_APP_URL') return Promise.resolve(null);
-  return fetch(CRM_GAS_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'text/plain' },
-    body: JSON.stringify(Object.assign({ secret: PROXY_SECRET }, payload))
-  }).then(function(r) { return r.json(); }).catch(function() { return null; });
-}
-
-function saveToCRM(firstName, lastName, email, quizNote, onDone) {
-  var fullName   = (firstName + ' ' + lastName).trim();
-  var emailLower = email.toLowerCase();
-
-  function writeNoteAndClient(clientId, isNew, clientPayload) {
-    var note = { id: crmGenId(), clientId: clientId, text: quizNote, date: crmNowLabel() };
-    if (CRM_GAS_URL && CRM_GAS_URL !== 'YOUR_GAS_WEB_APP_URL') {
-      var chain = isNew
-        ? crmGasPost({ type: 'crm', action: 'addClient', client: clientPayload })
-        : Promise.resolve();
-      chain.then(function() {
-        return crmGasPost({ type: 'crm', action: 'addNote', note: note });
-      }).finally(function() { if (onDone) onDone(); });
-    } else {
-      // Dev / localStorage fallback
-      var stored = null;
-      try { stored = JSON.parse(localStorage.getItem(CRM_LOCAL_KEY) || 'null'); } catch(e) {}
-      var cls  = (stored && stored.clients) || [];
-      var nts  = (stored && stored.notes)   || [];
-      var tds  = (stored && stored.todos)   || [];
-      if (isNew) cls.push(clientPayload);
-      nts.push(note);
-      localStorage.setItem(CRM_LOCAL_KEY, JSON.stringify({ clients: cls, todos: tds, notes: nts }));
-      if (onDone) onDone();
-    }
-  }
-
-  function checkAndWrite(clientList) {
-    var existing = null;
-    for (var i = 0; i < clientList.length; i++) {
-      if ((clientList[i].email || '').toLowerCase() === emailLower) { existing = clientList[i]; break; }
-    }
-    if (existing) {
-      writeNoteAndClient(existing.id, false, null);
-    } else {
-      var newId = crmGenId();
-      var newClient = {
-        id: newId, name: fullName, email: email,
-        phone: '', address: '', bday: '',
-        source: 'Quiz — Travel Style',
-        interests: [], general_notes: ''
-      };
-      writeNoteAndClient(newId, true, newClient);
-    }
-  }
-
-  if (CRM_GAS_URL && CRM_GAS_URL !== 'YOUR_GAS_WEB_APP_URL') {
-    // Always fetch the live sheet first so the email check is accurate
-    crmGasPost({ type: 'crm', action: 'getAll' })
-      .then(function(res) { checkAndWrite((res && res.clients) || []); })
-      .catch(function() { if (onDone) onDone(); });
-  } else {
-    var stored = null;
-    try { stored = JSON.parse(localStorage.getItem(CRM_LOCAL_KEY) || 'null'); } catch(e) {}
-    checkAndWrite((stored && stored.clients) || []);
-  }
-}
-
-// ── State ─────────────────────────────────────────────────────────
-var current = 0;
-var scores = { relax:0, explore:0, adventure:0, romance:0 };
-var selectedTag = null;
-function renderQuestion() {
-  var q = questions[current];
-  document.getElementById('qNumber').textContent = 'Question ' + (current+1) + ' of ' + questions.length;
-  document.getElementById('qText').textContent = q.text;
-  document.getElementById('progressLabel').textContent = 'Question ' + (current+1) + ' of ' + questions.length;
-  document.getElementById('progressFill').style.width = (current / questions.length * 100) + '%';
-
-  var opts = document.getElementById('optionsEl');
-  opts.innerHTML = '';
-  q.options.forEach(function(o) {
-    var btn = document.createElement('button');
-    btn.className = 'option';
-    btn.innerHTML =
-      '<div class="option-letter">' + o.letter + '</div>' +
-      '<div>' +
-        '<div class="option-text">' + o.text + '</div>' +
-        (o.sub ? '<div class="option-sub">' + o.sub + '</div>' : '') +
-      '</div>';
-    btn.onclick = function() { selectOption(btn, o.tag); };
-    opts.appendChild(btn);
-  });
-
-  selectedTag = null;
-  var nb = document.getElementById('nextBtn');
-  nb.classList.remove('active');
-  nb.textContent = current === questions.length - 1 ? 'See My Result →' : 'Next Question →';
-
-  // Re-animate card
-  var card = document.getElementById('questionCard');
-  card.style.animation = 'none';
-  card.offsetHeight; // reflow
-  card.style.animation = 'slideIn 0.4s ease both';
-}
-
-function selectOption(btn, tag) {
-  document.querySelectorAll('.option').forEach(function(o) { o.classList.remove('selected'); });
-  btn.classList.add('selected');
-  selectedTag = tag;
-  document.getElementById('nextBtn').classList.add('active');
-}
-
-function nextQuestion() {
-  if (!selectedTag) return;
-  scores[selectedTag]++;
-  current++;
-
-  if (current >= questions.length) {
-    showEmailGate();
-  } else {
-    renderQuestion();
-  }
-}
-
-// ── Email gate ────────────────────────────────────────────────────
-function showEmailGate() {
-  document.getElementById('questionCard').style.display = 'none';
-  document.getElementById('progressWrap').style.display = 'none';
-  document.getElementById('emailCard').style.display = 'block';
-}
-
-function revealResult() {
-  var firstName = document.getElementById('gateFirstName').value.trim();
-  var lastName  = document.getElementById('gateLastName').value.trim();
-  var email     = document.getElementById('gateEmail').value.trim();
-
-  if (!firstName) { document.getElementById('gateFirstName').focus(); return; }
-  if (!email)     { document.getElementById('gateEmail').focus(); return; }
-
-  // Determine winning travel type for the note
-  var winner = Object.keys(scores).reduce(function(a, b) { return scores[a] >= scores[b] ? a : b; });
-  var typeLabels = { relax: 'The Relaxer', explore: 'The Explorer', adventure: 'The Adventurer', romance: 'The Romantic' };
-  var quizNote = 'Completed the Travel Style Quiz. Result: ' + (typeLabels[winner] || winner) + '.';
-
-  var btn = document.querySelector('.email-submit');
-  if (btn) { btn.disabled = true; btn.textContent = 'One moment…'; }
-
-  saveToCRM(firstName, lastName, email, quizNote, function() {
-    showResult(firstName);
-  });
-}
-
-// ── Show result ───────────────────────────────────────────────────
-function showResult(name) {
-  // Find winning type
-  var winner = Object.keys(scores).reduce(function(a, b) {
-    return scores[a] >= scores[b] ? a : b;
-  });
-  var r = results[winner];
-
-  document.getElementById('emailCard').style.display = 'none';
-  var card = document.getElementById('resultCard');
-  card.style.display = 'block';
-
-  document.getElementById('resultEmoji').textContent = r.emoji;
-  document.getElementById('resultType').textContent = r.type;
-  document.getElementById('resultTagline').textContent = r.tagline;
-  document.getElementById('resultBannerGlow').style.background =
-    'linear-gradient(135deg, ' + r.color1 + ' 0%, ' + r.color2 + ' 50%, ' + r.color3 + ' 100%)';
-
-  // Trips
-  var tripsEl = document.getElementById('resultTrips');
-  tripsEl.innerHTML = '';
-  r.trips.forEach(function(t) {
-    var div = document.createElement('div');
-    div.className = 'result-trip';
-    div.innerHTML =
-      '<div class="result-trip-dot" style="background:' + t.dot + '"></div>' +
-      '<div>' +
-        '<div class="result-trip-name">' + t.name + '</div>' +
-        '<div class="result-trip-why">' + t.why + '</div>' +
-      '</div>';
-    tripsEl.appendChild(div);
-  });
-
-  document.getElementById('resultCtaSub').textContent =
-    (name ? name + ', ' : '') + r.cta;
-
-  // Scroll to result
-  card.scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
-
-// ── Init ──────────────────────────────────────────────────────────
-renderQuestion();
-
-window.addEventListener('scroll', function() {
-  document.getElementById('header').classList.toggle('scrolled', window.scrollY > 60);
-});
-
 </script>
 </body>
 </html>
