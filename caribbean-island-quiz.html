@@ -507,72 +507,22 @@ body {
 .result-cta-btn:hover { background: var(--gold-light); transform: translateY(-1px); }
 .result-free { margin-top: 12px; font-size: 11px; color: rgba(245,240,224,0.4); }
 
-/* ── FOOTER ── */
-.page-footer {
-  background: #060F1C;
-  padding: 48px 48px 28px;
+/* ── FOOTER (matches homepage) ── */
+footer {
+  background: var(--ink); padding: 60px 52px 32px; text-align: center;
+  border-top: 1px solid rgba(184,146,42,0.2);
 }
-.footer-inner { max-width: 1160px; margin: 0 auto; }
-.footer-top {
-  display: flex;
-  gap: 48px;
-  flex-wrap: wrap;
-  padding-bottom: 36px;
-  border-bottom: 1px solid rgba(255,255,255,0.07);
-  margin-bottom: 24px;
-}
-.footer-brand {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 22px;
-  font-weight: 400;
-  color: #FBF7F0;
-  letter-spacing: 0.03em;
-  margin-bottom: 8px;
-}
-.footer-tagline {
-  font-size: 13px;
-  color: rgba(251,247,240,0.45);
-  line-height: 1.65;
-  max-width: 280px;
-  margin-bottom: 20px;
-}
-.footer-social { display: flex; gap: 10px; }
-.footer-social a {
-  width: 34px; height: 34px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.1);
-  color: rgba(251,247,240,0.6);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 13px;
-  text-decoration: none;
-  transition: all 0.15s;
-}
-.footer-social a:hover { background: var(--gold); border-color: var(--gold); color: #FBF7F0; }
-.footer-col { display: flex; flex-direction: column; gap: 10px; }
-.footer-col h4 {
-  font-size: 11px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: #F5DFA8;
-  margin-bottom: 4px;
-}
-.footer-col a {
-  font-size: 13px;
-  color: rgba(251,247,240,0.5);
-  text-decoration: none;
-  transition: color 0.15s;
-}
-.footer-col a:hover { color: #FBF7F0; }
-.footer-bottom {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-.footer-copy { font-size: 12px; color: rgba(251,247,240,0.25); }
-.footer-dream { font-size: 12px; color: rgba(251,247,240,0.25); }
+.footer-logo { height: 80px; width: auto; display: block; margin: 0 auto 8px; }
+.footer-tagline { font-size: 10px; letter-spacing: 0.26em; text-transform: uppercase; color: rgba(184,146,42,0.6); margin-bottom: 32px; font-family: 'DM Sans', sans-serif; }
+.footer-social { display: flex; justify-content: center; gap: 12px; margin-bottom: 32px; }
+.footer-social a { width: 36px; height: 36px; border: 1px solid rgba(184,146,42,0.2); display: flex; align-items: center; justify-content: center; font-size: 11px; color: rgba(184,146,42,0.7); font-weight: 600; cursor: pointer; transition: border-color 0.2s, color 0.2s; text-decoration: none; font-family: 'DM Sans', sans-serif; }
+.footer-social a:hover { border-color: var(--gold); color: var(--gold); }
+.footer-cols { display: grid; grid-template-columns: repeat(3,1fr); gap: 40px; max-width: 700px; margin: 0 auto 36px; text-align: left; }
+.footer-col h4 { font-family: 'Cormorant Garamond', serif; font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold-mid); font-weight: 600; margin-bottom: 16px; }
+.footer-col a { display: block; font-size: 11px; letter-spacing: 0.1em; color: rgba(184,146,42,0.80); text-decoration: none; font-weight: 400; margin-bottom: 8px; font-family: 'DM Sans', sans-serif; transition: color 0.2s; }
+.footer-col a:hover { color: var(--gold); }
+.footer-hr { width: 100%; height: 1px; background: rgba(184,146,42,0.08); margin-bottom: 20px; }
+.footer-legal { font-size: 10px; color: rgba(184,146,42,0.70); letter-spacing: 0.06em; font-family: 'DM Sans', sans-serif; }
 
 @keyframes slideIn {
   from { opacity: 0; transform: translateY(16px); }
@@ -591,22 +541,6 @@ body {
   .header { padding: 14px 18px; }
   
 }
-
-/* ── SIMPLE FOOTER ── */
-.quiz-footer {
-  background: var(--ink); padding: 24px 48px;
-  display: flex; align-items: center; justify-content: space-between;
-  flex-wrap: wrap; gap: 12px;
-  border-top: 1px solid rgba(184,146,42,0.2);
-  margin-top: 60px;
-}
-.quiz-footer span {
-  font-size: 10px; letter-spacing: 0.1em; color: rgba(184,146,42,0.5);
-}
-.quiz-footer a {
-  color: rgba(184,146,42,0.7); text-decoration: none; transition: color 0.2s;
-}
-.quiz-footer a:hover { color: var(--gold); }
 </style>
 </head>
 <body>
@@ -619,6 +553,9 @@ body {
   <div class="top-nav-right">
     <a href="vanessa-homepage.html#destinations" class="top-nav-link">Destinations</a>
     <a href="vanessa-homepage.html#about" class="top-nav-link">About</a>
+    <a href="deals.html" class="top-nav-link">Deals</a>
+    <a href="blog/index.html" class="top-nav-link">Blog</a>
+    <a href="cruise-planner-landing.html" class="top-nav-link">Free Guide</a>
     <a href="vanessa-travel-chatbot.html" class="top-nav-btn">Plan My Trip</a>
   </div>
 </nav>
@@ -702,39 +639,40 @@ body {
   </div>
 </div>
 
-<div class="page-footer">
-  <div class="footer-inner">
-    <div class="footer-top">
-      <div>
-        <div class="footer-brand">Styled Escapes by Vanessa</div>
-        <p class="footer-tagline">Dream Vacations certified travel consultant serving Portland, TN and clients nationwide. Let's plan something beautiful.</p>
-        <div class="footer-social">
-          <a href="https://www.facebook.com/styledescapesbyvanessa" target="_blank" title="Facebook">f</a>
-          <a href="https://www.instagram.com/vanessa_abundant_travel/" target="_blank" title="Instagram">&#9642;</a>
-          <a href="mailto:vanessa@example.com" title="Email">@</a>
-        </div>
-      </div>
-      <div class="footer-col">
-        <h4>Free Resources</h4>
-        <a href="allinclusive-resort-guide.html">All-Inclusive Resort Guide</a>
-        <a href="travel-style-quiz.html">Travel Style Quiz</a>
-        <a href="caribbean-island-quiz.html">Caribbean Island Quiz</a>
-        <a href="cruise-planner-landing.html">Free Cruise Planner</a>
-      </div>
-      <div class="footer-col">
-        <h4>Connect</h4>
-        <a href="vanessa-homepage.html">Back to Home</a>
-        <a href="vanessa-travel-chatbot.html">Plan My Trip</a>
-        <a href="https://vjacobs.dreamvacations.com" target="_blank">Abundant Travel by Dream Vacations</a>
-        <a href="mailto:vanessa@example.com">Contact Vanessa</a>
-      </div>
+<footer>
+  <img class="footer-logo" src="embossed_gold_logo.png" alt="Styled Escapes by Vanessa">
+  <p class="footer-tagline">Curated Journeys. Timeless Memories.</p>
+  <div class="footer-social">
+    <a href="https://www.facebook.com/styledescapesbyvanessa" target="_blank" rel="noopener" title="Facebook">f</a>
+    <a href="https://www.instagram.com/vanessa_abundant_travel/" target="_blank" rel="noopener" title="Instagram">ig</a>
+    <a href="mailto:travel@myjacobs.com" title="Email">@</a>
+  </div>
+  <div class="footer-cols">
+    <div class="footer-col">
+      <h4>Explore</h4>
+      <a href="destinations-cruises.html">Cruises</a>
+      <a href="destinations-hawaii.html">Hawaii</a>
+      <a href="allinclusive-resort-guide.html">All-Inclusive</a>
+      <a href="destinations-europe.html">Europe &amp; Beyond</a>
     </div>
-    <div class="footer-bottom">
-      <div class="footer-copy">© 2025 Styled Escapes by Vanessa · All rights reserved</div>
-      <div class="footer-dream">Affiliated with Abundant Travel by Dream Vacations</div>
+    <div class="footer-col">
+      <h4>Plan</h4>
+      <a href="vanessa-travel-chatbot.html">Plan My Trip</a>
+      <a href="cruise-planner-landing.html">Free Cruise Guide</a>
+      <a href="travel-style-quiz.html">Travel Style Quiz</a>
+      <a href="caribbean-island-quiz.html">Caribbean Quiz</a>
+    </div>
+    <div class="footer-col">
+      <h4>Connect</h4>
+      <a href="vanessa-homepage.html#about">About Vanessa</a>
+      <a href="https://vjacobs.dreamvacations.com" target="_blank" rel="noopener">Abundant Travel by Dream Vacations</a>
+      <a href="deals.html">Current Deals</a>
+      <a href="mailto:travel@myjacobs.com">Contact</a>
     </div>
   </div>
-</div>
+  <div class="footer-hr"></div>
+  <p class="footer-legal">© 2025 Styled Escapes by Vanessa &nbsp;·&nbsp; Affiliated with Abundant Travel by Dream Vacations &nbsp;·&nbsp; Portland, TN 37148</p>
+</footer>
 
 <script>
 var questions = [
@@ -1119,399 +1057,6 @@ renderQuestion();
 window.addEventListener('scroll', function() {
   document.getElementById('header').classList.toggle('scrolled', window.scrollY > 60);
 });
-</script>
-
-<!-- FOOTER -->
-<div class="quiz-footer">
-  <span>&copy; 2025 Styled Escapes by Vanessa &middot; Affiliated with Abundant Travel by Dream Vacations</span>
-  <span><a href="vanessa-homepage.html">← Back to Home</a></span>
-</div>
-
-<script>
-
-var questions = [
-  {
-    text: "Your ideal beach day looks like…",
-    options: [
-      { letter:'A', text:"Calm, crystal-clear water perfect for snorkeling", sub:"I want to see what's underneath.", tag:'cayman' },
-      { letter:'B', text:"Powdery white sand, total seclusion, no one around", sub:"Just me, the water, and silence.", tag:'turks' },
-      { letter:'C', text:"Lively beach bar, reggae in the background, rum punch", sub:"The beach should have a vibe.", tag:'jamaica' },
-      { letter:'D', text:"Pristine water, dramatic cliffs in the background", sub:"I want views as good as the swim.", tag:'lucia' }
-    ]
-  },
-  {
-    text: "After dinner, you're most likely to…",
-    options: [
-      { letter:'A', text:"Hit the casino or find a rooftop bar for cocktails", sub:"The night is young.", tag:'aruba' },
-      { letter:'B', text:"Stroll the harbor, maybe find a jazz bar", sub:"Relaxed, a little sophisticated.", tag:'barbados' },
-      { letter:'C', text:"Head back to the resort — I'm on vacation to rest", sub:"Bed by 9:30 is a victory.", tag:'turks' },
-      { letter:'D', text:"Find the best local spot with live music", sub:"I want to experience the culture.", tag:'jamaica' }
-    ]
-  },
-  {
-    text: "Your group is most likely to be…",
-    options: [
-      { letter:'A', text:"Couple on a romantic getaway", sub:"Just the two of us, fully unplugged.", tag:'lucia' },
-      { letter:'B', text:"Family with kids", sub:"We need beach, pool, and things to do.", tag:'cayman' },
-      { letter:'C', text:"Friends on a girls' or group trip", sub:"We want fun, food, and adventure.", tag:'aruba' },
-      { letter:'D', text:"Couple who loves exploring and being active", sub:"We'll swim, hike, eat, and repeat.", tag:'barbados' }
-    ]
-  },
-  {
-    text: "Which activity would you actually do on vacation?",
-    options: [
-      { letter:'A', text:"Swim with stingrays in a sandbar", sub:"Bucket list moment.", tag:'cayman' },
-      { letter:'B', text:"Hike to a waterfall or volcanic crater", sub:"Worth the effort.", tag:'lucia' },
-      { letter:'C', text:"Rent a jeep and drive around the island yourself", sub:"The best way to explore.", tag:'aruba' },
-      { letter:'D', text:"Take a catamaran party cruise", sub:"Champagne, sun, and the open sea.", tag:'barbados' }
-    ]
-  },
-  {
-    text: "Your travel budget for this trip is…",
-    options: [
-      { letter:'A', text:"We're being thoughtful but not cutting corners", sub:"Good value matters.", tag:'jamaica' },
-      { letter:'B', text:"We're comfortable — this is a real treat", sub:"Want quality across the board.", tag:'aruba' },
-      { letter:'C', text:"We're splurging — this trip is special", sub:"Price isn't the deciding factor.", tag:'turks' },
-      { letter:'D', text:"Mix of splurge and save — it depends on what it is", tag:'barbados' }
-    ]
-  },
-  {
-    text: "What matters most to you when choosing a destination?",
-    options: [
-      { letter:'A', text:"World-class beaches — the best water I've ever seen", tag:'turks' },
-      { letter:'B', text:"Natural beauty — scenery that takes your breath away", tag:'lucia' },
-      { letter:'C', text:"Nightlife and energy — somewhere that comes alive after dark", tag:'aruba' },
-      { letter:'D', text:"Rich culture and genuine local experiences", tag:'jamaica' }
-    ]
-  }
-];
-
-var islands = {
-  jamaica: {
-    name: "Jamaica",
-    country: "The Caribbean's Soul",
-    emoji: "🌺",
-    bg: "linear-gradient(160deg, #1A2A0A 0%, #2A5A18 25%, #3A8A28 50%, #C87820 75%, #E8A030 100%)",
-    vibe: "Bold, cultural, full of life",
-    bestFor: "Culture seekers & first-time Caribbean visitors",
-    bestMonth: "Dec – Apr",
-    topResort: "Sandals Montego Bay",
-    why: [
-      "The most vibrant food and music scene in the Caribbean",
-      "All-inclusive resorts with the best value for money",
-      "Iconic experiences: Dunn's River Falls, Blue Mountains, jerk chicken",
-      "Warm, incredibly welcoming local culture",
-      "Easy non-stop flights from most US cities"
-    ],
-    also: ["Barbados", "Aruba", "Grand Cayman"]
-  },
-  aruba: {
-    name: "Aruba",
-    country: "One Happy Island",
-    emoji: "🌊",
-    bg: "linear-gradient(160deg, #0A1E3A 0%, #0A3A6A 28%, #0A6AAA 52%, #38A8D0 72%, #70C8E8 100%)",
-    vibe: "Sunny, social, never rainy",
-    bestFor: "Sun-seekers, nightlife, couples, and groups",
-    bestMonth: "Year-round (outside hurricane zone)",
-    topResort: "Bucuti & Tara Beach Resort",
-    why: [
-      "Outside the hurricane belt — sun virtually 365 days a year",
-      "Eagle Beach is consistently rated a top 10 world beach",
-      "Excellent nightlife, casinos, and restaurant scene",
-      "Easy island to navigate — great for first-timers",
-      "Wide range of water sports and activities"
-    ],
-    also: ["Barbados", "Turks & Caicos", "Jamaica"]
-  },
-  lucia: {
-    name: "St. Lucia",
-    country: "The Helen of the West Indies",
-    emoji: "🌋",
-    bg: "linear-gradient(160deg, #0A1A1A 0%, #1A3A2A 22%, #2A6A3A 44%, #4A9A50 65%, #88B848 85%, #C89020 100%)",
-    vibe: "Dramatic, romantic, lush",
-    bestFor: "Romantic getaways, honeymooners, nature lovers",
-    bestMonth: "Jan – Apr",
-    topResort: "Jade Mountain / Ladera Resort",
-    why: [
-      "Most dramatic scenery in the Caribbean — the Piton mountains are iconic",
-      "Ideal for honeymoons and anniversary trips",
-      "Volcanic hot springs, rainforest hikes, and stunning viewpoints",
-      "Quieter and less crowded than many other islands",
-      "Outstanding boutique resort scene"
-    ],
-    also: ["Barbados", "Turks & Caicos", "Jamaica"]
-  },
-  cayman: {
-    name: "Grand Cayman",
-    country: "The Cayman Islands",
-    emoji: "🐢",
-    bg: "linear-gradient(160deg, #081828 0%, #0A3050 24%, #0A5A80 48%, #28A0C0 70%, #50C8D8 100%)",
-    vibe: "Pristine, family-friendly, upscale",
-    bestFor: "Families, snorkelers, and luxury travelers",
-    bestMonth: "Dec – Apr",
-    topResort: "The Ritz-Carlton Grand Cayman",
-    why: [
-      "Stingray City is one of the world's most unique wildlife encounters",
-      "Seven Mile Beach — arguably the best family beach in the Caribbean",
-      "Some of the clearest water in the world for snorkeling and diving",
-      "Very safe, easy to navigate, and consistently clean",
-      "Excellent dining scene for a small island"
-    ],
-    also: ["Turks & Caicos", "Barbados", "Aruba"]
-  },
-  turks: {
-    name: "Turks & Caicos",
-    country: "British Overseas Territory",
-    emoji: "🌴",
-    bg: "linear-gradient(160deg, #0A1828 0%, #0A3858 24%, #0870A0 50%, #28B8D8 70%, #70D8F0 100%)",
-    vibe: "Pristine, secluded, unhurried luxury",
-    bestFor: "Luxury travelers, couples, and those who want the best beaches on earth",
-    bestMonth: "Dec – Apr",
-    topResort: "COMO Parrot Cay / Grace Bay Club",
-    why: [
-      "Grace Bay Beach is consistently ranked the #1 beach in the world",
-      "The most turquoise, impossibly clear water you've ever seen",
-      "Quiet and uncrowded — feels exclusive even in peak season",
-      "World-class luxury resort options",
-      "Perfect for complete disconnection and reset"
-    ],
-    also: ["Aruba", "Grand Cayman", "Barbados"]
-  },
-  barbados: {
-    name: "Barbados",
-    country: "The Gem of the Caribbean",
-    emoji: "🍹",
-    bg: "linear-gradient(160deg, #1A0A28 0%, #3A1A50 24%, #8A3A70 48%, #C86060 68%, #E89030 100%)",
-    vibe: "Sophisticated, lively, beautifully balanced",
-    bestFor: "Couples, foodies, culture lovers, and active travelers",
-    bestMonth: "Dec – May",
-    topResort: "Sandy Lane / Sandals Barbados",
-    why: [
-      "The most well-rounded island in the Caribbean — beach, culture, food, nightlife",
-      "World-class food and rum scene (the birthplace of rum)",
-      "Vibrant Bridgetown offers real local flavor and great shopping",
-      "Both calm west coast and exciting east coast surf beaches",
-      "English-speaking with excellent infrastructure"
-    ],
-    also: ["St. Lucia", "Jamaica", "Aruba"]
-  }
-};
-
-var current = 0;
-var scores = { jamaica:0, aruba:0, lucia:0, cayman:0, turks:0, barbados:0 };
-var selectedTag = null;
-
-// ── CRM config (same GAS proxy as the CRM tool) ───────────────────
-var CRM_GAS_URL  = 'https://script.google.com/macros/s/AKfycbzwpKU33T2fYOOE1a6RPTAtysw-lGEQM7YdV2GHqm5WBI9XxBoC3zCQDbLSOxP4qb8a/exec';
-var PROXY_SECRET = '2xqcjRE-smroFvVFZHNw';  // Must match PROXY_SECRET in GAS Script Properties
-var CRM_LOCAL_KEY = 'vnCRM_v2_dev';
-
-function crmGenId() { return Date.now().toString(36) + Math.random().toString(36).slice(2,6); }
-function crmNowLabel() {
-  return new Date().toLocaleString('en-US', { month:'short', day:'numeric', year:'numeric', hour:'numeric', minute:'2-digit' });
-}
-
-function crmGasPost(payload) {
-  if (!CRM_GAS_URL || CRM_GAS_URL === 'YOUR_GAS_WEB_APP_URL') return Promise.resolve(null);
-  return fetch(CRM_GAS_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'text/plain' },
-    body: JSON.stringify(Object.assign({ secret: PROXY_SECRET }, payload))
-  }).then(function(r) { return r.json(); }).catch(function() { return null; });
-}
-
-function saveToCRM(firstName, lastName, email, quizNote, onDone) {
-  var fullName   = (firstName + ' ' + lastName).trim();
-  var emailLower = email.toLowerCase();
-
-  function writeNoteAndClient(clientId, isNew, clientPayload) {
-    var note = { id: crmGenId(), clientId: clientId, text: quizNote, date: crmNowLabel() };
-    if (CRM_GAS_URL && CRM_GAS_URL !== 'https://script.google.com/macros/s/AKfycbzwpKU33T2fYOOE1a6RPTAtysw-lGEQM7YdV2GHqm5WBI9XxBoC3zCQDbLSOxP4qb8a/exec') {
-      var chain = isNew
-        ? crmGasPost({ type: 'crm', action: 'addClient', client: clientPayload })
-        : Promise.resolve();
-      chain.then(function() {
-        return crmGasPost({ type: 'crm', action: 'addNote', note: note });
-      }).finally(function() { if (onDone) onDone(); });
-    } else {
-      // Dev / localStorage fallback
-      var stored = null;
-      try { stored = JSON.parse(localStorage.getItem(CRM_LOCAL_KEY) || 'null'); } catch(e) {}
-      var cls = (stored && stored.clients) || [];
-      var nts = (stored && stored.notes)   || [];
-      var tds = (stored && stored.todos)   || [];
-      if (isNew) cls.push(clientPayload);
-      nts.push(note);
-      localStorage.setItem(CRM_LOCAL_KEY, JSON.stringify({ clients: cls, todos: tds, notes: nts }));
-      if (onDone) onDone();
-    }
-  }
-
-  function checkAndWrite(clientList) {
-    var existing = null;
-    for (var i = 0; i < clientList.length; i++) {
-      if ((clientList[i].email || '').toLowerCase() === emailLower) { existing = clientList[i]; break; }
-    }
-    if (existing) {
-      writeNoteAndClient(existing.id, false, null);
-    } else {
-      var newId = crmGenId();
-      var newClient = {
-        id: newId, name: fullName, email: email,
-        phone: '', address: '', bday: '',
-        source: 'Quiz — Caribbean Island',
-        interests: [], general_notes: ''
-      };
-      writeNoteAndClient(newId, true, newClient);
-    }
-  }
-
-  if (CRM_GAS_URL && CRM_GAS_URL !== 'https://script.google.com/macros/s/AKfycbzwpKU33T2fYOOE1a6RPTAtysw-lGEQM7YdV2GHqm5WBI9XxBoC3zCQDbLSOxP4qb8a/exec') {
-    // Always fetch the live sheet first so the email check is accurate
-    crmGasPost({ type: 'crm', action: 'getAll' })
-      .then(function(res) { checkAndWrite((res && res.clients) || []); })
-      .catch(function() { if (onDone) onDone(); });
-  } else {
-    var stored = null;
-    try { stored = JSON.parse(localStorage.getItem(CRM_LOCAL_KEY) || 'null'); } catch(e) {}
-    checkAndWrite((stored && stored.clients) || []);
-  }
-}
-
-function renderQuestion() {
-  var q = questions[current];
-  var total = questions.length;
-  document.getElementById('qNumber').textContent = 'Question ' + (current+1) + ' of ' + total;
-  document.getElementById('qText').textContent = q.text;
-  document.getElementById('progressLabel').textContent = 'Question ' + (current+1) + ' of ' + total;
-  document.getElementById('progressFill').style.width = (current / total * 100) + '%';
-
-  var opts = document.getElementById('optionsEl');
-  opts.innerHTML = '';
-  q.options.forEach(function(o) {
-    var btn = document.createElement('button');
-    btn.className = 'option';
-    btn.innerHTML =
-      '<div class="option-letter">' + o.letter + '</div>' +
-      '<div>' +
-        '<div class="option-text">' + o.text + '</div>' +
-        (o.sub ? '<div class="option-sub">' + o.sub + '</div>' : '') +
-      '</div>';
-    btn.onclick = function() { selectOption(btn, o.tag); };
-    opts.appendChild(btn);
-  });
-
-  selectedTag = null;
-  var nb = document.getElementById('nextBtn');
-  nb.classList.remove('active');
-  nb.textContent = current === questions.length - 1 ? 'See My Island →' : 'Next Question →';
-
-  var card = document.getElementById('questionCard');
-  card.style.animation = 'none';
-  card.offsetHeight;
-  card.style.animation = 'slideIn 0.4s ease both';
-}
-
-function selectOption(btn, tag) {
-  document.querySelectorAll('.option').forEach(function(o) { o.classList.remove('selected'); });
-  btn.classList.add('selected');
-  selectedTag = tag;
-  document.getElementById('nextBtn').classList.add('active');
-}
-
-function nextQuestion() {
-  if (!selectedTag) return;
-  scores[selectedTag]++;
-  current++;
-  if (current >= questions.length) {
-    showEmailGate();
-  } else {
-    renderQuestion();
-  }
-}
-
-function showEmailGate() {
-  document.getElementById('questionCard').style.display = 'none';
-  document.getElementById('progressWrap').style.display = 'none';
-  document.getElementById('emailCard').style.display = 'block';
-}
-
-function revealResult() {
-  var firstName = document.getElementById('gateFirstName').value.trim();
-  var lastName  = document.getElementById('gateLastName').value.trim();
-  var email     = document.getElementById('gateEmail').value.trim();
-
-  if (!firstName) { document.getElementById('gateFirstName').focus(); return; }
-  if (!email)     { document.getElementById('gateEmail').focus(); return; }
-
-  // Determine winning island for the note
-  var winner = Object.keys(scores).reduce(function(a, b) { return scores[a] >= scores[b] ? a : b; });
-  var islandLabels = { jamaica:'Jamaica', aruba:'Aruba', lucia:'St. Lucia', cayman:'Grand Cayman', turks:'Turks & Caicos', barbados:'Barbados' };
-  var quizNote = 'Completed the Caribbean Island Quiz. Result: ' + (islandLabels[winner] || winner) + '.';
-
-  var btn = document.querySelector('.email-submit');
-  if (btn) { btn.disabled = true; btn.textContent = 'One moment…'; }
-
-  saveToCRM(firstName, lastName, email, quizNote, function() {
-    showResult(firstName);
-  });
-}
-
-function showResult(name) {
-  var winner = Object.keys(scores).reduce(function(a,b) {
-    return scores[a] >= scores[b] ? a : b;
-  });
-  var r = islands[winner];
-
-  document.getElementById('emailCard').style.display = 'none';
-  var card = document.getElementById('resultCard');
-  card.style.display = 'block';
-
-  document.getElementById('resultEmoji').textContent = r.emoji;
-  document.getElementById('resultIsland').textContent = r.name;
-  document.getElementById('resultCountry').textContent = r.country;
-  document.getElementById('resultTagline').textContent = r.vibe;
-  document.getElementById('resultBannerBg').style.background = r.bg;
-
-  // Facts grid
-  var factsEl = document.getElementById('resultFacts');
-  factsEl.innerHTML = [
-    { label:'Best For',      value: r.bestFor },
-    { label:'Best Months',   value: r.bestMonth },
-    { label:'Top Resort',    value: r.topResort },
-    { label:'Vibe',          value: r.vibe }
-  ].map(function(f) {
-    return '<div class="result-fact">' +
-      '<div class="result-fact-label">' + f.label + '</div>' +
-      '<div class="result-fact-value">' + f.value + '</div>' +
-    '</div>';
-  }).join('');
-
-  // Why list
-  var whyEl = document.getElementById('resultWhyList');
-  whyEl.innerHTML = r.why.map(function(w) {
-    return '<li><span class="why-check">✓</span>' + w + '</li>';
-  }).join('');
-
-  // Also consider
-  var alsoEl = document.getElementById('alsoIslands');
-  alsoEl.innerHTML = r.also.map(function(a) {
-    return '<span class="also-pill">' + a + '</span>';
-  }).join('');
-
-  document.getElementById('resultCtaSub').textContent =
-    (name ? name + ', ' : '') +
-    r.name + ' is calling — and Vanessa can put together the perfect package for you. Tell her about your trip and she\'ll handle everything from there.';
-
-  card.scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
-
-renderQuestion();
-
-window.addEventListener('scroll', function() {
-  document.getElementById('header').classList.toggle('scrolled', window.scrollY > 60);
-});
-
 </script>
 </body>
 </html>
