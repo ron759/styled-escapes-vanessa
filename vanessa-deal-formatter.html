@@ -657,7 +657,7 @@ async function generateDeal() {
   hideError();
   setStatus('Sending to Claude…');
 
-  const systemContext = `You are a travel deal content creator for Styled Escapes by Vanessa, a Dream Vacations travel consultant based in Portland, TN. Vanessa specializes in cruises and all-inclusive resorts. Her service is always free to the traveler (she earns supplier commissions). Her booking site is vjacobs.dreamvacations.com.
+  const systemContext = `You are a travel deal content creator for Styled Escapes by Vanessa, a Dream Vacations travel consultant based in Portland, TN. Vanessa specializes in cruises and all-inclusive resorts. Her booking site is vjacobs.dreamvacations.com.
 
 Brand voice: warm, personal, conversational — like a close friend who knows everything about travel. Not corporate.
 Brand colors: warm gold #B8922A, deep ink #2A2318, parchment #F5EDD8, linen #FDFAF4.
@@ -671,7 +671,7 @@ Respond ONLY with valid JSON, no markdown fences, no preamble. Schema:
   "departure": "string — e.g. 'June 3, 2026 · 7 nights'",
   "highlights": ["string", "string", "string"],
   "urgency": "string or null — e.g. 'Departing soon — limited availability' or null if no urgency",
-  "fb_post": "string — Facebook post in Vanessa's warm first-person voice, 3–5 sentences, relevant emoji, hashtags. End with: DM me or visit vjacobs.dreamvacations.com to book — and remember, my service is always free!"
+  "fb_post": "string — Facebook post in Vanessa's warm first-person voice, 3–5 sentences, relevant emoji, hashtags. End with: DM me or visit vjacobs.dreamvacations.com to book!"
 }`;
 
   let userMsg = `Supplier deal email:\n\n${emailText}`;
@@ -961,7 +961,7 @@ ${liItems}
   <div class="cta-strip">
     <div class="cta-strip-text">
       <h2>Ready to make this trip yours?</h2>
-      <p>I'd love to help you book this — and as always, my service is completely free. Just reach out and I'll take care of everything.</p>
+      <p>I'd love to help you book this! Just reach out and I'll take care of everything.</p>
     </div>
     <div class="cta-strip-actions">
       <a href="vanessa-travel-chatbot.html" class="btn-cta-primary">Start Planning →</a>
