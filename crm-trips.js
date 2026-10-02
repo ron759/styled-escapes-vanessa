@@ -596,7 +596,9 @@ function saveTripNow(userClicked) {
     TR.saving = false;
     if (!res || !res.success) {
       setState('error');
-      showToast((res && res.error === 'AUTH') ? 'Please sign in again — your draft is kept' : 'Trip not saved — your draft is kept on this device', 'error');
+      var why = res && res.error ? String(res.error) : 'no response from server';
+      try { console.error('addTrip/updateTrip failed:', res); } catch (e) {}
+      showToast(why === 'AUTH' ? 'Please sign in again — your draft is kept' : 'Trip not saved (' + why.slice(0, 120) + ') — your draft is kept on this device', 'error');
       return;
     }
     // Only clear what we actually sent; anything typed meanwhile stays dirty
@@ -620,10 +622,11 @@ function saveTripNow(userClicked) {
     }
     renderSidebar();
     if (TR.again) { TR.again = false; saveTripNow(false); }
-  }).catch(function() {
+  }).catch(function(err) {
     TR.saving = false;
     setState('error');
-    showToast('Trip not saved — your draft is kept on this device', 'error');
+    try { console.error('saveTripNow error:', err); } catch (e) {}
+    showToast('Trip not saved (' + String(err && err.message || err).slice(0, 120) + ') — your draft is kept on this device', 'error');
   });
 }
 
