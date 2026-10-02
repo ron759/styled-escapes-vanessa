@@ -189,6 +189,7 @@ html,body{font-family:'DM Sans',Georgia,sans-serif;background:var(--sand);color:
   <div class="section-card">
     <div class="section-card-title"><div class="section-icon">🗺️</div>Trip Overview</div>
     <div class="field-grid">
+      <div class="field" id="tripPickField" style="display:none"><label>Linked trip</label><select id="f-tripId"><option value="">Not linked to a trip</option></select></div>
       <div class="field"><label>Trip Title <span style="color:var(--coral)">*</span></label><input type="text" id="f-title" placeholder="e.g. Jacobs Family Caribbean Cruise 2025" maxlength="120"></div>
       <div class="field-grid fg2">
         <div class="field"><label>Destination</label><input type="text" id="f-destination" placeholder="e.g. Eastern Caribbean" maxlength="100"></div>
@@ -267,6 +268,7 @@ var VIEWER_BASE  = window.location.origin + '/itinerary-viewer.html';
 
 var clientId=null, clientName='', itineraryId=null, dayCount=0, savedShareUrl='';
 var entryCounters={}, flightCount=0, accomCount=0;
+var tripId='', clientTrips=[];
 
 window.addEventListener('DOMContentLoaded',function(){
   // Builder is staff-only: no login token → go to the CRM sign-in first.
@@ -274,14 +276,55 @@ window.addEventListener('DOMContentLoaded',function(){
   var p=new URLSearchParams(window.location.search);
   clientId=p.get('clientId')||null;
   itineraryId=p.get('itineraryId')||null;
+  tripId=p.get('tripId')||'';
   if(clientId){
     try{
       var d=JSON.parse(localStorage.getItem('vnCRM_v2_dev')||'null');
       if(d&&d.clients){var m=d.clients.find(function(c){return c.id===clientId;});if(m){clientName=m.name;showBadge(m.name);}}
     }catch(e){}
   }
-  if(itineraryId){loadExisting(itineraryId);}else{addFlight();addFlight();addAccom();addDay();}
+  if(itineraryId){loadExisting(itineraryId);}else{addFlight();addFlight();addAccom();addDay();loadTripPicker(true);}
 });
+
+// ── Linked trip ──────────────────────────────────────────────────
+function tripLabel(t){return (t.title||t.destination||'Trip')+(t.status?' ('+t.status+')':'');}
+function loadTripPicker(isNewItin){
+  if(!clientId)return Promise.resolve();
+  return gasPost({type:'itinerary',action:'getClientTrips',clientId:clientId}).then(function(res){
+    if(!res||!res.success)return;
+    clientTrips=res.trips||[];
+    var sel=document.getElementById('f-tripId');
+    if(!sel||!clientTrips.length)return;
+    var html='<option value="">Not linked to a trip</option>';
+    clientTrips.forEach(function(t){html+='<option value="'+escAttr(t.id)+'">'+escHtml(tripLabel(t))+'</option>';});
+    sel.innerHTML=html;
+    // New itinerary: use the trip from the link, or the only trip this client has
+    if(isNewItin&&!tripId&&clientTrips.length===1)tripId=clientTrips[0].id;
+    if(tripId&&!clientTrips.some(function(t){return t.id===tripId;}))tripId='';
+    sel.value=tripId;
+    document.getElementById('tripPickField').style.display='';
+    sel.onchange=function(){tripId=sel.value;if(isNewItin&&!itineraryId)prefillFromTrip(tripId);};
+    if(isNewItin&&tripId)prefillFromTrip(tripId);
+  }).catch(function(){});
+}
+// Fill empty fields only — never overwrite what Vanessa already typed
+function prefillFromTrip(id){
+  var t=clientTrips.find(function(x){return x.id===id;});
+  if(!t)return;
+  if(!val('f-title').trim())setVal('f-title',t.title||t.destination||'');
+  if(!val('f-destination').trim())setVal('f-destination',t.destination||'');
+  if(!val('f-tripType')&&(t.tripType==='Cruise'||t.tripType==='All-Inclusive')){
+    setVal('f-tripType',t.tripType==='Cruise'?'Cruise':'All-Inclusive Resort');
+  }
+  if(!val('f-startDate'))setVal('f-startDate',t.travelStart||'');
+  if(!val('f-endDate'))setVal('f-endDate',t.travelEnd||'');
+  if(!val('f-travelers').trim()){
+    var bits=[];
+    if(t.adults)bits.push(t.adults+(t.adults==='1'?' adult':' adults'));
+    if(t.children&&t.children!=='0')bits.push(t.children+(t.children==='1'?' child':' children'));
+    setVal('f-travelers',bits.join(', '));
+  }
+}
 
 function showBadge(name){document.getElementById('clientBadge').style.display='inline-flex';document.getElementById('clientBadgeName').textContent=name;}
 
@@ -469,6 +512,9 @@ function loadExisting(id){
     if(!res.success){showToast('Could not load itinerary','error');addFlight();addFlight();addAccom();addDay();return;}
     var it=res.itinerary,days=res.days||[];
     if(res.clientName)showBadge(res.clientName);
+    if(!clientId&&it.clientId)clientId=it.clientId;
+    tripId=it.tripId||'';
+    loadTripPicker(false);
     setVal('f-title',it.title);setVal('f-destination',it.destination);setVal('f-tripType',it.tripType);
     setVal('f-startDate',it.startDate);setVal('f-endDate',it.endDate);setVal('f-travelers',it.travelers);
     // Flights — stored as JSON array, with fallback for old single-object format
@@ -584,7 +630,7 @@ function saveItinerary(){
   if(!title){showToast('Trip title is required','error');document.getElementById('f-title').focus();return;}
   var flights=collectFlights();
   var accoms=collectAccoms();
-  var it={id:itineraryId||null,clientId:clientId||'',title:title,destination:val('f-destination'),tripType:val('f-tripType'),startDate:val('f-startDate'),endDate:val('f-endDate'),travelers:val('f-travelers'),
+  var it={id:itineraryId||null,clientId:clientId||'',tripId:clientTrips.length?(val('f-tripId')||''):undefined,title:title,destination:val('f-destination'),tripType:val('f-tripType'),startDate:val('f-startDate'),endDate:val('f-endDate'),travelers:val('f-travelers'),
     flightOut:JSON.stringify(flights),
     flightReturn:'[]',
     accommodation:JSON.stringify(accoms),

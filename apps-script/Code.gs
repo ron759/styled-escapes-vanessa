@@ -569,7 +569,7 @@ function crmDispatch(data) {
 // Sheets are read/written by column POSITION. TRIP_COLS is the single
 // source of truth for the Trips tab; add new columns at the END only.
 
-const SCHEMA_VERSION = '1';
+const SCHEMA_VERSION = '2';
 const TZ = 'America/Chicago';
 
 const TRIP_COLS = [
@@ -625,6 +625,9 @@ function ensureSchema() {
 
   addCols(TAB_CLIENTS, ['id','name','email','phone','address','bday','source','interests','general_notes','created','bestTimeToContact','contactMethod']);
   addCols(TAB_TODOS,   ['id','clientId','text','due','done','created','tripId','autoKey']);
+  addCols(TAB_ITINERARIES, ['id','clientId','title','destination','tripType','startDate','endDate',
+    'travelers','flightOut','flightReturn','accommodation','confirmationNumbers',
+    'importantNumbers','vanessaNotes','status','created','updated','tripId']);
 
   let trips = ss.getSheetByName(TAB_TRIPS);
   if (!trips) {
@@ -807,6 +810,12 @@ function deleteTripAction(id) {
   const removed = [];
   getAutoTodos(String(id)).forEach(function(t) { removed.push(t.id); });
   removed.forEach(removeTodoRow);
+  // Itineraries stay (they may already be shared with the client); just unlink them
+  const isheet = getSheet(TAB_ITINERARIES);
+  const irows = isheet.getDataRange().getValues();
+  for (let i = 1; i < irows.length; i++) {
+    if (cellStr(irows[i], 17) === String(id)) isheet.getRange(i + 1, 18).setValue('');
+  }
   return { success: true, todoChanges: { created: [], updated: [], removedIds: removed } };
 }
 
@@ -967,7 +976,7 @@ function ensureSheets() {
   const itineraryHeaders = [
     'id','clientId','title','destination','tripType','startDate','endDate',
     'travelers','flightOut','flightReturn','accommodation','confirmationNumbers',
-    'importantNumbers','vanessaNotes','status','created','updated'
+    'importantNumbers','vanessaNotes','status','created','updated','tripId'
   ];
   const itineraryDayHeaders = [
     'id','itineraryId','dayNumber','date','title','description','meals','notes'
@@ -1132,6 +1141,7 @@ function genId() {
 //   0:id  1:clientId  2:title  3:destination  4:tripType
 //   5:startDate  6:endDate  7:travelers  8:flightOut  9:flightReturn
 //   10:accommodation  11:confirmationNumbers  12:importantNumbers
+//   13:vanessaNotes  14:status  15:created  16:updated  17:tripId
 //
 // ItineraryDays tab columns (0-indexed):
 //   0:id  1:itineraryId  2:dayNumber  3:date  4:title
@@ -1152,6 +1162,20 @@ function handleItinerary(data) {
       const ts      = nowStr();
       const sheet   = getSheet(TAB_ITINERARIES);
 
+      // Link to a trip: only when that trip exists and belongs to the same client.
+      // A page that doesn't send tripId at all keeps whatever link is already saved.
+      let existingRow = -1, tripId = '';
+      if (!isNew) {
+        existingRow = findRow(sheet, itId);
+        if (existingRow < 0) return corsOutput({ success: false, error: 'Itinerary not found' });
+        tripId = cellStr(sheet.getRange(existingRow, 18).getValues()[0], 0);
+      }
+      if (it.tripId !== undefined) {
+        const want = String(it.tripId || '');
+        const tr = want ? findTrip(want) : null;
+        tripId = (tr && tr.trip.clientId === String(it.clientId || '')) ? want : '';
+      }
+
       const row = [
         itId,
         it.clientId        || '',
@@ -1169,15 +1193,14 @@ function handleItinerary(data) {
         it.vanessaNotes        || '',
         it.status          || 'active',
         isNew ? ts : (it.created || ts),
-        ts
+        ts,
+        tripId
       ];
 
       if (isNew) {
         sheet.appendRow(row);
       } else {
-        const existingRow = findRow(sheet, itId);
-        if (existingRow < 0) return corsOutput({ success: false, error: 'Itinerary not found' });
-        sheet.getRange(existingRow, 1, 1, 17).setValues([row]);
+        sheet.getRange(existingRow, 1, 1, 18).setValues([row]);
       }
 
       // ── Replace all days for this itinerary ──────────────────
@@ -1196,7 +1219,7 @@ function handleItinerary(data) {
         ]);
       });
 
-      return corsOutput({ success: true, itineraryId: itId, isNew: isNew });
+      return corsOutput({ success: true, itineraryId: itId, isNew: isNew, tripId: tripId });
     }
 
     // ── Get one itinerary + its days ────────────────────────────
@@ -1230,7 +1253,8 @@ function handleItinerary(data) {
         vanessaNotes:         String(itRow[13]),
         status:               String(itRow[14]),
         created:              String(itRow[15]),
-        updated:              String(itRow[16])
+        updated:              String(itRow[16]),
+        tripId:               cellStr(itRow, 17)
       };
 
       // Fetch days, sorted by dayNumber
@@ -1291,7 +1315,8 @@ function handleItinerary(data) {
             endDate:     toDateStr(r[6]),
             status:      String(r[14]),
             created:     String(r[15]),
-            updated:     String(r[16])
+            updated:     String(r[16]),
+            tripId:      cellStr(r, 17)
           });
         }
       }
@@ -1299,6 +1324,18 @@ function handleItinerary(data) {
       result.sort(function(a, b) { return b.created > a.created ? 1 : -1; });
 
       return corsOutput({ success: true, itineraries: result });
+    }
+
+    // ── Light list of a client's trips (for the builder's trip picker) ──
+    case 'getClientTrips': {
+      const clientId = String(data.clientId || '');
+      if (!clientId) return corsOutput({ success: false, error: 'clientId required' });
+      const trips = getTrips().filter(function(t) { return t.clientId === clientId; })
+        .map(function(t) {
+          return { id: t.id, title: t.title, destination: t.destination, tripType: t.tripType, status: t.status,
+                   travelStart: t.travelStart, travelEnd: t.travelEnd, adults: t.adults, children: t.children };
+        });
+      return corsOutput({ success: true, trips: trips });
     }
 
     default:

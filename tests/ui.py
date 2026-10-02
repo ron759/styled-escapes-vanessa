@@ -104,8 +104,8 @@ with sync_playwright() as p:
     txt = pg.inner_text('#tabBody')
     t('proposal todo created, inquiry todo gone', 'Follow up on the proposal' in txt and 'Follow up with Ann Test about' not in txt, txt[:400])
     # complete the proposal todo → next one created
-    box = pg.locator('.todo-item', has_text='Follow up on the proposal').locator('.todo-check')
-    box.check(); pg.wait_for_timeout(800)
+    box = pg.locator('.todo-item', has_text='Follow up on the proposal').locator('.todo-check').first
+    box.click(); pg.wait_for_timeout(800)
     open_items = [x for x in pg.locator('.todo-item:not(.done)').all_inner_texts() if 'proposal' in x]
     t('completing proposal todo creates the next', len(open_items) == 1, open_items)
 
@@ -196,6 +196,30 @@ with sync_playwright() as p:
     t('its auto todo removed', len([r for r in st['Todos'][1:] if len(r) > 7 and r[6]]) == n_before - 1, (n_before,))
     t('hand-made todo kept', any(r[0] == 't0' for r in st['Todos'][1:]))
     pg3.close()
+
+    # ---- itinerary link
+    tok = pg.evaluate("sessionStorage.getItem('crm_token')")
+    ann_trip = [r for r in state()['Trips'][1:] if r[1] == 'c1'][0]
+    sv = backend_post({'secret': 'dmb!ENH-weu9rda9rgk', 'token': tok, 'type': 'itinerary', 'action': 'saveItinerary',
+                       'itinerary': {'clientId': 'c1', 'title': 'Ann Caribbean plan', 'destination': 'Western Caribbean', 'tripId': ann_trip[0]}, 'days': []})
+    t('seeded linked itinerary', sv.get('success') and sv.get('tripId') == ann_trip[0], sv)
+    pg.reload(); pg.wait_for_timeout(700)
+    pg.locator('.client-item', has_text='Ann Test').click(); pg.click('#tab-trips'); pg.wait_for_timeout(200)
+    pg.locator('.tr-row').first.click(); pg.wait_for_timeout(900)
+    t('trip form lists linked itinerary', 'Ann Caribbean plan' in pg.inner_text('#trItinBody'), pg.inner_text('#trItinBody'))
+    t('new itinerary link carries clientId+tripId', 'tripId=' + ann_trip[0] in pg.get_attribute('#trItinBody .btn-action.primary', 'href'))
+    pg.click('#trBack'); pg.click('#tab-itineraries'); pg.wait_for_timeout(900)
+    t('itineraries tab shows trip chip', '✈' in pg.inner_text('#itinList'), pg.inner_text('#itinList'))
+    # builder: picker + prefill for a new itinerary
+    b4 = ctx.new_page()
+    b4.add_init_script("sessionStorage.setItem('crm_token','%s')" % tok)
+    b4.goto(BASE + 'itinerary-builder.html?clientId=c1&tripId=' + ann_trip[0]); b4.wait_for_timeout(1000)
+    t('builder shows trip picker', b4.locator('#tripPickField').is_visible())
+    t('builder preselects trip', b4.input_value('#f-tripId') == ann_trip[0])
+    t('builder prefilled destination', b4.input_value('#f-destination') == 'Western Caribbean', b4.input_value('#f-destination'))
+    b4.fill('#f-title', 'Second plan'); b4.click('#saveBtn'); b4.wait_for_timeout(900)
+    t('builder save keeps link', len([r for r in state()['Itineraries'][1:] if len(r) > 17 and r[17] == ann_trip[0]]) == 2, state()['Itineraries'])
+    b4.close()
 
     print('console/page errors:', errs[:5])
     br.close()

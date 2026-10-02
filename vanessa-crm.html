@@ -1611,6 +1611,7 @@ function renderItinerariesTab() {
             '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;flex-wrap:wrap">' +
               '<div style="flex:1;min-width:0">' +
                 '<div style="font-size:14px;font-weight:500;color:var(--ocean);margin-bottom:3px">' + esc(it.title) + '</div>' +
+                itinTripChip(it) +
                 '<div style="font-size:12px;color:var(--ink-muted)">' +
                   (it.destination ? esc(it.destination) + (dateRange ? '  ·  ' : '') : '') +
                   (dateRange ? dateRange : '') +
@@ -1626,11 +1627,21 @@ function renderItinerariesTab() {
           '</div>';
       });
       list.innerHTML = html;
+      Array.prototype.forEach.call(list.querySelectorAll('.itin-trip-link'), function(a) {
+        a.addEventListener('click', function(e) { e.preventDefault(); switchTab('trips'); openTripForm(a.getAttribute('data-trip')); });
+      });
     })
     .catch(function() {
       var list = document.getElementById('itinList');
       if (list) list.innerHTML = '<div class="empty-tab" style="padding:24px 0"><p>Could not load itineraries — check your connection.</p></div>';
     });
+}
+
+// Small line under an itinerary's title: which trip it belongs to (click → that trip)
+function itinTripChip(it) {
+  var t = it.tripId ? getTrip(it.tripId) : null;
+  if (!t) return '<div style="font-size:11px;color:var(--ink-muted);margin-bottom:3px">Not linked to a trip</div>';
+  return '<div style="font-size:11px;margin-bottom:3px"><a href="#" class="itin-trip-link" data-trip="' + esc(t.id) + '" style="color:var(--coral);text-decoration:none">✈ ' + esc(t.title || t.destination || 'Trip') + '</a></div>';
 }
 
 function copyItinLink(url) {

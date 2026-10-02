@@ -152,5 +152,40 @@ b.setNow('2026-10-14T03:30:00Z'); // = Oct 13, 10:30pm CDT
 r = P({ action: 'addTrip', trip: { clientId: 'c1', destination: 'Late night' } });
 t('due date uses Central time', r.todoChanges.created[0].due === '2026-10-14', r.todoChanges.created[0].due);
 
+// ---- itinerary <-> trip link
+const I = o => b.post(Object.assign({ token: b.login(), type: 'itinerary' }, o));
+const tripA = P({ action: 'addTrip', trip: { clientId: 'c1', destination: 'Link A', adults: '2', children: '1' } }).trip;
+P({ action: 'addClient', client: { id: 'c3', name: 'Cara', email: 'c@x.com' } });
+const tripB = P({ action: 'addTrip', trip: { clientId: 'c3', destination: 'Other client trip' } }).trip;
+t('schema: Itineraries has tripId header', b.tabs.Itineraries.rows[0][17] === 'tripId', b.tabs.Itineraries.rows[0]);
+let it = I({ action: 'saveItinerary', itinerary: { clientId: 'c1', title: 'Plan A', tripId: tripA.id }, days: [] });
+t('save itinerary with trip link', it.success && it.tripId === tripA.id, it);
+const itId = it.itineraryId;
+t('getItinerary returns tripId', I({ action: 'getItinerary', itineraryId: itId }).itinerary.tripId === tripA.id);
+t('client list returns tripId', I({ action: 'getClientItineraries', clientId: 'c1' }).itineraries.find(x => x.id === itId).tripId === tripA.id);
+// another client's trip can't be linked
+it = I({ action: 'saveItinerary', itinerary: { clientId: 'c1', title: 'Bad link', tripId: tripB.id }, days: [] });
+t("cannot link another client's trip", it.success && it.tripId === '', it);
+t('unknown trip id is dropped', I({ action: 'saveItinerary', itinerary: { clientId: 'c1', title: 'x', tripId: 'nope' }, days: [] }).tripId === '');
+// old builder page (no tripId field) keeps the saved link
+it = I({ action: 'saveItinerary', itinerary: { id: itId, clientId: 'c1', title: 'Plan A v2' }, days: [] });
+t('update without tripId keeps link', it.success && it.tripId === tripA.id, it);
+// explicit empty unlinks
+it = I({ action: 'saveItinerary', itinerary: { id: itId, clientId: 'c1', title: 'Plan A v3', tripId: '' }, days: [] });
+t('empty tripId unlinks', it.success && it.tripId === '', it);
+I({ action: 'saveItinerary', itinerary: { id: itId, clientId: 'c1', title: 'Plan A v4', tripId: tripA.id }, days: [] });
+// picker data
+const cTrips = I({ action: 'getClientTrips', clientId: 'c1' });
+t('getClientTrips only this client', cTrips.success && cTrips.trips.some(x => x.id === tripA.id) && !cTrips.trips.some(x => x.id === tripB.id), cTrips);
+t('getClientTrips needs token', b.post({ type: 'itinerary', action: 'getClientTrips', clientId: 'c1' }).error === 'AUTH');
+// deleting the trip keeps the itinerary but unlinks it
+P({ action: 'deleteTrip', id: tripA.id });
+const after = I({ action: 'getItinerary', itineraryId: itId });
+t('trip delete keeps itinerary, clears link', after.success && after.itinerary.tripId === '' && after.itinerary.title === 'Plan A v4', after);
+// legacy itinerary row (17 columns) still reads
+b.tabs.Itineraries.rows.push(['legacy1','c1','Old plan','Rome','','','','','','','','','','','active','Oct 1, 2026','Oct 1, 2026']);
+const lg = I({ action: 'getItinerary', itineraryId: 'legacy1' });
+t('legacy 17-col itinerary reads with blank tripId', lg.success && lg.itinerary.tripId === '', lg);
+
 console.log(`trips tests: passed ${ok}, failed ${bad}`);
 process.exit(bad ? 1 : 0);

@@ -128,7 +128,8 @@ var TR = {
   dirtyD: {},        // details keys changed since last save
   timer: null, draftTimer: null,
   saving: false, again: false,
-  state: ''          // '', 'dirty', 'saving', 'saved', 'error'
+  state: '',         // '', 'dirty', 'saving', 'saved', 'error'
+  itins: {}, itinLoading: {}   // itineraries linked to a trip, cached per trip id
 };
 
 function tripsForClient(cid) {
@@ -315,6 +316,46 @@ function section(id, title, inner, open) {
   return '<details class="tr-sec" data-sec="' + id + '"' + (open ? ' open' : '') + '><summary>' + esc(title) + '</summary><div class="tr-sec-body">' + inner + '</div></details>';
 }
 
+// ── Itineraries linked to this trip ──────────────────────────────
+function itinSectionHtml(f) {
+  if (TR.isNew) return '';
+  return section('itins', 'Itineraries', '<div id="trItinBody">' + itinBodyHtml(f) + '</div>', true);
+}
+function itinBodyHtml(f) {
+  var c = getClient(selectedId);
+  var list = TR.itins[f.id];
+  var newUrl = 'itinerary-builder.html?clientId=' + encodeURIComponent(f.clientId) + '&tripId=' + encodeURIComponent(f.id);
+  var head = '<div class="tr-itin-head"><a class="btn-action primary tr-itin-go" href="' + esc(newUrl) + '">+ New itinerary for this trip</a></div>';
+  if (list === undefined) return head + '<div class="tr-muted">Loading…</div>';
+  if (list === null)      return head + '<div class="tr-muted">Could not load itineraries.</div>';
+  if (!list.length)       return head + '<div class="tr-muted">No itineraries linked to this trip yet.</div>';
+  return head + list.map(function(it) {
+    var dates = [it.startDate, it.endDate].filter(Boolean).join(' – ');
+    var viewer = 'itinerary-viewer.html?id=' + encodeURIComponent(it.id);
+    var edit = 'itinerary-builder.html?clientId=' + encodeURIComponent(f.clientId) + '&itineraryId=' + encodeURIComponent(it.id);
+    return '<div class="tr-itin"><div class="tr-itin-main"><div class="tr-row-title">' + esc(it.title || 'Itinerary') + '</div>' +
+      '<div class="tr-row-sub">' + esc([it.destination, dates].filter(Boolean).join(' · ')) + '</div></div>' +
+      '<div class="tr-itin-btns"><a class="btn-action tr-itin-go" target="_blank" href="' + esc(viewer) + '">View</a>' +
+      '<a class="btn-action tr-itin-go" href="' + esc(edit) + '">Edit</a></div></div>';
+  }).join('');
+}
+function loadTripItins(f) {
+  if (!f || TR.isNew || trDevMode() || TR.itins[f.id] !== undefined || TR.itinLoading[f.id]) return;
+  TR.itinLoading[f.id] = true;
+  gasPost({ type: 'itinerary', action: 'getClientItineraries', clientId: f.clientId }).then(function(res) {
+    TR.itins[f.id] = (res && res.success) ? (res.itineraries || []).filter(function(i) { return i.tripId === f.id; }) : null;
+  }).catch(function() { TR.itins[f.id] = null; }).then(function() {
+    TR.itinLoading[f.id] = false;
+    var el = document.getElementById('trItinBody');
+    if (el && TR.form && TR.form.id === f.id) { el.innerHTML = itinBodyHtml(f); wireItinLinks(); }
+  });
+}
+function wireItinLinks() {
+  Array.prototype.forEach.call(document.querySelectorAll('#trItinBody .tr-itin-go'), function(a) {
+    a.addEventListener('click', function() { if (a.target !== '_blank') flushTripSave(); });
+  });
+}
+
 function missingDetails(f) {
   var miss = [];
   if (!String(f.destination || '').trim()) miss.push('destination');
@@ -393,11 +434,14 @@ function renderTripForm() {
       section('prefs', 'Preferences', grid(F.prefs), openSecs.prefs !== false) +
       typeSec +
       section('call', 'Call notes and next step', grid(F.call), openSecs.call !== false) +
+      itinSectionHtml(f) +
       section('pay', 'Payments (fill in later)', grid(F.pay), openSecs.pay === true) +
       (!TR.isNew ? '<div class="tr-danger"><button type="button" class="btn-action danger" id="trDelete">Delete this trip</button></div>' : '') +
     '</div>';
   scrollEl.scrollTop = top;
   wireTripForm();
+  wireItinLinks();
+  loadTripItins(f);
 }
 
 // ── Wiring (one set of listeners per render) ─────────────────────
@@ -816,6 +860,11 @@ function todoTripLabel(t) {
   '.tr-age{width:84px}',
   '.tr-bot{background:var(--gold-l);border-radius:var(--radius-sm);padding:10px 12px;margin-bottom:8px;font-size:13px;line-height:1.6}',
   '.tr-danger{margin:18px 0 40px}',
+  '.tr-itin-head{margin-bottom:10px}',
+  '.tr-itin-go{text-decoration:none;display:inline-flex;align-items:center;min-height:40px;padding:0 14px}',
+  '.tr-itin{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;background:var(--white);border:1px solid var(--sand-3);border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:8px}',
+  '.tr-itin-main{flex:1;min-width:0}',
+  '.tr-itin-btns{display:flex;gap:8px}',
   '.pipe-card{background:var(--white);border:1px solid var(--sand-3);border-radius:var(--radius);padding:16px 18px;margin-bottom:26px}',
   '.pipe-title{font-family:"Cormorant Garamond",Georgia,serif;font-size:20px;color:var(--ocean);margin-bottom:8px}',
   '.pipe-line{display:flex;align-items:center;justify-content:space-between;width:100%;min-height:44px;padding:0 4px;background:none;border:0;border-top:1px solid var(--sand-2);font-family:"DM Sans",sans-serif;font-size:14px;color:var(--ink);cursor:pointer;text-align:left}',
