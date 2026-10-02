@@ -788,6 +788,16 @@ function crmGasPost(payload) {
 }
 
 function saveToCRM(firstName, lastName, email, quizNote, onDone) {
+  // Live site: one server-side call (create-or-update + note). The public page
+  // never reads the client list.
+  if (CRM_GAS_URL && CRM_GAS_URL !== 'YOUR_GAS_WEB_APP_URL') {
+    crmGasPost({
+      type: 'crm', action: 'leadCapture',
+      lead: { firstName: firstName, lastName: lastName, email: email },
+      source: 'Quiz — Travel Style', interests: [], note: quizNote
+    }).then(function() { if (onDone) onDone(); });
+    return;
+  }
   var fullName   = (firstName + ' ' + lastName).trim();
   var emailLower = email.toLowerCase();
 

@@ -269,6 +269,8 @@ var clientId=null, clientName='', itineraryId=null, dayCount=0, savedShareUrl=''
 var entryCounters={}, flightCount=0, accomCount=0;
 
 window.addEventListener('DOMContentLoaded',function(){
+  // Builder is staff-only: no login token → go to the CRM sign-in first.
+  if(!getToken()){toLogin();return;}
   var p=new URLSearchParams(window.location.search);
   clientId=p.get('clientId')||null;
   itineraryId=p.get('itineraryId')||null;
@@ -605,7 +607,9 @@ function openViewer(){if(savedShareUrl)window.open(savedShareUrl,'_blank');}
 function continueEditing(){document.getElementById('successPanel').classList.remove('show');window.scrollTo({top:0,behavior:'smooth'});}
 function backToCrm(){window.location.href=clientId?'vanessa-crm.html?clientId='+clientId:'vanessa-crm.html';}
 
-function gasPost(payload){return fetch(GAS_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify(Object.assign({secret:PROXY_SECRET},payload))}).then(function(r){return r.json();});}
+function getToken(){try{return sessionStorage.getItem('crm_token')||'';}catch(e){return '';}}
+function toLogin(){window.location.href='vanessa-crm.html';}
+function gasPost(payload){return fetch(GAS_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify(Object.assign({secret:PROXY_SECRET,token:getToken()},payload))}).then(function(r){return r.json();}).then(function(res){if(res&&res.error==='AUTH'){try{sessionStorage.removeItem('crm_token');sessionStorage.removeItem('crm_unlocked');}catch(e){}showToast('Session expired — signing you in again…','error');setTimeout(toLogin,1500);}return res;});}
 function val(id){var e=document.getElementById(id);return e?e.value:'';}
 function setVal(id,v){var e=document.getElementById(id);if(e)e.value=v||'';}
 function safeParse(s,fb){try{return JSON.parse(s);}catch(e){return fb;}}

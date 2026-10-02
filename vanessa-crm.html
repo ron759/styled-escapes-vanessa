@@ -1018,8 +1018,32 @@ function gasPost(payload) {
   return fetch(GAS_URL, {
     method:  'POST',
     headers: { 'Content-Type': 'text/plain' },
-    body:    JSON.stringify(Object.assign({ secret: PROXY_SECRET }, payload))
-  }).then(function(r) { return r.json(); });
+    body:    JSON.stringify(Object.assign({ secret: PROXY_SECRET, token: getToken() }, payload))
+  }).then(function(r) { return r.json(); }).then(function(res) {
+    if (res && res.error === 'AUTH') { showGateAgain('Your session expired. Please sign in again.'); }
+    return res;
+  });
+}
+
+// ── Session token (issued by the server on login, lives for this tab) ──
+function getToken() {
+  try { return sessionStorage.getItem('crm_token') || ''; } catch (e) { return ''; }
+}
+function showGateAgain(msg) {
+  try { sessionStorage.removeItem('crm_token'); sessionStorage.removeItem('crm_unlocked'); } catch (e) {}
+  var g = document.getElementById('loginGate');
+  if (g) g.classList.remove('hidden');
+  var err = document.getElementById('loginErr');
+  if (err) err.textContent = msg || '';
+}
+var appStarted = false;
+function startApp() {
+  if (appStarted) return;
+  appStarted = true;
+  loadAll(function() {
+    buildClientObjects();
+    showDashboard();
+  });
 }
 
 function loadAll(callback) {
@@ -1741,10 +1765,7 @@ function exportCSV() {
 }
 
 // ── Init ───────────────────────────────────────────────────────
-loadAll(function() {
-  buildClientObjects();
-  showDashboard();
-});
+// App data loads only after login (see checkLogin / page-load check below).
 
 // ── Login gate ───────────────────────────────────────────────────
 // Password is verified server-side via GAS — never stored in this file.
@@ -1774,8 +1795,13 @@ function checkLogin() {
     btn.classList.remove('checking');
 
     if (res.success) {
-      sessionStorage.setItem('crm_unlocked', '1');
+      try {
+        sessionStorage.setItem('crm_unlocked', '1');
+        if (res.token) sessionStorage.setItem('crm_token', res.token);
+      } catch (e) {}
       document.getElementById('loginGate').classList.add('hidden');
+      document.getElementById('loginPw').value = '';
+      startApp();
     } else {
       err.textContent = res.message || 'Incorrect password.';
       document.getElementById('loginPw').value = '';
@@ -1797,8 +1823,10 @@ function checkLogin() {
 
 // On page load, check if already unlocked this session
 (function() {
-  if (sessionStorage.getItem('crm_unlocked') === '1') {
+  var devMode = !GAS_URL || GAS_URL === 'YOUR_GAS_WEB_APP_URL';
+  if (sessionStorage.getItem('crm_unlocked') === '1' && (getToken() || devMode)) {
     document.getElementById('loginGate').classList.add('hidden');
+    startApp();
   } else {
     setTimeout(function() {
       var el = document.getElementById('loginPw');

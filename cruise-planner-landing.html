@@ -487,71 +487,23 @@ function handleSubmit(e) {
 
   var dueDate = tomorrowLocalStr();
 
-  // Step 1: Check if this email already exists in the CRM
+  // One server-side call: creates the client (or updates the existing one) and adds the todo.
+  // The public page never reads the client list.
   fetch(GAS_URL, {
     method:  'POST',
     headers: { 'Content-Type': 'text/plain' },
-    body:    JSON.stringify({ type: 'crm', secret: PROXY_SECRET, action: 'getAll' })
+    body:    JSON.stringify({
+      type: 'crm', secret: PROXY_SECRET, action: 'leadCapture',
+      lead: { name: fullName, email: femail },
+      source: 'Cruise Planner Landing Page',
+      interests: ['Cruise'],
+      generalNotes: 'Requested Caribbean Cruise Planner PDF on ' + nowLabel(),
+      todo: { text: 'Send Caribbean Cruise Planner PDF to ' + femail, dueDays: 1 }
+    })
   })
   .then(function(r) { return r.json(); })
   .then(function(res) {
-    if (!res.success) throw new Error('Could not read CRM');
-
-    // Look for existing client with matching email (case-insensitive)
-    var existing = (res.clients || []).find(function(c) {
-      return (c.email || '').toLowerCase() === femail.toLowerCase();
-    });
-
-    var todo = {
-      id:       genId(),
-      clientId: existing ? existing.id : genId(),
-      text:     'Send Caribbean Cruise Planner PDF to ' + femail,
-      due:      dueDate,
-      done:     false,
-      created:  nowLabel()
-    };
-
-    if (existing) {
-      // Client already exists — just add the follow-up todo
-      todo.clientId = existing.id;
-      return fetch(GAS_URL, {
-        method:  'POST',
-        headers: { 'Content-Type': 'text/plain' },
-        body:    JSON.stringify({ type: 'crm', secret: PROXY_SECRET, action: 'addTodo', todo: todo })
-      });
-    } else {
-      // New client — create them first, then add the todo
-      var clientId = genId();
-      todo.clientId = clientId;
-      var client = {
-        id:            clientId,
-        name:          fullName,
-        email:         femail,
-        phone:         '',
-        address:       '',
-        bday:          '',
-        source:        'Cruise Planner Landing Page',
-        interests:     ['Cruise'],
-        general_notes: 'Requested Caribbean Cruise Planner PDF on ' + nowLabel(),
-        created:       nowLabel()
-      };
-      return fetch(GAS_URL, {
-        method:  'POST',
-        headers: { 'Content-Type': 'text/plain' },
-        body:    JSON.stringify({ type: 'crm', secret: PROXY_SECRET, action: 'addClient', client: client })
-      })
-      .then(function(r) { return r.json(); })
-      .then(function(res) {
-        if (!res.success) throw new Error(res.error || 'Add client failed');
-        return fetch(GAS_URL, {
-          method:  'POST',
-          headers: { 'Content-Type': 'text/plain' },
-          body:    JSON.stringify({ type: 'crm', secret: PROXY_SECRET, action: 'addTodo', todo: todo })
-        });
-      });
-    }
-  })
-  .then(function() {
+    if (!res.success) throw new Error(res.error || 'leadCapture failed');
     showSuccess();
   })
   .catch(function(err) {
