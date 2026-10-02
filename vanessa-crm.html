@@ -966,6 +966,7 @@ select.field-input {
     <div class="topbar-brand">
       <span class="topbar-logo">Styled Escapes by Vanessa</span>
       <span class="topbar-sub">Client Manager</span>
+      <button class="btn-dash crm-mobile-btn" onclick="document.body.classList.toggle('side-open')" title="Client list">☰ Clients</button>
       <button class="btn-dash" onclick="showDashboard()" title="Dashboard">⌂ Dashboard</button>
       <a href="/vanessa-tools.html" class="btn-dash" style="text-decoration:none;margin-left:6px">← Tools Hub</a>
     </div>
@@ -995,6 +996,7 @@ select.field-input {
   </main>
 </div>
 
+<script src="crm-trips.js"></script>
 <script>
 // ── Config ──────────────────────────────────────────────────────
 var GAS_URL      = 'https://script.google.com/macros/s/AKfycbzwpKU33T2fYOOE1a6RPTAtysw-lGEQM7YdV2GHqm5WBI9XxBoC3zCQDbLSOxP4qb8a/exec';
@@ -1002,7 +1004,9 @@ var PROXY_SECRET = 'dmb!ENH-weu9rda9rgk';  // Must match PROXY_SECRET in GAS Scr
 
 // ── Static lookup tables ────────────────────────────────────────
 var INTERESTS = ['Cruise','All-Inclusive Resort','Disney Vacation','Hawaii','Europe','Caribbean','Group Travel','Honeymoon','Anniversary','Family Trip','Girls / Friends Trip','Adventure / Outdoors'];
-var SOURCES   = ['Facebook','Instagram','Referral','Dream Vacations site','Web search','Returning client','Other'];
+var SOURCES   = ['Facebook','Instagram','Referral','Dream Vacations site','Web search','Website chatbot','Quiz','Nextdoor','Returning client','Other'];
+var CONTACT_TIMES   = ['Morning','Noon','Night'];
+var CONTACT_METHODS = ['Call','Email','Text'];
 
 // ── In-memory state (populated on load from Sheets) ─────────────
 var clients    = [];
@@ -1053,6 +1057,7 @@ function loadAll(callback) {
       clients  = saved.clients || [];
       allTodos = saved.todos   || [];
       allNotes = saved.notes   || [];
+      allTrips = saved.trips   || [];
     }
     if (callback) callback();
     return;
@@ -1064,6 +1069,7 @@ function loadAll(callback) {
         clients  = res.clients || [];
         allTodos = res.todos   || [];
         allNotes = res.notes   || [];
+        allTrips = res.trips   || [];
       }
       showLoadingOverlay(false);
       if (callback) callback();
@@ -1115,7 +1121,7 @@ function showLoadingOverlay(show) {
 // ── Sheet write helpers ─────────────────────────────────────────
 function saveDevLocal() {
   localStorage.setItem('vnCRM_v2_dev', JSON.stringify({
-    clients: clients, todos: allTodos, notes: allNotes
+    clients: clients, todos: allTodos, notes: allNotes, trips: allTrips
   }));
 }
 
@@ -1229,8 +1235,10 @@ function renderSidebar(q) {
 
 // ── Main area routing ──────────────────────────────────────────
 function showDashboard() {
+  if (typeof TR !== 'undefined' && TR.form) { flushTripSave(); TR.form = null; }
   selectedId = null;
   editMode   = false;
+  document.body.classList.remove('side-open');
   renderSidebar();
   var main = document.getElementById('main');
   main.innerHTML = '<div class="dashboard-view" id="dashView"></div>';
@@ -1238,6 +1246,8 @@ function showDashboard() {
 }
 
 function selectClient(id) {
+  if (TR.form && TR.form.clientId !== id) { flushTripSave(); TR.form = null; }
+  document.body.classList.remove('side-open');
   selectedId = id;
   editMode   = false;
   activeTab  = 'info';
@@ -1263,6 +1273,7 @@ function renderClientView() {
         '</div>' +
         '<div class="tabs-row">' +
           '<button class="tab-btn active" id="tab-info"        onclick="switchTab(\'info\')">Info</button>' +
+          '<button class="tab-btn"        id="tab-trips"       onclick="switchTab(\'trips\')">Trips</button>' +
           '<button class="tab-btn"        id="tab-notes"       onclick="switchTab(\'notes\')">Notes</button>' +
           '<button class="tab-btn"        id="tab-todos"       onclick="switchTab(\'todos\')">Follow-ups</button>' +
           '<button class="tab-btn"        id="tab-itineraries" onclick="switchTab(\'itineraries\')">Itineraries</button>' +
@@ -1277,7 +1288,7 @@ function renderClientView() {
 function switchTab(t) {
   if (editMode && t !== 'info') { saveEdit(); }
   activeTab = t;
-  ['info','notes','todos','itineraries'].forEach(function(tab) {
+  ['info','trips','notes','todos','itineraries'].forEach(function(tab) {
     var b = document.getElementById('tab-' + tab);
     if (b) b.className = 'tab-btn' + (tab === t ? ' active' : '');
   });
@@ -1286,6 +1297,7 @@ function switchTab(t) {
 
 function renderTabContent() {
   if (activeTab === 'info')        renderInfoTab();
+  if (activeTab === 'trips')       renderTripsTab();
   if (activeTab === 'notes')       renderNotesTab();
   if (activeTab === 'todos')       renderTodosTab();
   if (activeTab === 'itineraries') renderItinerariesTab();
@@ -1306,6 +1318,8 @@ function renderInfoTab() {
         infoRow('Address', c.address, 'full') +
         infoRow('Birthday', fmtDate(c.bday)) +
         infoRow('How they found Vanessa', c.source) +
+        infoRow('Best time to contact', c.bestTimeToContact) +
+        infoRow('Prefers', c.contactMethod) +
       '</div>' +
       '<div class="section-divider">Trip interests</div>' +
       '<div class="chip-group">' +
@@ -1323,6 +1337,8 @@ function renderInfoTab() {
         editField('Address', 'f_address', c.address, 'text', 'full') +
         editField('Birthday', 'f_bday', c.bday, 'date') +
         editSelectField('How they found Vanessa', 'f_source', c.source) +
+        editListField('Best time to contact', 'f_bestTime', c.bestTimeToContact, CONTACT_TIMES) +
+        editListField('Prefers', 'f_contactMethod', c.contactMethod, CONTACT_METHODS) +
       '</div>' +
       '<div class="section-divider">Trip interests</div>' +
       '<div class="chip-group" id="chipsEdit">' +
@@ -1355,11 +1371,18 @@ function editField(label, id, val, type, cls) {
 }
 
 function editSelectField(label, id, val) {
+  return editListField(label, id, val, SOURCES);
+}
+
+// A dropdown that keeps a value that isn't in the list (e.g. older sources like "Chatbot")
+function editListField(label, id, val, list) {
+  var opts = list.slice();
+  if (val && opts.indexOf(val) < 0) opts.unshift(val);
   return '<div class="info-field">' +
     '<div class="info-label">' + esc(label) + '</div>' +
     '<select class="field-input" id="' + id + '">' +
       '<option value="">Select…</option>' +
-      SOURCES.map(s => '<option value="' + esc(s) + '"' + (val===s?' selected':'') + '>' + esc(s) + '</option>').join('') +
+      opts.map(s => '<option value="' + esc(s) + '"' + (val===s?' selected':'') + '>' + esc(s) + '</option>').join('') +
     '</select>' +
   '</div>';
 }
@@ -1379,6 +1402,10 @@ function saveEdit() {
   });
   var src = document.getElementById('f_source');
   if (src) c.source = src.value;
+  var bt = document.getElementById('f_bestTime');
+  if (bt) c.bestTimeToContact = bt.value;
+  var cm = document.getElementById('f_contactMethod');
+  if (cm) c.contactMethod = cm.value;
   var nt = document.getElementById('f_notes');
   if (nt) c.general_notes = nt.value.trim();
   var chips = document.querySelectorAll('#chipsEdit .chip.sel');
@@ -1492,6 +1519,7 @@ function todoHtml(t, idx) {
     '<div class="todo-body">' +
       '<div class="todo-text-val">' + esc(t.text) + '</div>' +
       '<div class="todo-due-val' + dateCls + '">' + dateLabel + '</div>' +
+      todoTripLabel(t) +
     '</div>' +
     '<button class="todo-del-btn" onclick="deleteTodo(' + idx + ')" title="Remove">✕</button>' +
   '</div>';
@@ -1523,7 +1551,14 @@ function toggleTodo(idx, val) {
   if (master) master.done = val;
   renderSidebar();
   renderTodosTab();
-  updateTodoInSheet(todo).catch(function() { showToast('Follow-up sync error', 'error'); });
+  updateTodoInSheet(todo).then(function(res) {
+    // The server may add the next automatic follow-up or note trip activity
+    if (res && res.success && (res.todoChanges || res.trip)) {
+      applyTripResponse(res);
+      renderSidebar();
+      if (activeTab === 'todos') renderTodosTab();
+    }
+  }).catch(function() { showToast('Follow-up sync error', 'error'); });
 }
 
 function deleteTodo(idx) {
@@ -1627,6 +1662,7 @@ function deleteClient() {
   var id = selectedId;
   allTodos = allTodos.filter(function(t) { return t.clientId !== id; });
   allNotes = allNotes.filter(function(n) { return n.clientId !== id; });
+  allTrips = allTrips.filter(function(t) { return t.clientId !== id; });
   clients = clients.filter(function(x) { return x.id !== id; });
   deleteClientFromSheet(id).catch(function() {});
   showDashboard();
@@ -1703,6 +1739,7 @@ function renderDashboard() {
       statCard(overdue.length, 'Overdue follow-ups', overdue.length > 0 ? 'danger' : 'good') +
       statCard(upcoming.length, 'Upcoming follow-ups', upcoming.length > 0 ? 'warn' : 'good') +
     '</div>' +
+    pipelineCardHtml() +
     (overdue.length ?
       '<div class="dash-section-label danger">Overdue</div>' +
       overdue.map(dueItemHtml).join('') : '') +
@@ -1714,6 +1751,7 @@ function renderDashboard() {
       (!overdue.length && !upcoming.length ?
         '<div class="empty-dash" style="padding:28px"><h3>All caught up!</h3><p>No follow-ups due. Select a client and add some under their Follow-ups tab.</p></div>' : '')
     );
+  wirePipelineCard();
 }
 
 function greetingText() {
@@ -1739,6 +1777,7 @@ function dueItemHtml(x) {
     '<div class="due-content">' +
       '<div class="due-client-name">' + esc(x.client.name) + '</div>' +
       '<div class="due-task-text">' + esc(x.todo.text) + '</div>' +
+      todoTripLabel(x.todo) +
     '</div>' +
     '<div class="due-badge ' + cls + '">' + lbl + '</div>' +
   '</div>';
@@ -1763,6 +1802,19 @@ function exportCSV() {
   a.download = 'vanessa-clients-' + today() + '.csv';
   a.click();
 }
+
+// Tapping a trip label on a follow-up opens that trip
+document.addEventListener('click', function(e) {
+  var el = e.target.closest ? e.target.closest('[data-trip-link]') : null;
+  if (!el) return;
+  e.stopPropagation();
+  var trip = getTrip(el.getAttribute('data-trip-link'));
+  if (!trip) return;
+  if (selectedId !== trip.clientId) selectClient(trip.clientId);
+  activeTab = 'trips';
+  switchTab('trips');
+  openTripForm(trip.id);
+}, true);
 
 // ── Init ───────────────────────────────────────────────────────
 // App data loads only after login (see checkLogin / page-load check below).
