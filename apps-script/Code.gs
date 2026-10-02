@@ -670,6 +670,7 @@ function tripFromRow(r) {
     else if (c === 'details')                 t[c] = safeParseJSON(raw, {}) || {};
     else if (c === 'chatbotRaw')              t[c] = safeParseJSON(raw, null);
     else if (c === 'childAges')               t[c] = safeParseJSON(raw, []) || [];
+    else if (raw instanceof Date)             t[c] = raw.toISOString();   // if Sheets ever turns a timestamp into a date cell
     else                                      t[c] = cellStr(r, i);
   });
   return t;
