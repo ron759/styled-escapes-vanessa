@@ -53,6 +53,7 @@ const TOKEN_TTL_MS  = 12 * 60 * 60 * 1000; // 12 hours
 const TAB_CLIENTS        = 'Clients';
 const TAB_TODOS          = 'Todos';
 const TAB_NOTES          = 'Notes';
+const TAB_TRIPS          = 'Trips';
 const TAB_ITINERARIES    = 'Itineraries';
 const TAB_ITINERARY_DAYS = 'ItineraryDays';
 
@@ -239,7 +240,20 @@ function handleCrmAuth(password) {
 
 function handleCRM(data) {
   ensureSheets();
+  if (data.action === 'getAll') return crmDispatch(data);   // read-only: no lock
 
+  // Every write runs under one script lock so overlapping saves (e.g. a chatbot
+  // lead landing while Vanessa saves) can't hit the wrong sheet row.
+  const lock = LockService.getScriptLock();
+  lock.waitLock(20000);
+  try {
+    return crmDispatch(data);
+  } finally {
+    lock.releaseLock();
+  }
+}
+
+function crmDispatch(data) {
   switch (data.action) {
 
     case 'getAll':
@@ -247,7 +261,8 @@ function handleCRM(data) {
         success: true,
         clients: getClients(),
         todos:   getTodos(),
-        notes:   getNotes()
+        notes:   getNotes(),
+        trips:   getTrips()
       });
 
     case 'addClient': {
@@ -255,7 +270,8 @@ function handleCRM(data) {
       getSheet(TAB_CLIENTS).appendRow([
         c.id, c.name, c.email||'', c.phone||'', c.address||'',
         c.bday||'', c.source||'', JSON.stringify(c.interests||[]),
-        c.general_notes||'', c.created || nowStr()
+        c.general_notes||'', c.created || nowStr(),
+        clip(c.bestTimeToContact, 20), clip(c.contactMethod, 20)
       ]);
       return corsOutput({ success: true });
     }
@@ -265,10 +281,15 @@ function handleCRM(data) {
       const sheet = getSheet(TAB_CLIENTS);
       const row = findRow(sheet, c.id);
       if (row < 0) return corsOutput({ success: false, error: 'Client not found' });
-      sheet.getRange(row, 1, 1, 10).setValues([[
+      // New contact fields: keep what's in the sheet if the page didn't send them
+      // (an older cached copy of the CRM page won't).
+      const oldRow = sheet.getRange(row, 1, 1, 12).getValues()[0];
+      const bestTime = c.bestTimeToContact !== undefined ? clip(c.bestTimeToContact, 20) : cellStr(oldRow, 10);
+      const method   = c.contactMethod     !== undefined ? clip(c.contactMethod, 20)     : cellStr(oldRow, 11);
+      sheet.getRange(row, 1, 1, 12).setValues([[
         c.id, c.name, c.email||'', c.phone||'', c.address||'',
         c.bday||'', c.source||'', JSON.stringify(c.interests||[]),
-        c.general_notes||'', c.created||nowStr()
+        c.general_notes||'', c.created||nowStr(), bestTime, method
       ]]);
       return corsOutput({ success: true });
     }
@@ -279,6 +300,7 @@ function handleCRM(data) {
       // Also delete all todos and notes for this client
       deleteRowsByClientId(getSheet(TAB_TODOS), id);
       deleteRowsByClientId(getSheet(TAB_NOTES), id);
+      deleteRowsByClientId(getSheet(TAB_TRIPS), id);
       return corsOutput({ success: true });
     }
 
@@ -286,7 +308,8 @@ function handleCRM(data) {
       const t = data.todo;
       getSheet(TAB_TODOS).appendRow([
         t.id, t.clientId, t.text, t.due||'',
-        t.done ? 'true' : 'false', nowStr()
+        t.done ? 'true' : 'false', nowStr(),
+        clip(t.tripId, 60), clip(t.autoKey, 60)
       ]);
       return corsOutput({ success: true });
     }
@@ -296,11 +319,20 @@ function handleCRM(data) {
       const sheet = getSheet(TAB_TODOS);
       const row = findRow(sheet, t.id);
       if (row < 0) return corsOutput({ success: false, error: 'Todo not found' });
-      sheet.getRange(row, 1, 1, 6).setValues([[
+      const old = sheet.getRange(row, 1, 1, 8).getValues()[0];
+      const wasDone = String(old[4]) === 'true';
+      // Keep the trip link even if an older page copy didn't send it
+      const tripId  = t.tripId  !== undefined ? clip(t.tripId, 60)  : cellStr(old, 6);
+      const autoKey = t.autoKey !== undefined ? clip(t.autoKey, 60) : cellStr(old, 7);
+      sheet.getRange(row, 1, 1, 8).setValues([[
         t.id, t.clientId, t.text, t.due||'',
-        t.done ? 'true' : 'false', t.created||nowStr()
+        t.done ? 'true' : 'false', t.created||nowStr(), tripId, autoKey
       ]]);
-      return corsOutput({ success: true });
+      const out = { success: true };
+      if (t.done && !wasDone && tripId) {
+        Object.assign(out, onTripTodoCompleted(tripId, autoKey));
+      }
+      return corsOutput(out);
     }
 
     case 'deleteTodo': {
@@ -321,6 +353,12 @@ function handleCRM(data) {
       return corsOutput({ success: true });
     }
 
+    // ── Trips ───────────────────────────────────────────────────
+    case 'addTrip':    return corsOutput(addTripAction(data.trip));
+    case 'updateTrip': return corsOutput(updateTripAction(data.trip));
+    case 'deleteTrip': return corsOutput(deleteTripAction(data.id));
+    case 'ensureSchema': return corsOutput({ success: true, message: ensureSchema() });
+
     // ── Public forms (quizzes, landing page): create-or-update ────
     // Replaces the old getAll + addClient + addNote/addTodo sequence,
     // so public pages never read the client list.
@@ -338,9 +376,7 @@ function handleCRM(data) {
       const interests = (Array.isArray(data.interests) ? data.interests : []).slice(0, 10).map(x => clip(x, 40));
       const ts        = nowStr();
 
-      const lock = LockService.getScriptLock();
-      lock.waitLock(10000);
-      try {
+      {
         const existing = getClients().find(c => (c.email || '').trim().toLowerCase() === emailLower) || null;
         let clientId;
 
@@ -378,8 +414,6 @@ function handleCRM(data) {
         }
         // Deliberately returns no client data.
         return corsOutput({ success: true, isNew: !existing });
-      } finally {
-        lock.releaseLock();
       }
     }
 
@@ -468,19 +502,58 @@ function handleCRM(data) {
         getSheet(TAB_NOTES).appendRow([genId(), clientId, followUpNote, timestamp]);
       }
 
-      // ── Create follow-up todo due tomorrow ───────────────────
-      const tomorrow = new Date();
-      tomorrow.setDate(tomorrow.getDate() + 1);
-      const tomorrowStr = tomorrow.getFullYear() + '-' +
-        String(tomorrow.getMonth() + 1).padStart(2, '0') + '-' +
-        String(tomorrow.getDate()).padStart(2, '0');
-      const todoText = 'Follow up with ' + (lead.name || 'new lead') +
+      // ── Trip: the chatbot answers become a Trip on this client ──
+      // Free-text answers are kept as-is in chatbotRaw; Vanessa turns them into
+      // real dates/budget/travelers on the first call. A repeat submit within
+      // CHATBOT_MERGE_HOURS joins the first trip instead of creating another.
+      const submission = {
+        at:          nowIso(),
+        name:        clip(lead.name, 120),
+        email:       clip(lead.email, 200),
+        phone:       clip(lead.phone, 40),
+        destination: clip(lead.destination, 500),
+        dates:       clip(lead.dates, 500),
+        travelers:   clip(lead.travelers, 500),
+        budget:      clip(lead.budget, 500)
+      };
+      const clientObj = { id: clientId, name: lead.name || (existingClient && existingClient.name) || 'new lead' };
+      const inquiryText = 'Follow up with ' + (lead.name || 'new lead') +
         ' — chatbot inquiry re: ' + (lead.destination || 'trip');
-      getSheet(TAB_TODOS).appendRow([
-        genId(), clientId, todoText, tomorrowStr, 'false', timestamp
-      ]);
 
-      return corsOutput({ success: true, clientId, isNew: !existingClient });
+      let tripId;
+      const recent = findRecentChatbotTrip(clientId);
+      if (recent) {
+        const found = findTrip(recent.id);
+        const raw = Array.isArray(found.trip.chatbotRaw) ? found.trip.chatbotRaw : [];
+        raw.push(submission);
+        found.trip.chatbotRaw = raw;
+        found.trip.updatedAt = nowIso();
+        found.trip.lastActivityAt = found.trip.updatedAt;
+        writeTrip(found.sheet, found.row, found.trip);
+        tripId = found.trip.id;
+        // Make sure there is still an open follow-up for this client
+        const open = getAutoTodos(tripId).some(function(t) { return t.autoKey === 'inquiry-followup' && !t.done; });
+        if (!open) createAutoTodo(found.trip, 'inquiry-followup', inquiryText, addDaysStr(todayStr(), 1));
+      } else {
+        const now = nowIso();
+        const trip = {};
+        TRIP_COLS.forEach(function(c) { trip[c] = ''; });
+        trip.details = {}; trip.childAges = [];
+        trip.id = genId();
+        trip.clientId = clientId;
+        trip.createdVia = 'chatbot';
+        trip.createdAt = now; trip.updatedAt = now;
+        trip.status = 'Inquiry'; trip.statusChangedAt = now; trip.lastActivityAt = now;
+        trip.source = 'Website chatbot';
+        trip.destination = clip(lead.destination, 1000) || 'Chatbot inquiry';
+        trip.chatbotRaw = [submission];
+        trip.title = tripTitle(trip);
+        getSheet(TAB_TRIPS).appendRow(tripToRow(trip));
+        runTripAutomation(trip, null, clientObj, { inquiryText: inquiryText });
+        tripId = trip.id;
+      }
+
+      return corsOutput({ success: true, clientId, tripId, isNew: !existingClient });
     }
 
     default:
@@ -488,6 +561,393 @@ function handleCRM(data) {
   }
 }
 
+
+
+// ================================================================
+// Trips — schema, rows, routes, automations
+// ================================================================
+// Sheets are read/written by column POSITION. TRIP_COLS is the single
+// source of truth for the Trips tab; add new columns at the END only.
+
+const SCHEMA_VERSION = '1';
+const TZ = 'America/Chicago';
+
+const TRIP_COLS = [
+  'id','clientId','title','createdVia','createdAt','updatedAt',
+  'status','statusChangedAt','lastActivityAt','lostReason',
+  'tripType','destination','occasion','occasionDate','source',
+  'adults','children','childAges','travelerNames','accessibility','accessibilityNotes',
+  'travelStart','travelEnd','dateFlex','dateFlexNotes','tripLength','bookingTimeline',
+  'budgetMin','budgetMax','budgetBasis','budgetFirmness','departFrom','passports','insurance','rentalCar',
+  'mustHaves','dealbreakers','pastTrips','dietary',
+  'callNotes','nextStep','nextStepDate',
+  'depositDate','finalPaymentDate',
+  'details','chatbotRaw'
+];
+const TRIP_DATE_COLS = ['occasionDate','travelStart','travelEnd','nextStepDate','depositDate','finalPaymentDate'];
+const TRIP_JSON_COLS = ['childAges','details','chatbotRaw'];
+// Fields the browser may NOT set (the server owns them)
+const TRIP_SERVER_COLS = ['id','clientId','title','createdVia','createdAt','updatedAt','statusChangedAt','lastActivityAt','chatbotRaw'];
+
+const TRIP_STATUSES = ['Inquiry','Gathering info','Quoting','Proposal sent','Booked',
+                       'Deposit paid','Final payment due','Traveling','Completed','Not now / Lost'];
+const STATUS_LOST = 'Not now / Lost';
+
+// Todos the server creates for a stage. days = days after the stage change.
+const STAGE_TODOS = {
+  'Proposal sent': { key: 'proposal-followup', days: 5 },
+  'Booked':        { key: 'booked-mycc',       days: 3 },
+  'Completed':     { key: 'review-request',    days: 7 }
+};
+const PAYMENT_LEAD_DAYS     = 5;   // payment reminders land this many days before the date
+const PROPOSAL_REPEAT_CAP   = 0;   // 0 = repeat every 5 days until the stage changes; N = at most N follow-ups
+const CHATBOT_MERGE_HOURS   = 24;  // a repeat chatbot submit inside this window joins the first trip
+
+function ensureSchema() {
+  const ss = SpreadsheetApp.openById(CRM_SHEET_ID);
+  const done = [];
+
+  const addCols = function(tab, names) {
+    const sh = ss.getSheetByName(tab);
+    if (!sh) return;
+    const lastCol = Math.max(sh.getLastColumn(), 1);
+    const headers = sh.getRange(1, 1, 1, lastCol).getValues()[0].map(String);
+    names.forEach(function(n, i) {
+      if (headers[i] === n) return;
+      if (headers[i] === '' || headers[i] === undefined) {
+        sh.getRange(1, i + 1).setValue(n);
+        done.push(tab + '.' + n);
+      }
+    });
+    sh.getRange(1, 1, 1, names.length)
+      .setBackground('#1A4A5C').setFontColor('#FFFFFF').setFontWeight('bold');
+  };
+
+  addCols(TAB_CLIENTS, ['id','name','email','phone','address','bday','source','interests','general_notes','created','bestTimeToContact','contactMethod']);
+  addCols(TAB_TODOS,   ['id','clientId','text','due','done','created','tripId','autoKey']);
+
+  let trips = ss.getSheetByName(TAB_TRIPS);
+  if (!trips) {
+    trips = ss.insertSheet(TAB_TRIPS);
+    trips.getRange(1, 1, 1, TRIP_COLS.length).setValues([TRIP_COLS]);
+    trips.setFrozenRows(1);
+    trips.getRange(1, 1, 1, TRIP_COLS.length)
+      .setBackground('#1A4A5C').setFontColor('#FFFFFF').setFontWeight('bold');
+    // Plain text everywhere so Sheets never turns dates/IDs into other types
+    trips.getRange(2, 1, Math.max(trips.getMaxRows() - 1, 1), TRIP_COLS.length).setNumberFormat('@');
+    done.push('Trips tab');
+  } else {
+    addCols(TAB_TRIPS, TRIP_COLS);
+  }
+  PROPS.setProperty('SCHEMA_VERSION', SCHEMA_VERSION);
+  return done.length ? 'Added: ' + done.join(', ') : 'Schema already up to date';
+}
+
+// ── small helpers ────────────────────────────────────────────────
+function cellStr(row, i) {
+  const v = row[i];
+  return (v === undefined || v === null) ? '' : String(v);
+}
+function clip(v, n) {
+  return String(v === undefined || v === null ? '' : v).slice(0, n);
+}
+function nowIso() { return new Date().toISOString(); }
+function todayStr() { return Utilities.formatDate(new Date(), TZ, 'yyyy-MM-dd'); }
+function addDaysStr(dateStr, n) {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(dateStr));
+  if (!m) return '';
+  const d = new Date(Date.UTC(+m[1], +m[2] - 1, +m[3] + n));
+  return d.toISOString().slice(0, 10);
+}
+function validDateStr(v) { return /^\d{4}-\d{2}-\d{2}$/.test(String(v || '')); }
+
+// ── Row <-> object ───────────────────────────────────────────────
+function tripFromRow(r) {
+  const t = {};
+  TRIP_COLS.forEach(function(c, i) {
+    const raw = r[i];
+    if (TRIP_DATE_COLS.indexOf(c) >= 0)      t[c] = toDateStr(raw);
+    else if (c === 'details')                 t[c] = safeParseJSON(raw, {}) || {};
+    else if (c === 'chatbotRaw')              t[c] = safeParseJSON(raw, null);
+    else if (c === 'childAges')               t[c] = safeParseJSON(raw, []) || [];
+    else                                      t[c] = cellStr(r, i);
+  });
+  return t;
+}
+function tripToRow(t) {
+  return TRIP_COLS.map(function(c) {
+    const v = t[c];
+    if (TRIP_JSON_COLS.indexOf(c) >= 0) {
+      if (v === undefined || v === null || v === '') return '';
+      return typeof v === 'string' ? v : JSON.stringify(v);
+    }
+    return v === undefined || v === null ? '' : v;
+  });
+}
+function getTrips() {
+  const sheet = getSheet(TAB_TRIPS);
+  const rows = sheet.getDataRange().getValues();
+  const out = [];
+  for (let i = 1; i < rows.length; i++) {
+    if (!rows[i][0]) continue;
+    out.push(tripFromRow(rows[i]));
+  }
+  return out;
+}
+function findTrip(id) {
+  const sheet = getSheet(TAB_TRIPS);
+  const row = findRow(sheet, id);
+  if (row < 0) return null;
+  return { sheet: sheet, row: row, trip: tripFromRow(sheet.getRange(row, 1, 1, TRIP_COLS.length).getValues()[0]) };
+}
+function writeTrip(sheet, row, trip) {
+  sheet.getRange(row, 1, 1, TRIP_COLS.length).setValues([tripToRow(trip)]);
+}
+
+// "Western Caribbean cruise, Mar 2027"
+function tripTitle(t) {
+  const dest = String(t.destination || '').trim() || 'New trip';
+  const type = String(t.tripType || '').trim();
+  const word = type === 'Cruise' ? 'cruise' : type === 'All-Inclusive' ? 'all-inclusive' : '';
+  let title = dest;
+  if (word && dest.toLowerCase().indexOf(word) < 0) title += ' ' + word;
+  const m = /^(\d{4})-(\d{2})/.exec(String(t.travelStart || ''));
+  if (m) {
+    const mon = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+m[2] - 1];
+    if (mon) title += ', ' + mon + ' ' + m[1];
+  }
+  return title;
+}
+
+// Copy the allowed browser-sent fields onto a trip object (cleaned + length-limited)
+function applyTripFields(trip, input) {
+  TRIP_COLS.forEach(function(c) {
+    if (TRIP_SERVER_COLS.indexOf(c) >= 0) return;
+    if (input[c] === undefined) return;
+    let v = input[c];
+    if (c === 'details') {
+      // merge key-by-key so a stale browser copy can't wipe answers saved elsewhere
+      const base = (trip.details && typeof trip.details === 'object') ? trip.details : {};
+      const add = (v && typeof v === 'object') ? v : {};
+      const merged = Object.assign({}, base, add);
+      if (JSON.stringify(merged).length > 40000) throw new Error('Trip details too large');
+      trip.details = merged;
+      return;
+    }
+    if (c === 'childAges') {
+      trip.childAges = Array.isArray(v) ? v.slice(0, 20).map(function(x) { return clip(x, 10); }) : [];
+      return;
+    }
+    if (TRIP_DATE_COLS.indexOf(c) >= 0) { trip[c] = (v === '' || validDateStr(v)) ? String(v || '') : trip[c]; return; }
+    if (c === 'status') { if (TRIP_STATUSES.indexOf(v) >= 0) trip.status = v; return; }
+    trip[c] = clip(v, (c === 'callNotes' || c === 'mustHaves' || c === 'dealbreakers' || c === 'pastTrips') ? 10000 : 1000);
+  });
+}
+
+// ── Routes ───────────────────────────────────────────────────────
+function addTripAction(input) {
+  input = input || {};
+  const clientId = String(input.clientId || '');
+  const destination = String(input.destination || '').trim();
+  if (!clientId)    return { success: false, error: 'clientId required' };
+  if (!destination) return { success: false, error: 'destination required' };
+  const client = getClients().find(function(c) { return c.id === clientId; });
+  if (!client) return { success: false, error: 'Client not found' };
+
+  // Idempotent: a retry with the same id is treated as an update
+  if (input.id && findTrip(String(input.id))) return updateTripAction(input);
+
+  const now = nowIso();
+  const trip = {};
+  TRIP_COLS.forEach(function(c) { trip[c] = ''; });
+  trip.details = {}; trip.childAges = []; trip.chatbotRaw = null;
+  trip.id = input.id ? clip(input.id, 60) : genId();
+  trip.clientId = clientId;
+  trip.createdVia = 'vanessa';
+  trip.createdAt = now; trip.updatedAt = now;
+  trip.status = 'Inquiry';
+  trip.statusChangedAt = now; trip.lastActivityAt = now;
+  trip.source = client.source || '';
+  applyTripFields(trip, input);
+  trip.title = tripTitle(trip);
+
+  getSheet(TAB_TRIPS).appendRow(tripToRow(trip));
+  const changes = runTripAutomation(trip, null, client, {});
+  return { success: true, trip: trip, todoChanges: changes };
+}
+
+function updateTripAction(input) {
+  input = input || {};
+  const found = input.id ? findTrip(String(input.id)) : null;
+  if (!found) return { success: false, error: 'Trip not found' };
+  const prev = JSON.parse(JSON.stringify(found.trip));
+  const trip = found.trip;
+  applyTripFields(trip, input);
+  if (!String(trip.destination || '').trim()) return { success: false, error: 'destination required' };
+
+  const now = nowIso();
+  trip.updatedAt = now;
+  trip.lastActivityAt = now;
+  if (trip.status !== prev.status) trip.statusChangedAt = now;
+  if (trip.status !== STATUS_LOST) trip.lostReason = '';
+  trip.title = tripTitle(trip);
+
+  writeTrip(found.sheet, found.row, trip);
+  const client = getClients().find(function(c) { return c.id === trip.clientId; }) || { name: 'client' };
+  const changes = runTripAutomation(trip, prev, client, {});
+  return { success: true, trip: trip, todoChanges: changes };
+}
+
+function deleteTripAction(id) {
+  const found = id ? findTrip(String(id)) : null;
+  if (!found) return { success: false, error: 'Trip not found' };
+  found.sheet.deleteRow(found.row);
+  // Remove only the todos the automation made for this trip
+  const removed = [];
+  getAutoTodos(String(id)).forEach(function(t) { removed.push(t.id); });
+  removed.forEach(removeTodoRow);
+  return { success: true, todoChanges: { created: [], updated: [], removedIds: removed } };
+}
+
+// ── Automation engine ────────────────────────────────────────────
+function getAutoTodos(tripId) {
+  return getTodos().filter(function(t) { return t.tripId === tripId && t.autoKey; });
+}
+function removeTodoRow(id) { deleteRowById(getSheet(TAB_TODOS), id); }
+
+function createAutoTodo(trip, key, text, due) {
+  const t = { id: genId(), clientId: trip.clientId, text: text, due: due, done: false,
+              created: nowStr(), tripId: trip.id, autoKey: key };
+  getSheet(TAB_TODOS).appendRow([t.id, t.clientId, t.text, t.due, 'false', t.created, t.tripId, t.autoKey]);
+  return t;
+}
+
+function paymentDue(dateStr) {
+  const d = addDaysStr(dateStr, -PAYMENT_LEAD_DAYS);
+  const today = todayStr();
+  return d < today ? today : d;
+}
+
+// prev = trip before this save (null when the trip was just created).
+// opts.inquiryText overrides the inquiry follow-up wording (chatbot).
+function runTripAutomation(trip, prev, client, opts) {
+  const out = { created: [], updated: [], removedIds: [] };
+  const who = (client && client.name) || 'client';
+  const label = trip.title || tripTitle(trip);
+  const todos = getAutoTodos(trip.id);
+  const openByKey = function(key) {
+    return todos.filter(function(t) { return t.autoKey === key && !t.done; })[0] || null;
+  };
+  const removeOpen = function(key) {
+    const o = openByKey(key);
+    if (!o) return;
+    removeTodoRow(o.id);
+    out.removedIds.push(o.id);
+    todos.splice(todos.indexOf(o), 1);
+  };
+  const create = function(key, text, due) {
+    const t = createAutoTodo(trip, key, text, due);
+    todos.push(t); out.created.push(t);
+  };
+
+  const statusChanged = !prev || prev.status !== trip.status;
+  if (statusChanged) {
+    // Leaving a stage removes that stage's open follow-ups
+    if (prev) {
+      if (prev.status === 'Inquiry')       removeOpen('inquiry-followup');
+      if (prev.status === 'Proposal sent') removeOpen('proposal-followup');
+    }
+    if (trip.status === STATUS_LOST) {
+      // Trip is parked: drop every open automatic reminder
+      todos.slice().forEach(function(t) {
+        if (!t.done) { removeTodoRow(t.id); out.removedIds.push(t.id); todos.splice(todos.indexOf(t), 1); }
+      });
+    } else {
+      if (!prev && trip.status === 'Inquiry' && !openByKey('inquiry-followup')) {
+        create('inquiry-followup',
+          (opts && opts.inquiryText) || ('Follow up with ' + who + ' about ' + label),
+          addDaysStr(todayStr(), 1));
+      }
+      const st = STAGE_TODOS[trip.status];
+      if (st && !openByKey(st.key)) {
+        let text;
+        if (st.key === 'proposal-followup') text = 'Follow up on the proposal — ' + who + ' (' + label + ')';
+        else if (st.key === 'booked-mycc')   text = 'Add the trip to myCC and send the CC agreement — ' + who + ' (' + label + ')';
+        else                                  text = 'Ask ' + who + ' for a review and a rebooking chat (' + label + ')';
+        create(st.key, text, addDaysStr(todayStr(), st.days));
+      }
+    }
+  }
+
+  // Payment reminders (not for parked trips)
+  if (trip.status !== STATUS_LOST) {
+    [['depositDate', 'deposit-due', 'Deposit due soon'],
+     ['finalPaymentDate', 'final-due', 'Final payment due soon']].forEach(function(p) {
+      const field = p[0], key = p[1], text0 = p[2];
+      const before = prev ? prev[field] : '';
+      const now = trip[field];
+      if (now === before) return;
+      const open = openByKey(key);
+      if (!now) { removeOpen(key); return; }
+      const text = text0 + ' — ' + who + ' (' + label + '), ' + now;
+      const due = paymentDue(now);
+      if (open) {
+        updateTodoFields(open.id, { text: text, due: due });
+        open.text = text; open.due = due;
+        out.updated.push(open);
+      } else {
+        create(key, text, due);
+      }
+    });
+  } else {
+    // Moving into Lost already cleared them above; a date edit on a lost trip does nothing.
+  }
+
+  // Keep the label current when the trip is renamed (open auto todos only)
+  return out;
+}
+
+function updateTodoFields(id, fields) {
+  const sheet = getSheet(TAB_TODOS);
+  const row = findRow(sheet, id);
+  if (row < 0) return;
+  if (fields.text !== undefined) sheet.getRange(row, 3).setValue(fields.text);
+  if (fields.due  !== undefined) sheet.getRange(row, 4).setValue(fields.due);
+}
+
+// A todo that belongs to a trip was just ticked off:
+//   - the trip counts as having activity
+//   - a proposal follow-up asks again in 5 days while the trip is still at Proposal sent
+function onTripTodoCompleted(tripId, autoKey) {
+  const found = findTrip(String(tripId));
+  if (!found) return {};
+  const trip = found.trip;
+  trip.lastActivityAt = nowIso();
+  writeTrip(found.sheet, found.row, trip);
+  const changes = { created: [], updated: [], removedIds: [] };
+  if (autoKey === 'proposal-followup' && trip.status === 'Proposal sent') {
+    const all = getAutoTodos(trip.id).filter(function(t) { return t.autoKey === 'proposal-followup'; });
+    const hasOpen = all.some(function(t) { return !t.done; });
+    const capped = PROPOSAL_REPEAT_CAP > 0 && all.length >= PROPOSAL_REPEAT_CAP;
+    if (!hasOpen && !capped) {
+      const client = getClients().find(function(c) { return c.id === trip.clientId; }) || { name: 'client' };
+      changes.created.push(createAutoTodo(trip, 'proposal-followup',
+        'Follow up on the proposal — ' + client.name + ' (' + (trip.title || tripTitle(trip)) + ')',
+        addDaysStr(todayStr(), 5)));
+    }
+  }
+  return { trip: trip, todoChanges: changes };
+}
+
+// Chatbot: find a recent chatbot trip for this client (within CHATBOT_MERGE_HOURS)
+function findRecentChatbotTrip(clientId) {
+  const cutoff = Date.now() - CHATBOT_MERGE_HOURS * 3600 * 1000;
+  const mine = getTrips().filter(function(t) {
+    return t.clientId === clientId && t.createdVia === 'chatbot' && Date.parse(t.createdAt) >= cutoff;
+  });
+  mine.sort(function(a, b) { return Date.parse(b.createdAt) - Date.parse(a.createdAt); });
+  return mine[0] || null;
+}
 
 // ── Sheet helpers ────────────────────────────────────────────────
 
@@ -517,6 +977,9 @@ function ensureSheets() {
   ensureTab(ss, TAB_NOTES,          noteHeaders);
   ensureTab(ss, TAB_ITINERARIES,    itineraryHeaders);
   ensureTab(ss, TAB_ITINERARY_DAYS, itineraryDayHeaders);
+
+  // One-time: add new columns to the existing Clients/Todos tabs and create Trips.
+  if (PROPS.getProperty('SCHEMA_VERSION') !== SCHEMA_VERSION) ensureSchema();
 }
 
 function ensureTab(ss, name, headers) {
@@ -577,7 +1040,9 @@ function getClients() {
       source:        String(r[6]),
       interests:     safeParseJSON(r[7], []),
       general_notes: String(r[8]),
-      created:       String(r[9])
+      created:       String(r[9]),
+      bestTimeToContact: cellStr(r, 10),
+      contactMethod:     cellStr(r, 11)
     });
   }
   return result;
@@ -596,7 +1061,9 @@ function getTodos() {
       text:     String(r[2]),
       due:      toDateStr(r[3]),
       done:     String(r[4]) === 'true',
-      created:  String(r[5])
+      created:  String(r[5]),
+      tripId:   cellStr(r, 6),
+      autoKey:  cellStr(r, 7)
     });
   }
   return result;
