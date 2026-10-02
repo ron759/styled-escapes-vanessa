@@ -149,7 +149,6 @@ function isPublicRoute(d) {
   if (d.type === 'crmAuth') return true;                                  // login itself
   if (d.type === 'crm' && (d.action === 'chatbotLead' || d.action === 'leadCapture')) return true;
   if (d.type === 'itinerary' && d.action === 'getItinerary') return true;  // client share link
-  if (d.type === 'content') return true;                                  // TODO Phase 0b: move behind login
   if (!d.type) return true;                                               // chatbot AI follow-up draft
   return false;
 }

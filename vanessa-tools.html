@@ -567,15 +567,23 @@ body {
 </div>
 
 <script>
-  // ── Password config ──────────────────────────────────────────────
-  // Change this to whatever password you want Vanessa to use.
-  // For stronger security, update this before deploying.
-  var TOOLS_PASSWORD = 'vbDWLtc1PAC3Y4q';
+  // ── Login ────────────────────────────────────────────────────────
+  // The password is checked on the server (same login as the CRM). The server
+  // returns a signed token that the CRM, content tool, deal formatter and
+  // itinerary builder all use, so one sign-in covers every tool in this tab.
+  var GAS_URL      = 'https://script.google.com/macros/s/AKfycbzwpKU33T2fYOOE1a6RPTAtysw-lGEQM7YdV2GHqm5WBI9XxBoC3zCQDbLSOxP4qb8a/exec';
+  var PROXY_SECRET = 'dmb!ENH-weu9rda9rgk';
 
-  var SESSION_KEY = 'sev_tools_unlocked';
+  function tokenOk() {
+    try {
+      var t = sessionStorage.getItem('crm_token') || '';
+      var exp = Number(t.split('.')[0]);
+      return !!t && exp > Date.now();
+    } catch (e) { return false; }
+  }
 
-  // Auto-unlock if already authenticated this session
-  if (sessionStorage.getItem(SESSION_KEY) === 'true') {
+  // Auto-unlock if already signed in this session
+  if (tokenOk()) {
     unlock();
   }
 
@@ -584,18 +592,43 @@ body {
     if (e.key === 'Enter') checkPassword();
   });
 
+  function showGateError(msg) {
+    var err = document.getElementById('gateError');
+    err.textContent = msg;
+    err.classList.add('show');
+    setTimeout(function() { err.classList.remove('show'); }, 4000);
+  }
+
   function checkPassword() {
     var input = document.getElementById('pwInput').value;
-    var err   = document.getElementById('gateError');
-    if (input === TOOLS_PASSWORD) {
-      sessionStorage.setItem(SESSION_KEY, 'true');
-      unlock();
-    } else {
-      err.classList.add('show');
-      document.getElementById('pwInput').value = '';
-      document.getElementById('pwInput').focus();
-      setTimeout(function() { err.classList.remove('show'); }, 3000);
-    }
+    var btn   = document.querySelector('.gate-btn');
+    if (!input) return;
+    btn.disabled = true;
+    fetch(GAS_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify({ type: 'crmAuth', secret: PROXY_SECRET, password: input })
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(res) {
+      btn.disabled = false;
+      if (res.success && res.token) {
+        try {
+          sessionStorage.setItem('crm_token', res.token);
+          sessionStorage.setItem('crm_unlocked', '1');
+        } catch (e) {}
+        document.getElementById('pwInput').value = '';
+        unlock();
+      } else {
+        showGateError(res.message || 'Incorrect password. Try again.');
+        document.getElementById('pwInput').value = '';
+        document.getElementById('pwInput').focus();
+      }
+    })
+    .catch(function() {
+      btn.disabled = false;
+      showGateError('Could not reach the server. Check your connection.');
+    });
   }
 
   function unlock() {
@@ -604,7 +637,7 @@ body {
   }
 
   function lockApp() {
-    sessionStorage.removeItem(SESSION_KEY);
+    try { sessionStorage.removeItem('crm_token'); sessionStorage.removeItem('crm_unlocked'); } catch (e) {}
     document.getElementById('gate').style.display = 'flex';
     document.getElementById('app').style.display  = 'none';
     document.getElementById('pwInput').value = '';

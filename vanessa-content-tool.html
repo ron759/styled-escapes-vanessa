@@ -418,6 +418,13 @@ html, body {
 // ── Config ────────────────────────────────────────────────────────
 var GAS_PROXY_URL = 'https://script.google.com/macros/s/AKfycbzwpKU33T2fYOOE1a6RPTAtysw-lGEQM7YdV2GHqm5WBI9XxBoC3zCQDbLSOxP4qb8a/exec';
 var PROXY_SECRET  = 'dmb!ENH-weu9rda9rgk';  // Must match PROXY_SECRET in GAS Script Properties
+
+// ── Staff-only: needs the login token from the tools page ──────────
+function getToken() { try { return sessionStorage.getItem('crm_token') || ''; } catch (e) { return ''; } }
+(function() {
+  var t = getToken(), exp = Number(t.split('.')[0]);
+  if (!t || !(exp > Date.now())) window.location.replace('vanessa-tools.html');
+})();
 // Paste your Google Apps Script Web App URL above.
 // This is the SAME proxy used by the lead intake chatbot —
 // the FollowUpProxy.gs handles content generation too (see note below).
@@ -567,10 +574,11 @@ async function generate() {
     var res = await fetch(GAS_PROXY_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'text/plain' },
-      body: JSON.stringify({ type: 'content', secret: PROXY_SECRET, prompt: prompt })
+      body: JSON.stringify({ type: 'content', secret: PROXY_SECRET, token: getToken(), prompt: prompt })
     });
 
     var json = await res.json();
+    if (json.error === 'AUTH') { try { sessionStorage.removeItem('crm_token'); } catch (e) {} window.location.replace('vanessa-tools.html'); return; }
     if (!json.success) throw new Error(json.error || 'Proxy error');
 
     // Parse the JSON response from Claude

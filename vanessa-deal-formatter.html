@@ -638,6 +638,13 @@
 const GAS_URL      = 'https://script.google.com/macros/s/AKfycbzwpKU33T2fYOOE1a6RPTAtysw-lGEQM7YdV2GHqm5WBI9XxBoC3zCQDbLSOxP4qb8a/exec';
 const PROXY_SECRET = 'dmb!ENH-weu9rda9rgk';
 
+// ── Staff-only: needs the login token from the tools page ────────
+function getToken() { try { return sessionStorage.getItem('crm_token') || ''; } catch (e) { return ''; } }
+(function() {
+  const t = getToken(), exp = Number(t.split('.')[0]);
+  if (!t || !(exp > Date.now())) window.location.replace('vanessa-tools.html');
+})();
+
 // ── State ────────────────────────────────────────────────────────
 let dealData = {};
 
@@ -685,10 +692,11 @@ Respond ONLY with valid JSON, no markdown fences, no preamble. Schema:
     const resp = await fetch(GAS_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'text/plain' },
-      body: JSON.stringify({ type: 'content', prompt, secret: PROXY_SECRET })
+      body: JSON.stringify({ type: 'content', prompt, secret: PROXY_SECRET, token: getToken() })
     });
 
     const result = await resp.json();
+    if (result.error === 'AUTH') { try { sessionStorage.removeItem('crm_token'); } catch (e) {} window.location.replace('vanessa-tools.html'); return; }
     if (!result.success) throw new Error(result.error || 'GAS proxy returned an error.');
 
     let parsed;
