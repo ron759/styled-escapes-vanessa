@@ -1,7 +1,7 @@
 import json, re, sys, urllib.request, time
 from playwright.sync_api import sync_playwright
 
-BASE = 'file:///home/claude/phase0/'
+BASE = 'file:///home/claude/styled-escapes-vanessa/'
 SRV = 'http://127.0.0.1:8799'
 ok = bad = 0
 def t(name, cond, extra=''):
@@ -61,8 +61,16 @@ with sync_playwright() as p:
 
     # ---- fill + save; type switch keeps answers
     pg.click('#trNew'); pg.wait_for_timeout(200)
-    pg.fill('[data-k="destination"]', 'Western Caribbean')
-    pg.fill('[data-k="travelStart"]', '2027-03-14')
+    pg.click('[data-dest-add="Western Caribbean"]')
+    pg.click('[data-dest-add="Alaska"]')
+    pg.fill('#trDestIn', 'Bermuda'); pg.press('#trDestIn', 'Enter')
+    t('three destination chips', pg.locator('.tr-dchip').count() == 3, pg.locator('.tr-dchip').all_inner_texts())
+    pg.click('[data-dest-rm="1"]')   # drop Alaska
+    t('chip removed', pg.locator('.tr-dchip').count() == 2)
+    pg.fill('[data-k="travelStart"]', '2027-03-14'); pg.dispatch_event('[data-k="travelStart"]', 'change')
+    t('year follows exact start date', pg.input_value('select[data-k="travelYear"]') == '2027')
+    pg.click('.tr-btn[data-k="travelSeason"][data-v="Shoulder"]')
+    pg.fill('[data-k="estDates"]', 'mid-March')
     pg.click('.tr-btn[data-k="cabinType"][data-v="Balcony"]')
     pg.click('.tr-btn[data-k="lines"][data-v="Carnival"]')
     pg.fill('[data-k="callNotes"]', 'Wants a quiet balcony.')
@@ -72,7 +80,7 @@ with sync_playwright() as p:
     pg.locator('.tr-age').nth(0).fill('7'); pg.locator('.tr-age').nth(1).fill('10')
     pg.click('.tr-btn[data-k="tripType"][data-v="All-Inclusive"]'); pg.wait_for_timeout(200)
     t('AI block shown, cruise hidden', pg.locator('[data-sec="ai"]').count() == 1 and pg.locator('[data-sec="cruise"]').count() == 0)
-    t('destination kept across switch', pg.input_value('[data-k="destination"]') == 'Western Caribbean')
+    t('destinations kept across switch', [x.replace('\n','') for x in pg.locator('.tr-dchip').all_inner_texts()] == ['Western Caribbean×', 'Bermuda×'], pg.locator('.tr-dchip').all_inner_texts())
     pg.click('.tr-btn[data-k="tripType"][data-v="Cruise"]'); pg.wait_for_timeout(200)
     t('cruise answers survive type switch', pg.locator('.tr-btn.sel[data-k="cabinType"]').inner_text() == 'Balcony' and pg.locator('.tr-btn.sel[data-k="lines"]').inner_text() == 'Carnival')
     t('kids ages survive re-render', pg.locator('.tr-age').nth(1).input_value() == '10')
@@ -82,7 +90,7 @@ with sync_playwright() as p:
     tr = state()['Trips']
     t('trip saved on server', len(tr) == 2, tr)
     hdr = tr[0]; row = dict(zip(hdr, tr[1]))
-    t('title server-built', row['title'] == 'Western Caribbean cruise, Mar 2027', row['title'])
+    t('title server-built', row['title'] == 'Western Caribbean + Bermuda cruise, Mar 2027', row['title'])
     t('budget max mirrored', row['budgetMin'] == '5000' and row['budgetMax'] == '5000', (row['budgetMin'], row['budgetMax']))
     t('details saved as JSON', json.loads(row['details']).get('cabinType') == 'Balcony')
     t('child ages saved', json.loads(row['childAges']) == ['7', '10'])
@@ -91,7 +99,7 @@ with sync_playwright() as p:
     # inquiry todo created and visible in Follow-ups with trip label
     pg.click('#tab-todos'); pg.wait_for_timeout(200)
     txt = pg.inner_text('#tabBody')
-    t('inquiry todo appears with trip label', 'Follow up with Ann Test' in txt and 'Western Caribbean cruise' in txt, txt[:300])
+    t('inquiry todo appears with trip label', 'Follow up with Ann Test' in txt and 'Western Caribbean + Bermuda cruise' in txt, txt[:300])
 
     # ---- stage → Proposal sent
     pg.click('#tab-trips'); pg.wait_for_timeout(200)
@@ -137,7 +145,7 @@ with sync_playwright() as p:
     pg.locator('.client-item', has_text='Cathy Bot').click(); pg.click('#tab-trips'); pg.wait_for_timeout(200)
     pg.locator('.tr-row').click(); pg.wait_for_timeout(200)
     t('chatbot box shows raw answers', 'next spring' in pg.inner_text('#trForm') and 'around 5k' in pg.inner_text('#trForm'))
-    t('chatbot trip destination copied', pg.input_value('[data-k="destination"]') == 'Hawaii')
+    t('chatbot trip destination copied', [x.replace('\n','') for x in pg.locator('.tr-dchip').all_inner_texts()] == ['Hawaii×'], pg.locator('.tr-dchip').all_inner_texts())
     t('chatbot trip source', pg.locator('[data-k="source"]').input_value() == 'Website chatbot')
     pg.screenshot(path='/tmp/ui-form-wide.png', full_page=False)
 
@@ -188,7 +196,7 @@ with sync_playwright() as p:
     pg3.goto(BASE + 'vanessa-crm.html'); pg3.fill('#loginPw', 'pw'); pg3.click('.login-btn'); pg3.wait_for_timeout(800)
     pg3.locator('.client-item', has_text='Bob Roe').click(); pg3.click('#tab-trips'); pg3.click('#trNew'); pg3.wait_for_timeout(200)
     t('all-inclusive default for AI-interest client', pg3.locator('.tr-btn.sel[data-k="tripType"]').inner_text() == 'All-Inclusive')
-    pg3.fill('[data-k="destination"]', 'Cancun'); pg3.click('#trSave'); pg3.wait_for_timeout(800)
+    pg3.click('[data-dest-add="Cancun"]'); pg3.click('#trSave'); pg3.wait_for_timeout(800)
     n_before = len([r for r in state()['Todos'][1:] if len(r) > 7 and r[6]])
     pg3.click('#trDelete'); pg3.wait_for_timeout(800)
     st = state()
@@ -216,7 +224,7 @@ with sync_playwright() as p:
     b4.goto(BASE + 'itinerary-builder.html?clientId=c1&tripId=' + ann_trip[0]); b4.wait_for_timeout(1000)
     t('builder shows trip picker', b4.locator('#tripPickField').is_visible())
     t('builder preselects trip', b4.input_value('#f-tripId') == ann_trip[0])
-    t('builder prefilled destination', b4.input_value('#f-destination') == 'Western Caribbean', b4.input_value('#f-destination'))
+    t('builder prefilled destination', b4.input_value('#f-destination') == 'Western Caribbean + Bermuda', b4.input_value('#f-destination'))
     b4.fill('#f-title', 'Second plan'); b4.click('#saveBtn'); b4.wait_for_timeout(900)
     t('builder save keeps link', len([r for r in state()['Itineraries'][1:] if len(r) > 17 and r[17] == ann_trip[0]]) == 2, state()['Itineraries'])
     b4.close()

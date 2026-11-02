@@ -10,7 +10,7 @@ const P = o => b.post(Object.assign({ token: b.login(), type: 'crm' }, o));
 // ---- Phase 1: schema upgrade + backward compatibility
 let all = P({ action: 'getAll' });
 t('getAll ok', all.success, all);
-t('schema: Trips tab created', !!b.tabs.Trips && b.tabs.Trips.rows[0].length === 46);
+t('schema: Trips tab created', !!b.tabs.Trips && b.tabs.Trips.rows[0].length === 49);
 t('schema: Clients headers extended', b.tabs.Clients.rows[0][10] === 'bestTimeToContact' && b.tabs.Clients.rows[0][11] === 'contactMethod');
 t('schema: Todos headers extended', b.tabs.Todos.rows[0][6] === 'tripId' && b.tabs.Todos.rows[0][7] === 'autoKey');
 t('getAll returns trips array', Array.isArray(all.trips) && all.trips.length === 0);
@@ -186,6 +186,17 @@ t('trip delete keeps itinerary, clears link', after.success && after.itinerary.t
 b.tabs.Itineraries.rows.push(['legacy1','c1','Old plan','Rome','','','','','','','','','','','active','Oct 1, 2026','Oct 1, 2026']);
 const lg = I({ action: 'getItinerary', itineraryId: 'legacy1' });
 t('legacy 17-col itinerary reads with blank tripId', lg.success && lg.itinerary.tripId === '', lg);
+
+// ---- travel year / season / estimated dates / multi-destination
+r = P({ action: 'addTrip', trip: { clientId: 'c1', destination: 'Alaska + Bermuda', tripType: 'Cruise', travelYear: '2028', travelSeason: 'Off-Peak', estDates: 'late summer' } });
+t('year+season+est saved', r.success && r.trip.travelYear === '2028' && r.trip.travelSeason === 'Off-Peak' && r.trip.estDates === 'late summer', r);
+t('title uses year when no exact dates', r.trip.title === 'Alaska + Bermuda cruise, 2028', r.trip.title);
+t('bad season ignored', P({ action: 'updateTrip', trip: { id: r.trip.id, travelSeason: 'Banana' } }).trip.travelSeason === 'Off-Peak');
+t('bad year ignored', P({ action: 'updateTrip', trip: { id: r.trip.id, travelYear: '27' } }).trip.travelYear === '2028');
+t('season can be cleared', P({ action: 'updateTrip', trip: { id: r.trip.id, travelSeason: '' } }).trip.travelSeason === '');
+r2 = P({ action: 'updateTrip', trip: { id: r.trip.id, travelStart: '2028-07-04' } });
+t('exact start date wins in title', r2.trip.title === 'Alaska + Bermuda cruise, Jul 2028', r2.trip.title);
+t('year/season/est survive getAll', (() => { const x = P({ action: 'getAll' }).trips.find(q => q.id === r.trip.id); return x.travelYear === '2028' && x.estDates === 'late summer'; })());
 
 console.log(`trips tests: passed ${ok}, failed ${bad}`);
 process.exit(bad ? 1 : 0);

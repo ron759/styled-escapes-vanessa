@@ -17,8 +17,8 @@ var YES_NO = ['Yes','No'];
 var YES_NO_MAYBE = ['Yes','No','Maybe'];
 
 var DEST_SUGGEST = {
-  'Cruise': ['Western Caribbean','Eastern Caribbean','Southern Caribbean','Bahamas','Alaska','Mexican Riviera','Hawaii','Mediterranean','Northern Europe','Canada / New England','Transatlantic','Other'],
-  'All-Inclusive': ['Cancun','Riviera Maya','Punta Cana','Puerto Vallarta','Los Cabos','Jamaica','Bahamas','Aruba','Costa Rica','Other']
+  'Cruise': ['Western Caribbean','Eastern Caribbean','Southern Caribbean','Bahamas','Alaska','Mexican Riviera','Hawaii','Mediterranean','Northern Europe','Canada / New England','Transatlantic'],
+  'All-Inclusive': ['Cancun','Riviera Maya','Punta Cana','Puerto Vallarta','Los Cabos','Jamaica','Bahamas','Aruba','Costa Rica']
 };
 var LENGTH_SUGGEST = {
   'Cruise': ['3–4 nights','5–6 nights','7 nights','8–10 nights','11+ nights'],
@@ -42,8 +42,11 @@ var F = {
     { k:'accessibilityNotes', l:'Accessibility notes', t:'area', w:'full', show:function(f){ return f.accessibility === 'Yes'; } }
   ],
   when: [
-    { k:'travelStart', l:'Travel start', t:'date' },
-    { k:'travelEnd', l:'Travel end', t:'date' },
+    { k:'travelYear', l:'What year do they want to go?', t:'select', o:'YEARS' },
+    { k:'travelSeason', l:'Preferred season', t:'btn', o:['Peak','Off-Peak','Shoulder','Anytime'], w:'full' },
+    { k:'travelStart', l:'Exact start date (if known)', t:'date' },
+    { k:'travelEnd', l:'Exact end date (if known)', t:'date' },
+    { k:'estDates', l:'Estimated travel dates (if exact dates aren\u2019t known yet)', t:'text', w:'full', ph:'e.g. mid-March, around spring break' },
     { k:'dateFlex', l:'How flexible are the dates?', t:'btn', o:['Fixed','A few days','By month','Wide open'], w:'full' },
     { k:'dateFlexNotes', l:'Flexibility notes', t:'text', w:'full' },
     { k:'tripLength', l:'Trip length', t:'list', o:'LENGTH' },
@@ -145,7 +148,7 @@ function tripDaysInStage(t) {
 function tripDates(t) {
   if (t.travelStart && t.travelEnd) return fmtDate(t.travelStart) + ' – ' + fmtDate(t.travelEnd);
   if (t.travelStart) return fmtDate(t.travelStart);
-  return '';
+  return [t.estDates, t.travelYear].filter(Boolean).join(' ');
 }
 function trDevMode() { return !GAS_URL || GAS_URL === 'YOUR_GAS_WEB_APP_URL'; }
 
@@ -250,14 +253,25 @@ function closeTripForm() {
 }
 
 // ── Render the form ──────────────────────────────────────────────
+function yearOptions() {
+  var y = new Date().getFullYear(), out = [];
+  for (var i = 0; i <= 5; i++) out.push(String(y + i));
+  return out;
+}
+function startYear(f) {
+  var m = /^(\d{4})-/.exec(String(f.travelStart || ''));
+  return m ? m[1] : '';
+}
 function opts(spec) {
   if (spec.o === 'SOURCES') return SOURCES;
+  if (spec.o === 'YEARS') return yearOptions();
   return spec.o || [];
 }
 
 function getVal(spec) {
   var f = TR.form;
   if (spec.s === 'd') return (f.details || {})[spec.k];
+  if (spec.k === 'travelYear') return f.travelYear || startYear(f);
   return f[spec.k];
 }
 
@@ -277,7 +291,7 @@ function fieldHtml(spec) {
     }
     h += '</div>';
   } else if (spec.t === 'text') {
-    h += '<input class="tr-in" type="text"' + key + ' value="' + esc(v || '') + '">';
+    h += '<input class="tr-in" type="text"' + key + (spec.ph ? ' placeholder="' + esc(spec.ph) + '"' : '') + ' value="' + esc(v || '') + '">';
   } else if (spec.t === 'number') {
     h += '<input class="tr-in" type="number" inputmode="decimal" min="0"' + key + ' value="' + esc(v === undefined ? '' : v) + '">';
   } else if (spec.t === 'date') {
@@ -305,6 +319,52 @@ function fieldHtml(spec) {
     }).join('') + '</div>';
   }
   return h + '</div>';
+}
+
+// ── Destinations (several allowed; stored as "A + B") ────────────
+var DEST_SEP = ' + ';
+function destList(f) {
+  return String(f.destination || '').split(DEST_SEP).map(function(x) { return x.trim(); }).filter(Boolean);
+}
+function destWidgetHtml(f, label) {
+  var sel = destList(f);
+  var sug = (DEST_SUGGEST[f.tripType] || []).filter(function(x) {
+    return !sel.some(function(s) { return s.toLowerCase() === x.toLowerCase(); });
+  });
+  return '<div class="tr-field full"><label class="tr-label">' + esc(label) + ' <span class="tr-muted">(add as many as they want)</span></label>' +
+    '<div class="tr-dest" id="trDest">' + destInnerHtml(sel, sug) + '</div></div>';
+}
+function destInnerHtml(sel, sug) {
+  return (sel.length ? '<div class="tr-btnrow tr-dest-sel">' + sel.map(function(d, i) {
+      return '<span class="tr-dchip">' + esc(d) + '<button type="button" class="tr-dx" data-dest-rm="' + i + '" aria-label="Remove ' + esc(d) + '">\u00d7</button></span>';
+    }).join('') + '</div>' : '') +
+    (sug.length ? '<div class="tr-btnrow tr-dest-sug">' + sug.map(function(d) {
+      return '<button type="button" class="tr-btn" data-dest-add="' + esc(d) + '">+ ' + esc(d) + '</button>';
+    }).join('') + '</div>' : '') +
+    '<div class="tr-dest-add"><input class="tr-in" id="trDestIn" type="text" placeholder="Type another destination and press Enter" maxlength="100">' +
+    '<button type="button" class="btn-action" data-dest-addtext="1">Add</button></div>';
+}
+function setDestinations(list) {
+  var f = TR.form;
+  setField('destination', false, list.join(DEST_SEP));
+  var box = document.getElementById('trDest');
+  if (box) {
+    var sug = (DEST_SUGGEST[f.tripType] || []).filter(function(x) {
+      return !list.some(function(s) { return s.toLowerCase() === x.toLowerCase(); });
+    });
+    box.innerHTML = destInnerHtml(list, sug);
+  }
+  updateMissingBadge();
+  if (TR.isNew && list.length) scheduleSave(1500);
+}
+function addDestination(name) {
+  name = String(name || '').replace(/\s+/g, ' ').trim().replace(/\s*\+\s*/g, ' ');
+  if (!name) return false;
+  var list = destList(TR.form);
+  if (list.some(function(s) { return s.toLowerCase() === name.toLowerCase(); })) return false;
+  list.push(name);
+  setDestinations(list);
+  return true;
 }
 
 function grid(specs) {
@@ -359,7 +419,7 @@ function wireItinLinks() {
 function missingDetails(f) {
   var miss = [];
   if (!String(f.destination || '').trim()) miss.push('destination');
-  if (!f.travelStart && !f.dateFlex) miss.push('travel window');
+  if (!f.travelYear && !f.travelStart && !f.dateFlex) miss.push('travel year');
   if (!f.adults) miss.push('adults');
   if (!f.budgetMin && !f.budgetMax) miss.push('budget');
   return miss;
@@ -403,7 +463,7 @@ function renderTripForm() {
   var tripSec =
     '<div class="tr-field full"><label class="tr-label">Trip type</label>' + typeBtns + '</div>' +
     '<div class="tr-grid">' +
-      fieldHtml({ k:'destination', l: isCruise ? 'Where to? (cruise region)' : isAI ? 'Where to? (resort destination)' : 'Where to?', t:'list', w:'full' }) +
+      destWidgetHtml(f, isCruise ? 'Where to? (cruise region)' : isAI ? 'Where to? (resort destination)' : 'Where to?') +
     '</div>' + grid(F.trip);
 
   var typeSec = isCruise ? section('cruise', 'Cruise details', grid(F.cruise), openSecs.cruise !== false)
@@ -463,6 +523,12 @@ function wireTripForm() {
   root.addEventListener('input', onFieldInput);
   root.addEventListener('change', onFieldChange);
   root.addEventListener('click', onFieldClick);
+  root.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && e.target && e.target.id === 'trDestIn') {
+      e.preventDefault();
+      if (addDestination(e.target.value)) { var n = document.getElementById('trDestIn'); if (n) { n.value = ''; n.focus(); } }
+    }
+  });
 }
 
 function setField(k, isDetail, val) {
@@ -487,14 +553,43 @@ function onFieldInput(e) {
 
 function onFieldChange(e) {
   var el = e.target;
+  if (el.id === 'trDestIn') {          // typed a destination and tapped away
+    if (addDestination(el.value)) el.value = '';
+    return;
+  }
   var k = el.getAttribute('data-k');
   if (!k) return;
+  if (k === 'travelStart') {           // exact date known → the year follows it
+    var y = String(el.value || '').slice(0, 4);
+    if (/^\d{4}$/.test(y) && +y >= 2000 && +y <= 2100 && TR.form.travelYear !== y) {
+      setField('travelYear', false, y);
+      var ys = document.querySelector('select[data-k="travelYear"]');
+      if (ys) {
+        if (!Array.prototype.some.call(ys.options, function(o) { return o.value === y; })) ys.add(new Option(y, y));
+        ys.value = y;
+      }
+    }
+    updateMissingBadge();
+  }
+  if (k === 'travelYear') updateMissingBadge();
   if (el.tagName === 'SELECT') setField(k, el.getAttribute('data-s') === 'd', el.value);
   if (k === 'children') { setTimeout(renderTripForm, 0); }  // after the blur finishes
   if (k === 'destination' && TR.isNew && String(TR.form.destination || '').trim()) scheduleSave(1500); // first save soon after destination
 }
 
 function onFieldClick(e) {
+  var dx = e.target.closest ? e.target.closest('[data-dest-rm],[data-dest-add],[data-dest-addtext]') : null;
+  if (dx) {
+    if (dx.hasAttribute('data-dest-rm')) {
+      var list = destList(TR.form); list.splice(Number(dx.getAttribute('data-dest-rm')), 1); setDestinations(list);
+    } else if (dx.hasAttribute('data-dest-add')) {
+      addDestination(dx.getAttribute('data-dest-add'));
+    } else {
+      var inp = document.getElementById('trDestIn');
+      if (inp && addDestination(inp.value)) { inp.value = ''; inp.focus(); }
+    }
+    return;
+  }
   var el = e.target.closest ? e.target.closest('.tr-btn') : null;
   if (!el || !el.hasAttribute('data-k')) return;
   var k = el.getAttribute('data-k'), v = el.getAttribute('data-v');
@@ -713,7 +808,7 @@ function tripApi(action, payload) {
     else t[k] = payload[k];
   });
   t.updatedAt = now; t.lastActivityAt = now;
-  t.title = t.destination + (t.travelStart ? ', ' + t.travelStart.slice(0, 7) : '');
+  t.title = t.destination + (t.travelStart ? ', ' + t.travelStart.slice(0, 7) : t.travelYear ? ', ' + t.travelYear : '');
   return Promise.resolve({ success: true, trip: t, todoChanges: null });
 }
 
@@ -860,6 +955,11 @@ function todoTripLabel(t) {
   '.tr-age{width:84px}',
   '.tr-bot{background:var(--gold-l);border-radius:var(--radius-sm);padding:10px 12px;margin-bottom:8px;font-size:13px;line-height:1.6}',
   '.tr-danger{margin:18px 0 40px}',
+  '.tr-dest{display:flex;flex-direction:column;gap:10px}',
+  '.tr-dchip{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:0 6px 0 16px;border-radius:22px;background:var(--ocean);color:#fff;font-size:14px}',
+  '.tr-dx{border:0;background:rgba(255,255,255,.18);color:#fff;width:28px;height:28px;border-radius:50%;font-size:18px;line-height:1;cursor:pointer}',
+  '.tr-dest-add{display:flex;gap:8px}',
+  '.tr-dest-add .tr-in{flex:1}',
   '.tr-itin-head{margin-bottom:10px}',
   '.tr-itin-go{text-decoration:none;display:inline-flex;align-items:center;min-height:40px;padding:0 14px}',
   '.tr-itin{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;background:var(--white);border:1px solid var(--sand-3);border-radius:var(--radius-sm);padding:10px 14px;margin-bottom:8px}',

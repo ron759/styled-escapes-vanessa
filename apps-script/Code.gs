@@ -569,7 +569,7 @@ function crmDispatch(data) {
 // Sheets are read/written by column POSITION. TRIP_COLS is the single
 // source of truth for the Trips tab; add new columns at the END only.
 
-const SCHEMA_VERSION = '2';
+const SCHEMA_VERSION = '3';
 const TZ = 'America/Chicago';
 
 const TRIP_COLS = [
@@ -582,8 +582,10 @@ const TRIP_COLS = [
   'mustHaves','dealbreakers','pastTrips','dietary',
   'callNotes','nextStep','nextStepDate',
   'depositDate','finalPaymentDate',
-  'details','chatbotRaw'
+  'details','chatbotRaw',
+  'travelYear','travelSeason','estDates'
 ];
+const TRAVEL_SEASONS = ['Peak','Off-Peak','Shoulder','Anytime'];
 const TRIP_DATE_COLS = ['occasionDate','travelStart','travelEnd','nextStepDate','depositDate','finalPaymentDate'];
 const TRIP_JSON_COLS = ['childAges','details','chatbotRaw'];
 // Fields the browser may NOT set (the server owns them)
@@ -719,6 +721,8 @@ function tripTitle(t) {
   if (m) {
     const mon = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][+m[2] - 1];
     if (mon) title += ', ' + mon + ' ' + m[1];
+  } else if (/^\d{4}$/.test(String(t.travelYear || ''))) {
+    title += ', ' + t.travelYear;
   }
   return title;
 }
@@ -744,6 +748,8 @@ function applyTripFields(trip, input) {
     }
     if (TRIP_DATE_COLS.indexOf(c) >= 0) { trip[c] = (v === '' || validDateStr(v)) ? String(v || '') : trip[c]; return; }
     if (c === 'status') { if (TRIP_STATUSES.indexOf(v) >= 0) trip.status = v; return; }
+    if (c === 'travelYear') { v = String(v || '').trim(); trip.travelYear = (v === '' || (/^\d{4}$/.test(v) && +v >= 2000 && +v <= 2100)) ? v : trip.travelYear; return; }
+    if (c === 'travelSeason') { v = String(v || ''); if (v === '' || TRAVEL_SEASONS.indexOf(v) >= 0) trip.travelSeason = v; return; }
     trip[c] = clip(v, (c === 'callNotes' || c === 'mustHaves' || c === 'dealbreakers' || c === 'pastTrips') ? 10000 : 1000);
   });
 }
